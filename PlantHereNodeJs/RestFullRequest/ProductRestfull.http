@@ -1,0 +1,79 @@
+@BaseUrl = http://localhost:4000/
+@BaseUrlDotNet  = https://localhost:44391/
+
+### 
+GET {{BaseUrl}}Product
+
+###
+GET {{BaseUrl}}Product/GetProductsByPage
+Content-Type: application/json
+
+{
+    "page" :2,
+    "pageSize" :4
+}
+
+###
+GET {{BaseUrlDotNet}}Product/GetProductsByPage
+Content-Type: application/json
+
+{
+    "page" :2,
+    "pageSize" :4
+}
+
+
+###
+GET {{BaseUrl}}Product/ByCategory/3
+Content-Type: application/json
+
+{
+    "page" :1,
+    "pageSize" :14
+}
+
+###
+GET {{BaseUrl}}Product/1
+
+###
+POST  {{BaseUrl}}Product
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgxYmZjMjBhLTlhMjgtNDkwNC04ZmNiLTEyZjQ0Y2NjNzUxOSIsImVtYWlsIjoic3VwZXJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXJhZG1pbiIsImp0aSI6IjA4NzU3NzU3LTA3MGItNDMxOS05MDcyLWUyMjg4NDkxMDA0MyIsImF1ZCI6WyJ3d3cucGxhbnRoZXJlLmNvbSIsInd3dy50cmFkZS5jb20iXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInN1cGVyYWRtaW4iLCJzZWxsZXIiXSwibmJmIjoxNjcxMDg0NDA4LCJleHAiOjE2NzE2ODQ0MDgsImlzcyI6Ind3dy5hdXRoc2VydmVyLmNvbSJ9.4PYkX_5v0NyM0CrWiGQ3DOmGsYyxsFQEAyB6lJdtJ5s
+Content-Type: application/json
+
+{
+    "name": "Variegated Kaktüs",
+    "description": "Kırmızı",
+    "price": 250,
+    "sellerId": "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
+    "categoryId": 3,
+    "discount" : 10,
+    "stock" :2
+}
+
+###
+PUT   {{BaseUrl}}Product
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgxYmZjMjBhLTlhMjgtNDkwNC04ZmNiLTEyZjQ0Y2NjNzUxOSIsImVtYWlsIjoic3VwZXJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXJhZG1pbiIsImp0aSI6IjA4NzU3NzU3LTA3MGItNDMxOS05MDcyLWUyMjg4NDkxMDA0MyIsImF1ZCI6WyJ3d3cucGxhbnRoZXJlLmNvbSIsInd3dy50cmFkZS5jb20iXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInN1cGVyYWRtaW4iLCJzZWxsZXIiXSwibmJmIjoxNjcxMDg0NDA4LCJleHAiOjE2NzE2ODQ0MDgsImlzcyI6Ind3dy5hdXRoc2VydmVyLmNvbSJ9.4PYkX_5v0NyM0CrWiGQ3DOmGsYyxsFQEAyB6lJdtJ5s
+Content-Type: application/json
+
+{
+    "name": "Pachyphytum Oviferums",
+    "description": "Badem Şekeri (Tombul)",
+    "price": 150,
+    "uniqueId": "74161250-260d-45d8-ad9a-3bbdc6f05155_2022270910114757",
+    "sellerId": "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
+    "stock" :2,
+    "discount" :0,
+    "id": 1,
+    "categoryId" :2
+}
+
+
+###
+DELETE {{BaseUrl}}Product/21
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjgxYmZjMjBhLTlhMjgtNDkwNC04ZmNiLTEyZjQ0Y2NjNzUxOSIsImVtYWlsIjoic3VwZXJhZG1pbkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXJhZG1pbiIsImp0aSI6IjA4NzU3NzU3LTA3MGItNDMxOS05MDcyLWUyMjg4NDkxMDA0MyIsImF1ZCI6WyJ3d3cucGxhbnRoZXJlLmNvbSIsInd3dy50cmFkZS5jb20iXSwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbInN1cGVyYWRtaW4iLCJzZWxsZXIiXSwibmJmIjoxNjcxMDg0NDA4LCJleHAiOjE2NzE2ODQ0MDgsImlzcyI6Ind3dy5hdXRoc2VydmVyLmNvbSJ9.4PYkX_5v0NyM0CrWiGQ3DOmGsYyxsFQEAyB6lJdtJ5s
+Content-Type: application/json
+
+{
+
+
+}
