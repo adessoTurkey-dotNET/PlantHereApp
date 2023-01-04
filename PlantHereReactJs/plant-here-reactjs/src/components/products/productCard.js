@@ -45,15 +45,16 @@ export default function ProductCard(props) {
     if (!auth) {
       navigate('/SignIn')
     }
+
     const body = {
       productId: props.uniqueId,
       productName: `${props.name}(${props.description})`,
       price: props.price,
       discountedPrice: props.discountedPrice
     }
-    const response = await request('/BasketItem', body, METHOD_TYPE.POST, API_TYPE.PLANT_HERE_DOTNET,isSelectedDotnetApi)
 
-    if (response.status === 204) {
+    const response = await request('/BasketItem', body, METHOD_TYPE.POST, API_TYPE.PLANT_HERE_DOTNET, isSelectedDotnetApi)
+    if (response.status === 204 || response.status === 200 || response.status === 201) {
       basketItem()
       notificationRef.current.handleClick({ message: "The Product Has Been Successfully Added", status: NOTIFICATION_STATUS.SUCCESS })
     }

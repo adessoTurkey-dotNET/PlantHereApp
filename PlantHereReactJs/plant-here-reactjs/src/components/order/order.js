@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@mui/material';
 import {Table,TableBody,TableCell,TableContainer,TableHead,TableRow} from  '@mui/material';
 
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import Grid  from '@mui/material/Grid';
@@ -109,7 +108,7 @@ export default function Order() {
 
     const [data] = useFetch('/Order/GetOrderByUserId')
 
-    return (<Cointeiner sx={{ mt: 10, p: 1 }} direction="row">
+    return (<Cointeiner sx={{ mt: 12, p: 1 }} direction="row">
         <Card>
             <CardContent>
                 <Grid>

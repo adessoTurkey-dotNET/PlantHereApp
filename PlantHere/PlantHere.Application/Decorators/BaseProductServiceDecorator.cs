@@ -46,7 +46,7 @@ namespace PlantHere.Application.Decorators
             return await _productService.GetProductByUniqueId(getProductByUniqueIdQuery);
         }
 
-        public async Task<CustomResult<ICollection<GetProductsByPageQueryResult>>> GetProductsByPage(GetProductsByPageQuery getproductsByPageQuery)
+        public async Task<IEnumerable<GetProductsByPageQueryResult>> GetProductsByPage(GetProductsByPageQuery getproductsByPageQuery)
         {
             return await _productService.GetProductsByPage(getproductsByPageQuery);
         }

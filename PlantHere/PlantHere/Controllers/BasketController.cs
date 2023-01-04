@@ -1,7 +1,8 @@
-﻿using PlantHere.Application.CQRS.Basket.Commands.BuyBasket;
+﻿using DotNetCore.CAP;
+using PlantHere.Application.CQRS.Basket.Commands.BuyBasket;
 using PlantHere.Application.CQRS.Basket.Commands.CreateBasket;
 using PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId;
-
+using System.Text.Json;
 
 namespace PlantHere.WebAPI.Controllers
 {
@@ -11,9 +12,12 @@ namespace PlantHere.WebAPI.Controllers
     {
         private readonly IMediator _mediator;
 
-        public BasketController(IMediator mediator)
+        private readonly ICapPublisher _capPublisher;
+
+        public BasketController(IMediator mediator, ICapPublisher capPublisher)
         {
             _mediator = mediator;
+            _capPublisher = capPublisher;
         }
 
         [Authorize(Roles = "customer,superadmin")]
@@ -25,12 +29,16 @@ namespace PlantHere.WebAPI.Controllers
             return CreateActionResult(baskests);
         }
 
-        [Authorize(Roles = "customer,superadmin")]
+        // =============  Cap Subscribe ===================
+
+        [CapSubscribe("buyBasket.transaction")]
+        [CapSubscribe("createUser.transaction")]
+        [NonAction]
         [HttpPost]
-        public async Task<IActionResult> CreateBasket()
+        public async Task<IActionResult> CreateBasket(string  userId)
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var baskests = await _mediator.Send(new CreateBasketCommand(userId));
+
             return CreateActionResult(baskests);
         }
 
@@ -39,8 +47,14 @@ namespace PlantHere.WebAPI.Controllers
         public async Task<IActionResult> BuyBasket(BuyBasketCommand command)
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            
             command.UserId = userId;
             await _mediator.Send(command);
+
+            // ======================= PUBLISHER ===============================
+
+            await _capPublisher.PublishAsync<string>("buyBasket.transaction", userId);
+
             return CreateActionResult(CustomResult<BuyBasketCommandResult>.Success(200));
         }
     }

@@ -22,10 +22,12 @@ const Baskets = require('../../Core/PlantHere.Domain/Models/Baskets')(sequelize)
 const BasketItems = require('../../Core/PlantHere.Domain/Models/BasketItems')(sequelize)
 const Orders = require('../../Core/PlantHere.Domain/Models/Orders')(sequelize)
 const OrderItems = require('../../Core/PlantHere.Domain/Models/OrderItems')(sequelize)
+const Image = require('../../Core/PlantHere.Domain/Models/Image')(sequelize)
 
 Products.belongsTo(Category, { foreignKey: 'CategoryId' })
 Baskets.hasMany(BasketItems)
 Orders.hasMany(OrderItems)
+Products.hasMany(Image, { foreignKey: 'ProductId' })
 
 module.exports = {
     Products,
@@ -33,5 +35,6 @@ module.exports = {
     Baskets,
     BasketItems,
     Orders,
-    OrderItems
+    OrderItems,
+    Images:Image
 } 

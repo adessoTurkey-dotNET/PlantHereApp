@@ -7,8 +7,9 @@ const setRole = require('./SetRole')
 
 
 router.get('/', productController.getProducts)
-router.get('/GetProductsByPage',productController.getProductsByPage)
+router.get('/GetProductsByPage/:page/:pageSize',productController.getProductsByPage)
 router.get('/ByCategory/:categoryId',productController.getProductsByCategoryIdAndPage)
+router.get('/GetProductsCount',productController.getProductsCount)
 router.get('/:id',productController.getProductById)
 
 router.post('',setRole(["seller","superadmin"]),[AuthenticationMiddleware,AuthorizationMiddleware],productController.createProduct)

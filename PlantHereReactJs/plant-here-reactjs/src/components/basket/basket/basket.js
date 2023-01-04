@@ -135,8 +135,8 @@ export default function Basket() {
     const deleteProductItem = async () => {
         try {
             const response = await request('/BasketItem', { productId }, METHOD_TYPE.DELETE, API_TYPE.PLANT_HERE_DOTNET,isSelectedDotnetApi)
-
-            if (response.status === 204) {
+            console.log(response)
+            if (response.status === 204 || response.status === 200) {
                 basketItem()
                 notificationRef.current.handleClick({ message: "The Product Deletion Successful", status: NOTIFICATION_STATUS.SUCCESS })
             }
@@ -194,7 +194,7 @@ export default function Basket() {
             </Card>
         </Modal>
 
-        <Container sx={{ mt: 10 , p: 1 }} direction="row">
+        <Container sx={{ mt: 12 , p: 1 }} direction="row">
             <Card>
                 <CardContent>
                     <Grid>

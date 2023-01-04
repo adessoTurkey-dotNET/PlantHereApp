@@ -21,6 +21,10 @@
             return true;
         }
 
+        public void Dispose()
+        {
+        }
+
         public async ValueTask DisposeAsync() { }
     }
 }

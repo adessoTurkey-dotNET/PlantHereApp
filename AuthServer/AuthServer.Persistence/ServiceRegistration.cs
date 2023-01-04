@@ -26,6 +26,26 @@ namespace AuthServer.Persistence
                 });
             });
 
+            // CAP
+
+            serviceCollection.AddCap(options =>
+            {
+                options.UseEntityFramework<AppDbContext>();
+                options.UseSqlServer(configuration?.GetConnectionString("SQLConnection"));
+                options.UseRabbitMQ(options =>
+                {
+                    options.ConnectionFactoryOptions = options =>
+                    {
+                        options.Ssl.Enabled = false;
+                        options.HostName = "localhost";
+                        options.UserName = "guest";
+                        options.Password = "guest";
+                        options.Port = 5672;
+                    };
+                });
+                options.UseDashboard(o => o.PathMatch = "/cap");
+            });
+
             // Services
 
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();

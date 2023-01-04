@@ -26,7 +26,6 @@ class BasketRepository extends Interface(IBasketRepository)
     async getBasketByUserId(req) {
 
         const basket = await this.getBasketByUserIdWithBasketItem(req)
-
         if (!basket) {
             throw new CreateError.NotFound()
         }

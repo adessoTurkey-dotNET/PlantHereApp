@@ -383,30 +383,43 @@
         }
       }
     },
-    "/Product/GetProductsByPage": {
+    "/Product/GetProductsByPage/{page}/{pageSize}": {
       "get": {
         "tags": [
           "Product"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetProductsByPageQuery"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetProductsByPageQuery"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetProductsByPageQuery"
-              }
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Product/GetProductsCount": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
         "responses": {
           "200": {
             "description": "Success"

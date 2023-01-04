@@ -14,6 +14,10 @@ const CustomResult = require("../../../Core/PlantHere.Aplication/RequestResponse
 const GetProductsQuery = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProducts/GetProductsQuery').GetProductsQuery
 const GetProductsQueryResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProducts/GetProductsQueryResult').GetProductsQueryResult
 
+// GetProductsCount
+const GetProductsCountQuery = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductsCount/GetProductsCountQuery').GetProductsCountQuery
+const GetProductsCountQueryResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductsCount/GetProductsCountQueryResult').GetProductsCountQueryResult
+
 // GetProductsByPage
 const GetProductsByPageQuery = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductsByPage/GetProductsByPageQuery').GetProductsByPageQuery
 const GetProductsByPageQueryResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductsByPage/GetProductsByPageQueryResult').GetProductsByPageQueryResult
@@ -40,6 +44,7 @@ const  CreateProductCommand  = require('../../../Core/PlantHere.Aplication/Reque
 const  CreateProductCommandResult  = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Commands/CreateProduct/CreateProductCommandResult').CreateProductCommandResult;
 
 
+
 class ProductService extends Interface(IProductService)
 {
     constructor(repository) {
@@ -52,8 +57,13 @@ class ProductService extends Interface(IProductService)
         return CustomResult.Success(Mapper(products, GetProductsQueryResult))
     }
 
+    async getProductsCount() {
+        const count = await this.repository.getProductsCount(new GetProductsCountQuery())
+        return CustomResult.Success(new GetProductsCountQueryResult(count))
+    }
+
     async getProductsByPage(req) {
-        const products = await this.repository.getProductsByPage(new GetProductsByPageQuery(req.body.page, req.body.pageSize))
+        const products = await this.repository.getProductsByPage(new GetProductsByPageQuery(req.params.page, req.params.pageSize))
         return CustomResult.Success(Mapper(products, GetProductsByPageQueryResult))
     }
 

@@ -50,7 +50,7 @@ const ProductDetail = () => {
         fetchDataProduct().then(data => {
             setProduct(data)
         }).catch(console.error)
-    }, [])
+    }, [isSelectedDotnetApi,params.id])
 
     const addBasket = async () => {
         if (!auth) {
@@ -95,6 +95,7 @@ const ProductDetail = () => {
                                         src={`${item.url}?w=250&h=250&fit=crop&auto=format`}
                                         srcSet={`${item.url}?w=250&h=250&fit=crop&auto=format&dpr=2 2x`}
                                         loading="lazy"
+                                        alt= {`${item.url}`}
                                     />
                                 </ImageListItem>
                             ))}

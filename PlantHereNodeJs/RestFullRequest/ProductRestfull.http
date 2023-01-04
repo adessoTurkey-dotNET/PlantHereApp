@@ -1,27 +1,17 @@
 @BaseUrl = http://localhost:4000/
-@BaseUrlDotNet  = https://localhost:44391/
+@BaseUrlDotNet  = http://localhost:5000/
 
 ### 
 GET {{BaseUrl}}Product
 
 ###
-GET {{BaseUrl}}Product/GetProductsByPage
-Content-Type: application/json
-
-{
-    "page" :2,
-    "pageSize" :4
-}
+GET {{BaseUrl}}Product/GetProductsByPage/2/12
 
 ###
-GET {{BaseUrlDotNet}}Product/GetProductsByPage
-Content-Type: application/json
+GET {{BaseUrlDotNet}}Product/GetProductsByPage/2/12
 
-{
-    "page" :2,
-    "pageSize" :4
-}
-
+###
+GET  {{BaseUrl}}Product/GetProductsCount
 
 ###
 GET {{BaseUrl}}Product/ByCategory/3
@@ -33,7 +23,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{BaseUrl}}Product/1
+GET {{BaseUrl}}Product/a34e63cf-38e1-4a01-b908-0d56a9d0c4ee_2022122809175673
 
 ###
 POST  {{BaseUrl}}Product

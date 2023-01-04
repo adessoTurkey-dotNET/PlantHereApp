@@ -1,4 +1,4 @@
-const {Sequelize,DataTypes} = require('sequelize');
+const {Sequelize,DataTypes}= require('sequelize');
 
 module.exports = function(sequelize) {
   return sequelize.define('Products', {
@@ -39,6 +39,10 @@ module.exports = function(sequelize) {
     Discount: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    Care: {
+      type: DataTypes.TEXT,
+      allowNull: true
     },
     UniqueId: {
       type: DataTypes.TEXT,

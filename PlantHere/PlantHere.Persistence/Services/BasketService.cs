@@ -52,9 +52,7 @@ namespace PlantHere.Persistence.Services
         {
             var basket = await _basketReposity.GetBasketByUserId(userId);
 
-
             if (basket == null) throw new NotFoundException($"{typeof(Basket).Name}({userId}) Not Found");
-
 
             return CustomResult<GetBasketByUserIdQueryResult>.Success(200, _mapper.Map<GetBasketByUserIdQueryResult>(basket));
         }

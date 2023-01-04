@@ -5,7 +5,7 @@ const Mapper = (value, classes) => {
     basketItemsDto = []
 
     value.BasketItems.forEach(basketItem => {
-        const baketItemDto = new GetBasketItemQuery(basketItem.ProductId,
+        const baketItemDto = new GetBasketItemQuery(basketItem.Id,basketItem.ProductId,
             basketItem.ProductName,
             basketItem.Price,
             basketItem.DiscountedPrice,

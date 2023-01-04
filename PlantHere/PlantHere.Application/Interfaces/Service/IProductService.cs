@@ -6,7 +6,7 @@ namespace PlantHere.Application.Interfaces.Service
 {
     public interface IProductService : IService<Product>
     {
-        public Task<CustomResult<ICollection<GetProductsByPageQueryResult>>> GetProductsByPage(GetProductsByPageQuery getproductsByPageQuery);
+        public Task<IEnumerable<GetProductsByPageQueryResult>> GetProductsByPage(GetProductsByPageQuery getproductsByPageQuery);
 
         public Task<CustomResult<GetProductByUniqueIdQueryResult>> GetProductByUniqueId(GetProductByUniqueIdQuery getProductByUniqueIdQuery);
 

@@ -16,17 +16,26 @@ class ProductRepository extends Interface(IProductRepository)
         })
     }
 
+    async getProductsCount() {
+        return await db.Products.count()
+    }
+
     async getProductsByPage(getProductsByPageQuery) {
 
-        const limit = getProductsByPageQuery.pageSize
-        const offset = (getProductsByPageQuery.page - 1) * limit;
+        const page = parseInt(getProductsByPageQuery.page)
+        const pageSize = parseInt(getProductsByPageQuery.pageSize)
+        const limit = pageSize
+        const offset = (page- 1) * limit;
+
         const products = await db.Products.findAll(
             {
                 attributes: ['Name', 'Description', 'Price', 'Discount', 'UniqueId'],
                 limit,
                 offset,
+                include: { model: db.Images, attributes: ['Id', 'Url', 'ProductId'] }
             }
         )
+
         return products
     }
 
@@ -48,32 +57,31 @@ class ProductRepository extends Interface(IProductRepository)
     async getProductsById(req) {
         const product = await db.Products.findOne(
             {
-                where: { id: req.Id },
-                attributes: ['Name', 'UniqueId', 'SellerId', 'Description', 'Price', 'Discount','Id'],
-                include: { model: db.Categories, attributes: ['NameTr', 'NameEn'] },
+                where: { UniqueId: req.Id },
+                attributes: ['Name', 'UniqueId', 'SellerId', 'Description', 'Price', 'Discount', 'Id'],
+                include: { model: db.Images, attributes: ['Id', 'Url', 'ProductId'] }
             }
         )
 
         if (!product) {
             throw new CreateError.NotFound()
         }
-
         return product
     }
 
-    async createProduct(req){
+    async createProduct(req) {
         await db.Products.create(req)
     }
 
-    async updateProduct(req){
+    async updateProduct(req) {
         const product = await this.getProductsById(req)
         product.update(req)
     }
 
-    async deleteProduct(req){
+    async deleteProduct(req) {
         const product = await this.getProductsById(req)
-        if(product){
-            product.destroy()     
+        if (product) {
+            product.destroy()
         }
     }
 }

@@ -64,7 +64,7 @@ const SignUp = () => {
 
   }
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" sx = {{mt:12}}>
       <Notification ref={notificationRef}></Notification>
       <Box
         sx={{

@@ -24,18 +24,13 @@ namespace PlantHere.Application.Services
             return CustomResult<GetProductByUniqueIdQueryResult>.Success(200, _mapper.Map<GetProductByUniqueIdQueryResult>(product));
         }
 
-        public async Task<CustomResult<ICollection<GetProductsByPageQueryResult>>> GetProductsByPage(GetProductsByPageQuery getproductsByPageQuery)
+        public async Task<IEnumerable<GetProductsByPageQueryResult>> GetProductsByPage(GetProductsByPageQuery getproductsByPageQuery)
         {
             var products = await _productRepository.GetProductsByPage(getproductsByPageQuery.Page, getproductsByPageQuery.PageSize);
             
-            var getProductsByPageQueryResult = _mapper.Map<ICollection<GetProductsByPageQueryResult>>(products);
+            var getProductsByPageQueryResult = _mapper.Map<IEnumerable<GetProductsByPageQueryResult>>(products);
 
-            if (products.Count() == 0)
-            {
-                return CustomResult<ICollection<GetProductsByPageQueryResult>>.Success(404, getProductsByPageQueryResult);
-            }
-            
-            return CustomResult<ICollection<GetProductsByPageQueryResult>>.Success(200, getProductsByPageQueryResult);
+            return getProductsByPageQueryResult;
         }
     }
 }

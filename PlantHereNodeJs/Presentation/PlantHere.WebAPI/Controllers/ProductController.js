@@ -13,6 +13,14 @@ const getProducts = async (req, res, next) => {
     }
 }
 
+const getProductsCount = async (req, res, next) => {
+    try {
+        res.json(await service.getProductsCount())
+    } catch (error) {
+        next(error)
+    }
+}
+
 const getProductsByPage = async (req, res, next) => {
     try {
         res.json(await service.getProductsByPage(req))
@@ -64,6 +72,7 @@ const updateProduct = async (req, res, next) => {
 
 module.exports = {
     getProducts,
+    getProductsCount,
     getProductsByPage,
     getProductsByCategoryIdAndPage,
     getProductById,

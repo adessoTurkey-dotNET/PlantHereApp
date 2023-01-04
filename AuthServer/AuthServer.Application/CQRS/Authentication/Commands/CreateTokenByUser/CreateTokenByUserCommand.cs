@@ -14,5 +14,10 @@ namespace AuthServer.Application.CQRS.Authentication.Queries.CreateTokenByUser
 
         public string Password { get; set; }
 
+        public CreateTokenByUserCommand(string email, string password)
+        {
+            Email = email;
+            Password = password;
+        }
     }
 }

@@ -23,7 +23,7 @@ const useFetch = (url) => {
         fetchData().then(response => {
             setData(response.data.data)
         })
-    }, [url]);
+    }, [url,isSelectedDotnetApi]);
     return [data];
 };
 
