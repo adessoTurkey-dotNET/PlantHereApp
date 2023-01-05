@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AuthServer.Application.Exceptions
+﻿namespace AuthServer.Application.Exceptions
 {
     public class CustomException : Exception
     {
@@ -15,6 +9,6 @@ namespace AuthServer.Application.Exceptions
         public CustomException(string? message) : base(message)
         {
         }
-    
+
     }
 }

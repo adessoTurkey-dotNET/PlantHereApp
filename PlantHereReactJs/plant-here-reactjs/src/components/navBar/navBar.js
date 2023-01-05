@@ -19,8 +19,7 @@ import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import { Stack } from '@mui/system';
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
+import { styled } from '@mui/material/styles';
 import ForestRoundedIcon from '@mui/icons-material/ForestRounded';
 import Switch from '@mui/material/Switch';
 
@@ -62,29 +61,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
-
 
 
 function ToolBarButton() {
   const [open, setOpen] = useState(false);
-  const [keyword,setKeyword] = useState();
-  const [products] = useFetch( `/Product/GetProductES/${keyword}`)
+  const [keyword, setKeyword] = useState();
+  const [products] = useFetch(`/Product/GetProductES/${keyword}`)
 
   const { setAuth, auth, basketItemsCount } = useAuth();
 
@@ -103,12 +85,10 @@ function ToolBarButton() {
   }
 
   const handleChange = (event) => {
-    if(event.target.value!== "")
-    {
+    if (event.target.value !== "") {
       setKeyword(event.target.value);
     }
-    else
-    {
+    else {
       setKeyword(null)
     }
 
@@ -231,14 +211,13 @@ function ToolBarButton() {
           </Tooltip>
         </Stack > :
         <Stack direction="row" >
-          <Tooltip title="Login">
-            <Link href="\SignIn" key="SignIn" sx={{ textDecoration: 'none' }}>
-              <IconButton  >
-                <StyledBadge color="secondary">
-                  <MeetingRoomIcon></MeetingRoomIcon>
-                </StyledBadge>
-              </IconButton>
-            </Link>
+          <Tooltip title="Search">
+            <IconButton
+              onClick={
+                handleOpen
+              }>
+              <SearchIcon></SearchIcon>
+            </IconButton>
           </Tooltip>
           <Tooltip title="Login">
             <Link href="\SignIn" key="SignIn" sx={{ textDecoration: 'none' }}>

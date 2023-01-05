@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace AuthServer.Application.CustomResponses
+﻿namespace AuthServer.Application.CustomResponses
 {
     public class NoContentResponse
     {

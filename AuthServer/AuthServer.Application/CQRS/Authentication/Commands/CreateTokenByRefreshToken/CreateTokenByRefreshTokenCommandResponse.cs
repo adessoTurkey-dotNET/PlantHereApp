@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AuthServer.Application.CQRS.Authentication.Queries.CreateTokenByRefreshToken
+﻿namespace AuthServer.Application.CQRS.Authentication.Queries.CreateTokenByRefreshToken
 {
     public class CreateTokenByRefreshTokenCommandResponse
     {

@@ -3,12 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using PlantHere.Application.Configurations;
 using PlantHere.Application.CQRS.Product.Queries.GetAllProducts;
-using PlantHere.Domain.Aggregate.CategoryAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlantHere.Persistence.NewFolder
 {
@@ -16,7 +10,7 @@ namespace PlantHere.Persistence.NewFolder
     public static class ElasticSearchExtensions
     {
         public static void AddElasticsearch(
-            this IServiceCollection services,IConfiguration configuration)
+            this IServiceCollection services, IConfiguration configuration)
         {
 
             var eSConfiguration = configuration.GetSection("ESConfiguration").Get<ESConfiguration>();

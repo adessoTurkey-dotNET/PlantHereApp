@@ -4,7 +4,6 @@ using PlantHere.Application.CQRS.Order.Quries.GetAllOrders;
 using PlantHere.Application.CQRS.Order.Quries.GetOrderById;
 using PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId;
 using PlantHere.Domain.Aggregate.OrderAggregate.Entities;
-using System.Text.Json;
 
 namespace PlantHere.Persistence.Services
 {
@@ -22,13 +21,13 @@ namespace PlantHere.Persistence.Services
         }
 
         public async Task<CustomResult<CreateOrderCommandResult>> CreateOrder(CreateOrderCommand createOrderCommand)
-        { 
-          
+        {
+
             var order = _mapper.Map<Order>(createOrderCommand);
             order = order.AddOrder(_mapper.Map<List<OrderItem>>(createOrderCommand.OrderItems));
             await _orderReposity.AddAsync(order);
             await _unitOfWork.CommitAsync();
-           
+
             // ======================= PUBLISHER ===============================
 
             await _capPublisher.PublishAsync<int>("createOrder.transaction", order.Id);

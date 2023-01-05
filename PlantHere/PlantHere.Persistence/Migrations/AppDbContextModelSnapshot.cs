@@ -113,29 +113,29 @@ namespace PlantHere.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(4560),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(6445),
                             NameEn = "Cactus",
                             NameTr = "Kaktus",
-                            UniqueId = "8584768d-ac26-4a26-b8e4-b2bbc5348c59_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(4402)
+                            UniqueId = "50b0ccf5-919a-4690-a3f4-a333a02b285f_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(6255)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(4572),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(6463),
                             NameEn = "Succulent",
                             NameTr = "Sukulent",
-                            UniqueId = "4af4e81e-8c43-4d52-b61a-ab57e971c2d0_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(4562)
+                            UniqueId = "eb7a8de0-6c2d-476a-b26f-27844376cadb_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(6447)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(4580),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(6489),
                             NameEn = "Orchid",
                             NameTr = "Orkide",
-                            UniqueId = "00b9d1a1-8e22-4be2-9487-6ccba4f1595f_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(4574)
+                            UniqueId = "1eb2b303-6813-44d3-b60e-5ac132de7296_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(6464)
                         });
                 });
 
@@ -722,315 +722,315 @@ namespace PlantHere.Persistence.Migrations
                             Id = 1,
                             Care = "Make sure to keep your plant in a sunny place where it gets enough sunlight. Water the in-container Pachyphytum Oviferum only when you feel it soil dry to a depth of 4 inches. Avoid watering it when the soil still feels moist or else your fragile succulent will be damaged.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5054),
-                            Description = "Baden Şekeri",
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8101),
+                            Description = "Badem Şekeri",
                             Discount = 0,
                             Name = "Pachyphytum Oviferum",
                             Price = 50m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 5,
-                            UniqueId = "0785a895-3f06-46e8-a899-8e203ab6fff2_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5054)
+                            UniqueId = "e4e0cb12-5031-4fe5-90cc-41b5b40d3045_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8102)
                         },
                         new
                         {
                             Id = 2,
                             Care = "Being drought tolerant plants, Lola's (like almost all echeverias) like a deep watering and then allowing their soil dry out completely in between waterings. I advise you plant your Lola's in well-draining Succulent & Cactus blend soils, because they do not like their roots to remain in damp soil.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5071),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8119),
                             Description = "Beyaz Renk Muhteşem Form",
                             Discount = 15,
                             Name = "Echeveria Lola",
                             Price = 75m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 2,
-                            UniqueId = "a34e63cf-38e1-4a01-b908-0d56a9d0c4ee_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5071)
+                            UniqueId = "86bff94b-69bf-46ab-a2b9-7d8e5b57f04b_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8119)
                         },
                         new
                         {
                             Id = 3,
                             Care = "These succulents need bright light and well-draining soil. Place indoor plants near a southern or western window but not so close to the glass that they will sunburn. Outdoors, plant in pots around the patio or in the ground around pavers, border edges, and even in rockeries.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5104),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8132),
                             Description = "Güneşte Rengi Koyulaşır",
                             Discount = 0,
                             Name = "Cremnosedum Little Gem",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 2,
-                            UniqueId = "72f62d58-ba8e-4413-bb29-867d4d6c4784_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5104)
+                            UniqueId = "bb676b06-aea9-4d41-8fc3-f748716c5aab_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8133)
                         },
                         new
                         {
                             Id = 4,
                             Care = "Because Callisia is semi-succulent, she doesn't need too much water. Soak the soil thoroughly when watering, then make sure to let the top 5-10cm of soil dry out completely before watering again. If you are potting up, use a potting mix suitable for cacti/succulents. As with all plants, drainage is essential.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5114),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8146),
                             Description = "Pembe Yapraklı Telgraf Çiçeği",
                             Discount = 25,
                             Name = "Callisia Repens (Pink Lady)",
                             Price = 100m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 3,
-                            UniqueId = "da83ca80-a4a0-4d33-a0a5-996f314b6ef2_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5114)
+                            UniqueId = "1c4736a7-a1e8-45ef-8682-cbba5fcc4e9a_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8146)
                         },
                         new
                         {
                             Id = 5,
                             Care = "Because Callisia is semi-succulent, she doesn't need too much water. Soak the soil thoroughly when watering, then make sure to let the top 5-10cm of soil dry out completely before watering again. If you are potting up, use a potting mix suitable for cacti/succulents. As with all plants, drainage is essential.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5123),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8158),
                             Description = "Zebra Bitkisi",
                             Discount = 20,
                             Name = "Haworthia Fasciata Hibrid",
                             Price = 45m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 2,
-                            UniqueId = "965bb939-0ee8-472f-8ff3-5c33bc2ad662_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5123)
+                            UniqueId = "78ac2474-62b9-4d60-9050-a660c2f74e8a_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8158)
                         },
                         new
                         {
                             Id = 6,
                             Care = "The Yellow Tower Cactus, botanical name Parodia leninghausii, is a succulent plant found in the wild in Argentina. It is also known as the Leninghausii Cactus, the Lemon Cactus, and the Golden Ball Cactus. The Yellow Tower Cactus is a medium-sized columnar cactus that can reach a height of up to three feet tall, with a trunk that is about an inch thick. Each column sports around 30 ribs with soft white-gold spines emerging from the areolas. The spines are soft to the touch, unlike most cacti, making handling easy.",
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5135),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8175),
                             Description = "Sarı Çiçek Açan Kaktüs",
                             Discount = 50,
                             Name = "Parodia Leninghausii",
                             Price = 78m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "472e44e8-d99d-4565-9ec2-b4b94cdf1343_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5135)
+                            UniqueId = "09a49d94-e42c-43c3-923c-17286afaf0cd_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8175)
                         },
                         new
                         {
                             Id = 7,
                             Care = "Paphiopedilum henryanum is a small species that originates from China and Vietnam. It was discovered relatively recently in 1987. Selective breeding has improved the form and color. Today’s flowers are larger, flatter and more intensely colored than the original specimens.This species is found growing on rocks in mixed forests. The summers are warm and rainy while the winters are cooler and drier. Winter temperatures can drop into the upper 40’s F. More details about its natural habitat can be found at the Internet Orchid Species Encyclopedia.\r\n\r\nWe find these easy to grow. They flower from late summer through early winter for us. You can find cultural tips on our care and feeding page.  We grow them along with our complex hybrids.",
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5143),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8188),
                             Description = "Kaplan Orkide",
                             Discount = 10,
                             Name = "Phaphiopedilum Henryanum",
                             Price = 500m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "4af40ce1-b805-4ea5-97e3-9773b49ee7ae_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5144)
+                            UniqueId = "583452c8-4a55-45db-8774-3e55e649185a_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8188)
                         },
                         new
                         {
                             Id = 8,
                             Care = "While Paphiopedilum delenatii was for many years considered difficult to grow, years and generations of selection of good-growing parental stock have led to this species being quite easy. The plants seem to respond well to a variety of conditions, but will grow well with other mottled-leaved paphiopedilums, or with the brachypetalum or parvisepalum types. As always, water low in salts is a must. Plants should be kept evenly moist, approaching dryness, and provided with moderate light as for phalaenopsis. As with all paphiopedilums, Paph. delenatii does best with a fertilizing regime of 1/4-strength balanced plant food applied every week",
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5152),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8203),
                             Description = "Beyaz Orkide",
                             Discount = 0,
                             Name = "Paphiopedilum Delenatii",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "0a6fbc8f-7933-4f88-bcc1-08b1a5c26338_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5153)
+                            UniqueId = "853c802b-a526-4d75-be60-4ff7480153c9_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8204)
                         },
                         new
                         {
                             Id = 9,
                             Care = "Chlorophytum comosum “Bonnie” requires loose, neutral soil with good drainage. The growing medium also needs to provide good aeration for the roots to avoid fungal infections or root rot. A mix of coconut coir, houseplant compost, and sand or perlite is ideal.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5161),
-                            Description = "Kurdele Çiçeği,",
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8217),
+                            Description = "Kurdele Çiçeği",
                             Discount = 0,
                             Name = "Chlorophytum Comosum",
                             Price = 15m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "bb04d2ee-b72a-40af-b0a7-6ed2191c9b41_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5161)
+                            UniqueId = "726ac3d0-04ff-4eb1-b36e-e348fda18303_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8217)
                         },
                         new
                         {
                             Id = 10,
                             Care = "Houseplant care: Aichryson laxum is a fast growing plant, but tends to lose their lower leaves. In order to promote vegetative growth, the inflorescence should be cut off in time, otherwise this species will naturally grow as a biannual, dieing after flowering. Light: Provide bright light with some direct sunlight.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5169),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8229),
                             Description = "Aşk Ağacı",
                             Discount = 0,
                             Name = "Aichryson Laxum",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "2382e536-ab7d-40d8-8a24-71cc9d786ee1_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5170)
+                            UniqueId = "26063297-b6e9-416b-8bd9-d852254825aa_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8230)
                         },
                         new
                         {
                             Id = 11,
                             Care = "The Pilea Peperomioides, also known as the Chinese Money Plant, is a fast-growing succulent-like houseplant that's great for beginning plant owners. The Pilea might seem like a succulent, with its fleshy leaves, but you shouldn't mistake it for one, as it has very different needs.In this plant care guide for the Pilea Peperomioides, we'll explore what this plant needs to thrive in your home. It's quite an easy plant to take care of, but it does have a few things you should be aware of.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5179),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8244),
                             Description = "Çin Para Ağacı",
                             Discount = 0,
                             Name = "Pilea Peperomioides",
                             Price = 23m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "0dd1a33c-324c-4c4b-a467-11825049e28c_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5180)
+                            UniqueId = "f2cb0084-7839-4e8b-876c-0d1f1cbf3fdb_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8244)
                         },
                         new
                         {
                             Id = 12,
                             Care = "Care Instructions To keep your watermelon peperomia happy and thriving there are a few simple rules to follow: Keep them in a bright room but out of direct sunlight. Do not overwater them, water them just enough to make the soil slightly damp.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5187),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8257),
                             Description = "Karpuz Sukulent",
                             Discount = 0,
                             Name = "Peperomia Watermelon",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "2b1e27a5-d5a1-4c05-a004-f28c01007a25_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5188)
+                            UniqueId = "58527ae2-0bc8-4fc5-85e7-840cedf20668_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8257)
                         },
                         new
                         {
                             Id = 13,
                             Care = "Caring For Monanthes: Monanthes Polyphylla grows naturally on shaded cliffs and damp rocks.They do not require much water to thrive. 2) Monanthes requires well draining soil, they do not thrive in waterlogged soil. 3) They require a period of winter to rest, where watering is reduced to a bare minimum.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5196),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8269),
                             Description = "Nadir Tür",
                             Discount = 0,
                             Name = "Monanthes Polyphylla ",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "097479a3-4cec-4c72-a1f3-7f0394622152_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5196)
+                            UniqueId = "aecd69ea-b840-4a49-a8a7-68a0c40d0114_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8270)
                         },
                         new
                         {
                             Id = 14,
                             Care = "he Echeveria Minima plant brings charm, beauty, and magic in its compact form, whether indoors or outdoors. Growing small Echeveria species like the Minima succulent plant is a great way to incorporate greenery into tight spaces with ease and elegance.Succulent collectors often find growing Echeveria Minima quite easy, as long as its roots remain relatively safe in potting soils with some gardening sand mixed in. It’s no wonder many growers propagate Echeveria Minima for its enthralling looks and ease of care!",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5206),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8289),
                             Description = "Nadir Tür Kırmizi Kenarlı",
                             Discount = 0,
                             Name = "Echeveria Minima Red Edge",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "0f867559-57a5-4712-b96b-5885a6f810c6_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5206)
+                            UniqueId = "c27773ce-1889-4fe4-84ae-b859ac86c21c_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8290)
                         },
                         new
                         {
                             Id = 15,
                             Care = "The leaves of Echeveria Cubic Frost are different from other Echeveria species. It possesses thick, fleshy, and upturned leaves.The tubular-shaped leaves grow in the form of the rosette that offsets to form clusters. Apart from its peculiar shape and texture, its distinctiveness is enhanced due to its unique purple color.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5214),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8302),
                             Description = "Kıvrık Yapraklı",
                             Discount = 0,
                             Name = "Echeveria Cubic Blue",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "568afb89-5932-40ea-8b72-1884f1f26729_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5215)
+                            UniqueId = "5cc15c43-5713-4f59-96ff-6d6d2a60cff0_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8303)
                         },
                         new
                         {
                             Id = 16,
                             Care = "Delosperma Echinatum can be quite beautiful when it is well-taken care of. This succulent type needs typical watering as the other succulents. The watering method is very important to keep your Pickle Plant healthy. It should not sit on the water, and an excess amount of water should be avoided.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5248),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8315),
                             Description = "Tombul Tüylü Yapraklı Sukulent",
                             Discount = 0,
                             Name = "Delosperma Echinatum",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "e24f82e1-5ef8-4a0f-8959-bc0f83ef6f90_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5249)
+                            UniqueId = "2117366d-57ab-4337-80b2-f04ba6bf5fa4_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8315)
                         },
                         new
                         {
                             Id = 17,
                             Care = "asin of Senecio herreianus generally needs to double every two years in soil. Peat soil, coarse sand mixed matrix are available, and usually it needs to be put in sunlight for careful maintenance. In the winter, control the temperature in 5 ~ 10 ℃, complete the anti-freezing measures are good.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5257),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8327),
                             Description = "String of Beads",
                             Discount = 0,
                             Name = "Senecio Herreianus",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "b74d24a3-5d56-4f4c-8435-13532aadc32a_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5257)
+                            UniqueId = "6abd534b-821a-4526-b4bf-f501d8627b43_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8328)
                         },
                         new
                         {
                             Id = 18,
                             Care = "The succulent plant surprisingly is easy to look after. They can grow a bit during spring and summer. But they are carefree indoor plants from winter to spring. So we recommend placing your starfish flowers outdoors in summer and keeping them in a bright spot indoors in winter.",
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5265),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8340),
                             Description = "Leş Kaktüsü",
                             Discount = 0,
                             Name = "Stapelia Variegata",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "bc9195e0-a4eb-4c37-bb08-137e86760ebf_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5266)
+                            UniqueId = "d3a98ac9-3ee0-482a-ab17-d4c069347bd2_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8341)
                         },
                         new
                         {
                             Id = 19,
                             Care = "Plants in the Sedum genus are super diverse, and are native to regions all over the world. Horticulturalists have bred them to create even more variietes that come in all manner of shapes and colors! Their succulent leaves help store water, and they are incredibly easy to propagate. Just gently pop off one of the leaves and with water and sunlight it will grow into a whole new plant.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5274),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8353),
                             Description = "Obesum",
                             Discount = 0,
                             Name = "Sedum Lucidum",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "a2cb2b02-a214-420a-b90f-b8d2cb3e0c6d_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5274)
+                            UniqueId = "15913fb7-dc19-4885-bbd0-fad38e153eca_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8353)
                         },
                         new
                         {
                             Id = 20,
                             Care = "Echeveria Perle von Nürnberg can experience attacks from mealybugs. Inspect plants regularly and remove dead leaves left at the base of the plant. In addition to this, it is also important to never let this plant stand in water or else the chances of root rot and other fungal diseases will increase.",
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5282),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8406),
                             Description = "Güneşte Mor Tonları Çoğalır",
                             Discount = 0,
                             Name = "Echeveria Perle Von Nurnberg",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "11cce02b-ecdd-4579-bc32-23a8688ad39e_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5283)
+                            UniqueId = "ea776ff1-50cc-4022-aaab-5b2347d985b2_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8407)
                         },
                         new
                         {
                             Id = 21,
                             Care = "It’s best for the Gymnocalycium mihanovichii (Moon Cactus) to grow in temperatures between 68° – 80° Fahrenheit (20 – 27°C), but it can handle temperatures as low as 35° Fahrenheit (2° C). The Moon Cacti are hardy plants but should never be exposed to temperatures below freezing, because this may kill the plant.",
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5291),
+                            CreatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8420),
                             Description = "Mor ve Bordo Renkli",
                             Discount = 0,
                             Name = "Gymnocalycium Mihanovichii Purple Moon",
                             Price = 150m,
                             SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae",
                             Stock = 4,
-                            UniqueId = "5d8c5010-78ec-4f45-8566-c329ae447ca1_2022122809175673",
-                            UpdatedDate = new DateTime(2022, 12, 28, 9, 17, 56, 732, DateTimeKind.Local).AddTicks(5291)
+                            UniqueId = "6598a4de-ff87-435b-8736-5bf69fda8a20_2023010510300773",
+                            UpdatedDate = new DateTime(2023, 1, 5, 10, 30, 7, 738, DateTimeKind.Local).AddTicks(8420)
                         });
                 });
 

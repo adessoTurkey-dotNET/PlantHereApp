@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Caching.Distributed;
-using PlantHere.Application.CQRS.Product.Queries.GetProductsByPage;
-using PlantHere.Domain.Aggregate.CategoryAggregate;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
 
 namespace PlantHere.Application.CQRS.Product.Queries.GetProductsByPage
@@ -30,7 +27,7 @@ namespace PlantHere.Application.CQRS.Product.Queries.GetProductsByPage
         {
             var value = await _distributedCache.GetAsync($"{request.Page}{request.PageSize}");
 
-            if(value == null)
+            if (value == null)
             {
                 // Serialize the response
                 var products = await _productService.GetProductsByPage(request);

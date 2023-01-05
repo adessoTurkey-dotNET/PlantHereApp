@@ -1,7 +1,4 @@
-﻿
-using AuthServer.Application.Configurations;
-using AuthServer.Application.Interfaces.Services;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;

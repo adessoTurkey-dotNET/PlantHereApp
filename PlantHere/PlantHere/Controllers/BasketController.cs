@@ -2,7 +2,6 @@
 using PlantHere.Application.CQRS.Basket.Commands.BuyBasket;
 using PlantHere.Application.CQRS.Basket.Commands.CreateBasket;
 using PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId;
-using System.Text.Json;
 
 namespace PlantHere.WebAPI.Controllers
 {
@@ -35,7 +34,7 @@ namespace PlantHere.WebAPI.Controllers
         [CapSubscribe("createUser.transaction")]
         [NonAction]
         [HttpPost]
-        public async Task<IActionResult> CreateBasket(string  userId)
+        public async Task<IActionResult> CreateBasket(string userId)
         {
             var baskests = await _mediator.Send(new CreateBasketCommand(userId));
 
@@ -47,7 +46,7 @@ namespace PlantHere.WebAPI.Controllers
         public async Task<IActionResult> BuyBasket(BuyBasketCommand command)
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            
+
             command.UserId = userId;
             await _mediator.Send(command);
 

@@ -2,17 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using PlantHere.Application.Configurations;
 using PlantHere.Application.CQRS.Decorators;
 using PlantHere.Application.Decorators;
-using PlantHere.Application.Interfaces.Service;
 using PlantHere.Application.Services;
-using PlantHere.Domain.Aggregate.CategoryAggregate;
 using PlantHere.Persistence.NewFolder;
 using PlantHere.Persistence.Services;
 using System.Reflection;
-using static System.Net.WebRequestMethods;
 
 namespace PlantHere.Persistence
 {
@@ -34,7 +30,7 @@ namespace PlantHere.Persistence
             // Redis
 
             var redisCongfiguration = configuration.GetSection("RedisConfiguration").Get<RedisConfiguration>();
-            
+
             serviceCollection.AddStackExchangeRedisCache(options => options.Configuration = redisCongfiguration.Url);
 
             // CAP

@@ -1,12 +1,9 @@
-﻿using AuthServer.Application.CQRS.Authentication.Queries.CreateTokenByUser;
-using AuthServer.Application.CQRS.User.Commands.CreateUser;
+﻿using AuthServer.Application.CQRS.User.Commands.CreateUser;
 using AuthServer.Application.CQRS.User.Commands.CreateUserRoles;
 using AuthServer.Application.CQRS.User.Queries.GetUserByName;
-using AuthServer.Domain.Entities;
 using DotNetCore.CAP;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 

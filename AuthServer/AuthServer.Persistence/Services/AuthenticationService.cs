@@ -41,13 +41,13 @@ namespace AuthServer.Persistence.Services
 
             if (user == null) return CustomResponse<CreateTokenByUserCommandResponse>.Fail("Email or Password is wrong", 404, true);
 
-            if(!await _userManager.CheckPasswordAsync(user, createTokenByUserCommand.Password)) return CustomResponse<CreateTokenByUserCommandResponse>.Fail("Email or Password is wrong", 404, true);
+            if (!await _userManager.CheckPasswordAsync(user, createTokenByUserCommand.Password)) return CustomResponse<CreateTokenByUserCommandResponse>.Fail("Email or Password is wrong", 404, true);
 
             var token = await _tokenService.CreateToken(user);
 
             var userRefreshToken = await _userRefreshTokenRepository.Where(x => x.UserId == user.Id).SingleOrDefaultAsync();
-           
-            if( userRefreshToken == null)
+
+            if (userRefreshToken == null)
             {
                 await _userRefreshTokenRepository.AddAsync(
                     new UserRefreshToken { UserId = user.Id, Code = token.RefreshToken, Expiration = token.RefreshTokenExpiration });
@@ -69,7 +69,7 @@ namespace AuthServer.Persistence.Services
             if (existRefreshToken == null) return CustomResponse<CreateTokenByRefreshTokenCommandResponse>.Fail("Refresh token not found", 404, true);
 
             var user = await _userManager.FindByIdAsync(existRefreshToken.UserId);
-            if(user == null) return CustomResponse<CreateTokenByRefreshTokenCommandResponse>.Fail("User Id not found", 404, true);
+            if (user == null) return CustomResponse<CreateTokenByRefreshTokenCommandResponse>.Fail("User Id not found", 404, true);
 
             var token = await _tokenService.CreateToken(user);
 
@@ -77,7 +77,7 @@ namespace AuthServer.Persistence.Services
             existRefreshToken.Expiration = token.RefreshTokenExpiration;
             await _unitOfWork.CommmitAsync();
 
-            return CustomResponse<CreateTokenByRefreshTokenCommandResponse>.Success(ObjectMapper.Mapper.Map<CreateTokenByRefreshTokenCommandResponse>(token), StatusCodes.Status200OK); 
+            return CustomResponse<CreateTokenByRefreshTokenCommandResponse>.Success(ObjectMapper.Mapper.Map<CreateTokenByRefreshTokenCommandResponse>(token), StatusCodes.Status200OK);
         }
 
         public async Task<CustomResponse<RevokeRefreshTokenCommandResponse>> RevokeRefreshToken(RevokeRefreshTokenCommand revokeRefreshTokenCommand)

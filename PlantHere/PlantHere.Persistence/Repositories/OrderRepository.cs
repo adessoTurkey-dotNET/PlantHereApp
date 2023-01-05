@@ -19,7 +19,7 @@ namespace PlantHere.Persistence.Repositories
 
         public async Task<ICollection<Order>> GetOrderByUserId(string userId)
         {
-            var order = await _context.Orders.Include(x => x.Address).Include(x => x.OrderItems).Where(x=> x.BuyerId == userId).ToListAsync();
+            var order = await _context.Orders.Include(x => x.Address).Include(x => x.OrderItems).Where(x => x.BuyerId == userId).ToListAsync();
 
             if (order == null) throw new NotFoundException($"{typeof(Order).Name}({userId}) Not Found");
 

@@ -1,7 +1,4 @@
-﻿using PlantHere.Application.CQRS.Product.Queries.GetProductsByPage;
-using PlantHere.Application.Interfaces.Service;
-
-namespace PlantHere.Application.CQRS.Product.Queries.GetProductsCount
+﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductsCount
 {
     public class GetProductsCountQueryHandler : IRequestHandler<GetProductsCountQuery, CustomResult<GetProductsCountQueryResult>>
     {
@@ -15,7 +12,7 @@ namespace PlantHere.Application.CQRS.Product.Queries.GetProductsCount
         public async Task<CustomResult<GetProductsCountQueryResult>> Handle(GetProductsCountQuery request, CancellationToken cancellationToken)
         {
             var products = await _productService.GetAllAsync();
-            return CustomResult<GetProductsCountQueryResult>.Success(200,new GetProductsCountQueryResult(products.Count()));
+            return CustomResult<GetProductsCountQueryResult>.Success(200, new GetProductsCountQueryResult(products.Count()));
         }
     }
 }

@@ -1,20 +1,9 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using MediatR;
 using Moq;
-using PlantHere.Application.CQRS.Decorators;
 using PlantHere.Application.CQRS.Product.Commands.CreateProduct;
-using PlantHere.Application.CQRS.Product.Queries.GetAllProducts;
-using PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId;
 using PlantHere.Application.Interfaces.Service;
 using PlantHere.Domain.Aggregate.CategoryAggregate;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Xunit;
 
 namespace PlantHere.Test
@@ -36,7 +25,7 @@ namespace PlantHere.Test
 
         private readonly CreateProductCommand _command;
 
-        private readonly CreateProductCommandHandler _handler; 
+        private readonly CreateProductCommandHandler _handler;
 
         public HandlerTest()
         {
@@ -45,7 +34,7 @@ namespace PlantHere.Test
             _autoMapper = new Mock<IMapper>();
             _productService = new Mock<IProductService>();
             _product = new Product { Id = 1, Name = "Pachyphytum Oviferum", Description = "Baden Şekeri", Stock = 5, Price = 50, CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now, CategoryId = 2, SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae", Discount = 0 };
-            _command = new CreateProductCommand {  Name = "Pachyphytum Oviferum", Description = "Baden Şekeri", Stock = 5, Price = 50,CategoryId = 2, SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae", Discount = 0 };
+            _command = new CreateProductCommand { Name = "Pachyphytum Oviferum", Description = "Baden Şekeri", Stock = 5, Price = 50, CategoryId = 2, SellerId = "d8a07002-0c3a-4add-874b-dd2b1e33aaae", Discount = 0 };
             _handler = new CreateProductCommandHandler(_productService.Object, _categoryService.Object, _validatios.Object, _autoMapper.Object);
         }
 
@@ -66,7 +55,7 @@ namespace PlantHere.Test
 
             Assert.Null(resultProducts.Errors);
             Assert.Equal(201, resultProducts.StatusCode);
-            Assert.NotNull(resultProducts.Data);       
+            Assert.NotNull(resultProducts.Data);
         }
 
     }

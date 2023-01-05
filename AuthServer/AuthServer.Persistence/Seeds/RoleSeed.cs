@@ -8,9 +8,9 @@ namespace AuthServer.Persistence.Seeds
     {
         public void Configure(EntityTypeBuilder<IdentityRole> builder)
         {
-            builder.HasData(new IdentityRole { Name = "seller", NormalizedName= "SELLER" });
-            builder.HasData(new IdentityRole { Name = "superadmin", NormalizedName = "SUPERADMIN"});
-            builder.HasData(new IdentityRole { Name = "customer",NormalizedName = "CUSTOMER"});
+            builder.HasData(new IdentityRole { Name = "seller", NormalizedName = "SELLER" });
+            builder.HasData(new IdentityRole { Name = "superadmin", NormalizedName = "SUPERADMIN" });
+            builder.HasData(new IdentityRole { Name = "customer", NormalizedName = "CUSTOMER" });
         }
     }
 }

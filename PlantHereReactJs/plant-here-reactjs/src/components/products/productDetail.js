@@ -83,7 +83,7 @@ const ProductDetail = () => {
     }
 
     return (
-        <Container fixed  sx={{ mt: 10}} >
+        <Container fixed  sx={{ mt: 12}} >
             <Notification ref={notificationRef}></Notification>
             <Grid  >
                 <Card  >

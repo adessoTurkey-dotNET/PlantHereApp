@@ -27,7 +27,7 @@ namespace PlantHere.Application.Services
         public async Task<IEnumerable<GetProductsByPageQueryResult>> GetProductsByPage(GetProductsByPageQuery getproductsByPageQuery)
         {
             var products = await _productRepository.GetProductsByPage(getproductsByPageQuery.Page, getproductsByPageQuery.PageSize);
-            
+
             var getProductsByPageQueryResult = _mapper.Map<IEnumerable<GetProductsByPageQueryResult>>(products);
 
             return getProductsByPageQueryResult;

@@ -1,20 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Moq;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsByPage;
 using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Repositories;
-using PlantHere.Application.Interfaces.Service;
 using PlantHere.Application.Services;
 using PlantHere.Domain.Aggregate.CategoryAggregate;
-using PlantHere.Domain.Common.Class;
-using PlantHere.Persistence;
-using PlantHere.Persistence.Repositories;
-using System.Xml.Linq;
 using Xunit;
-using Xunit.Sdk;
 
 namespace PlantHere.Test
 {
@@ -68,7 +59,7 @@ namespace PlantHere.Test
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
-        public async void GetProductsByPage_ActionExecutes_ResultDataNotNullStatusCodeEqualOkAndErrorNull(int page)
+        public async void GetProductsByPage_ActionExecutes_ResultNotNull(int page)
         {
             // Arrange
 
@@ -82,34 +73,9 @@ namespace PlantHere.Test
 
             //Assert
 
-            Assert.Null(resultProducts.Errors);
-            Assert.Equal(200, resultProducts.StatusCode);
-            Assert.NotNull(resultProducts.Data);
+            Assert.NotNull(resultProducts);
         }
 
-
-        [Theory]
-        [InlineData(222,22)]
-        [InlineData(222,34)]
-        [InlineData(222,12)]
-        public async void GetProductsByPage_ActionExecutesOverThePageLimit_ResultDataNotNullStatusCodeEqualNotFoundAndErrorNull(int page,int pageSize)
-        {
-            // Arrange
-
-            _mockProductRepository.Setup(x => x.GetProductsByPage(page, pageSize)).ReturnsAsync(new List<Product>());
-
-            _mockMapper.Setup(x => x.Map<ICollection<GetProductsByPageQueryResult>>(new List<Product>())).Returns(new List<GetProductsByPageQueryResult>());
-
-            // Act
-
-            var resultProducts = await _productService.GetProductsByPage(new GetProductsByPageQuery(page, pageSize));
-
-            //Assert
-
-            Assert.Null(resultProducts.Errors);
-            Assert.Equal(404, resultProducts.StatusCode);
-            Assert.NotNull(resultProducts.Data);
-        }
     }
 }
 

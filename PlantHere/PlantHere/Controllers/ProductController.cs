@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using Nest;
 using PlantHere.Application.CQRS.Product.Commands.CreateProduct;
 using PlantHere.Application.CQRS.Product.Commands.DeleteProduct;
@@ -8,8 +8,6 @@ using PlantHere.Application.CQRS.Product.Queries.GetAllProducts;
 using PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsByPage;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsCount;
-using Microsoft.Extensions.Caching.Distributed;
-using System.Text.Json;
 
 namespace PlantHere.WebAPI.Controllers
 {
@@ -63,7 +61,7 @@ namespace PlantHere.WebAPI.Controllers
                                 d => d.Query('*' + keyword + '*')
                             )).Size(5));
 
-            return CreateActionResult(CustomResult<List<GetAllProductsQueryResult>>.Success(200,result.Documents.ToList()));
+            return CreateActionResult(CustomResult<List<GetAllProductsQueryResult>>.Success(200, result.Documents.ToList()));
         }
 
         [AllowAnonymous]
@@ -78,7 +76,7 @@ namespace PlantHere.WebAPI.Controllers
              .Index("products")
              .IndexMany(products));
 
-            return CreateActionResult(CustomResult<GetAllProductsQueryResult>.Success(200,null));
+            return CreateActionResult(CustomResult<GetAllProductsQueryResult>.Success(200, null));
         }
 
 
@@ -88,6 +86,7 @@ namespace PlantHere.WebAPI.Controllers
         {
             return CreateActionResult(await _mediator.Send(new GetProductsCountQuery()));
         }
+
 
         [Authorize(Roles = "superadmin,seller")]
         [HttpPut]

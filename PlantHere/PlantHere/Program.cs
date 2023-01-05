@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using PlantHere.Application;
 using PlantHere.Application.Configurations;
 using PlantHere.Application.Middlewares;

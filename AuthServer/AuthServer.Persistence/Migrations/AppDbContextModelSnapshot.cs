@@ -134,22 +134,22 @@ namespace AuthServer.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d9ba0b75-5eb4-4485-8517-abef34ec0739",
-                            ConcurrencyStamp = "dee8c6b5-7aa3-4d22-9414-2388c2d6a752",
+                            Id = "706c721e-0dc6-4928-888d-e7203cb5e3df",
+                            ConcurrencyStamp = "dc847646-23bd-46c0-81a2-49036a2dd2ae",
                             Name = "seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "4617dbb6-2ef3-4510-87f9-36ed2f56f6a4",
-                            ConcurrencyStamp = "ccbedeee-ba25-4156-878b-b9d147947a9a",
+                            Id = "2b74fd22-4318-4cb1-8e53-3a12eeead413",
+                            ConcurrencyStamp = "86b6cd2f-b252-4736-9f97-f75e3c24629e",
                             Name = "superadmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "e203df65-b6a5-4d55-8d50-2c77d8686665",
-                            ConcurrencyStamp = "79be4e55-3453-4616-9e6d-e151d6b8d6a5",
+                            Id = "37727b01-c879-479b-a0cd-3d17a7b78297",
+                            ConcurrencyStamp = "7123efd2-3368-4612-a1fa-c21d992f9393",
                             Name = "customer",
                             NormalizedName = "CUSTOMER"
                         });

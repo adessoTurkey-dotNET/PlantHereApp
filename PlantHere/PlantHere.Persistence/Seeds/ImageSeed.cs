@@ -1,11 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PlantHere.Domain.Aggregate.CategoryAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlantHere.Persistence.Seeds
 {
@@ -60,8 +55,8 @@ namespace PlantHere.Persistence.Seeds
                             new Image { Id = 34, Url = "https://3.bp.blogspot.com/-eJ3JQzLLMGw/W1tUY-anBdI/AAAAAAACtoU/KFsUaeNtdD0Kd3jfu-tpinL48Mgtd9PrgCKgBGAs/s1600/IMG_6939.JPG", ProductId = 9 },
                             new Image { Id = 35, Url = "https://evterapisi.com/wp-content/uploads/2021/02/kurdele-cicegi-5.jpg", ProductId = 9 },
                             new Image { Id = 36, Url = "https://i.nefisyemektarifleri.com/2020/08/19/kurdele-cicegi-bakimi-cogaltilmasi-faydalari-3.jpg", ProductId = 9 },
-                            
-                            
+
+
                             new Image { Id = 37, Url = "https://images.squarespace-cdn.com/content/v1/56091b78e4b09e2b03426d22/1584442195074-Z235QWUQ77F10KFUZ4F8/Aeonium+Laxum.jpg?format=2500w", ProductId = 10 },
                             new Image { Id = 38, Url = "https://i.pinimg.com/originals/58/c3/db/58c3db9c37a7048988a1897e1c63b9a4.jpg", ProductId = 10 },
                             new Image { Id = 39, Url = "https://i.redd.it/ya94ttfr1lw71.jpg", ProductId = 10 },
@@ -76,8 +71,8 @@ namespace PlantHere.Persistence.Seeds
                             new Image { Id = 46, Url = "https://balconygardenweb-lhnfx0beomqvnhspx.netdna-ssl.com/wp-content/uploads/2020/04/How-to-Grow-Watermelon-Peperomia.jpg", ProductId = 12 },
                             new Image { Id = 47, Url = "https://i.etsystatic.com/21427386/r/il/448bed/2902621052/il_1080xN.2902621052_d3e4.jpg", ProductId = 12 },
                             new Image { Id = 48, Url = "https://cdn.hortzone.com/wp-content/uploads/2022/01/Watermelon-Peperomia-Peperomia-argyreia-in-hanging-Baskets.jpg", ProductId = 12 },
-                           
-                            
+
+
                             new Image { Id = 49, Url = "https://worldofsucculents.com/wp-content/uploads/2013/12/Monanthes-polyphylla1.jpg", ProductId = 13 },
                             new Image { Id = 50, Url = "https://www.sukulentler.com/wp-content/uploads/2021/01/117363/monanthes-polyphylla-sukulent.jpg", ProductId = 13 },
                             new Image { Id = 51, Url = "https://cdn.shopify.com/s/files/1/0140/1526/6902/products/Monanthes_polyphylla1_900x.png?v=1561203971", ProductId = 13 },
@@ -113,7 +108,7 @@ namespace PlantHere.Persistence.Seeds
                             new Image { Id = 74, Url = "https://cdn.shopify.com/s/files/1/0268/0681/2787/products/20220510_144542_6243ab15-63ea-4599-a7ea-1a2c1b0d245f_grande.jpg?v=1661779056", ProductId = 19 },
                             new Image { Id = 75, Url = "https://www.kenthurstsucculents.com.au/wp-content/uploads/2018/08/Sedum-Lucidum-2.jpg", ProductId = 19 },
                             new Image { Id = 76, Url = "https://i.pinimg.com/736x/59/7c/72/597c720e0b54fba809471ab7975e6937--passion-horticulture.jpg", ProductId = 19 },
-                            
+
                             new Image { Id = 77, Url = "https://cdn11.bigcommerce.com/s-oqm1pc/images/stencil/1280x1280/products/1492/4654/echeveria_perle_von_august__83133.1646858054.jpg?c=2", ProductId = 20 },
                             new Image { Id = 78, Url = "https://i.etsystatic.com/13687258/r/il/cc2011/3509113567/il_570xN.3509113567_8n9d.jpg", ProductId = 20 },
                             new Image { Id = 79, Url = "https://www.sublimesucculents.com/wp-content/uploads/2019/04/7-echeveria-perle.jpg", ProductId = 20 },

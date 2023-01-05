@@ -7,7 +7,6 @@ using AuthServer.Application.Mapping;
 using AuthServer.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
 
 namespace AuthServer.Persistence.Services
 {
@@ -50,14 +49,14 @@ namespace AuthServer.Persistence.Services
 
         public async Task<CustomResponse<CreateUserRolesCommandResponse>> CreateUserRoles(CreateUserRolesCommand createUserCommand)
         {
-           
+
             var user = await _userManager.FindByEmailAsync(createUserCommand.Email);
 
             if (user == null) return CustomResponse<CreateUserRolesCommandResponse>.Fail("User not found", StatusCodes.Status404NotFound, true);
 
             if (createUserCommand.Roles == null) return CustomResponse<CreateUserRolesCommandResponse>.Fail("Roles not found", StatusCodes.Status404NotFound, true);
 
-            foreach (var role in createUserCommand.Roles.Select(x=> x.ToLower()))
+            foreach (var role in createUserCommand.Roles.Select(x => x.ToLower()))
             {
                 if (await _roleManager.FindByNameAsync(role) != null)
                 {

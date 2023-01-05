@@ -2,7 +2,7 @@
 {
     public class GetProductsCountQueryResult
     {
-       public int  Count { get; set; }
+        public int Count { get; set; }
 
         public GetProductsCountQueryResult(int count)
         {

@@ -51,14 +51,14 @@ namespace AuthServer.Persistence.Services
             return userClaimList;
         }
 
-        public  async Task<CreateTokenByUserCommandResponse> CreateToken(User user)
+        public async Task<CreateTokenByUserCommandResponse> CreateToken(User user)
         {
             var accessTokenExpiration = DateTime.Now.AddMinutes(_customTokenOption.AccessTokenExpiration);
             var refleshTokenExpiration = DateTime.Now.AddMinutes(_customTokenOption.RefreshTokenExpiration);
             var securityKey = SignService.GetSymmetricSecurityKey(_customTokenOption.SecurityKey);
             var audiences = _customTokenOption.Audiences;
             var issuerToken = _customTokenOption.Issuer;
-            
+
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(

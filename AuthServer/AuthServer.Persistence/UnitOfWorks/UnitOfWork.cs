@@ -1,6 +1,4 @@
-﻿
-using AuthServer.Persistence;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using UdemyAuthServer.Core.UnitOfWork;
 
 namespace AuthServer.Persistence.UnitOfWorks

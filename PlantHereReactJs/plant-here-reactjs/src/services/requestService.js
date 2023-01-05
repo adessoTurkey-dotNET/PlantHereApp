@@ -24,16 +24,13 @@ const selectApi = (api) => {
 const prepareUrl = (url, apitype,isSelectedDotnetApi) => {
 
     if (apitype === API_TYPE.AUTH_SERVER) {
-        console.log(`${selectApi(apitype)}${url}`,'AUTH SERVER')
         return `${selectApi(apitype)}${url}`
     
     }
     else if (isSelectedDotnetApi) {
-        console.log(`${selectApi(API_TYPE.PLANT_HERE_DOTNET)}${url}`, '.NET')
         return `${selectApi(API_TYPE.PLANT_HERE_DOTNET)}${url}`
     }
     else {
-        console.log(`${selectApi(API_TYPE.PLANT_HERE_NODEJS)}${url}`,'NODEJS')
         return `${selectApi(API_TYPE.PLANT_HERE_NODEJS)}${url}`
     }
 }

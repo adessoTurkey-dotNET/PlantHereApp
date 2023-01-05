@@ -24,7 +24,7 @@ namespace PlantHere.Persistence.DomainEventHandlers
         public async Task Handle(BaketBuyStartedDomainEvent notification, CancellationToken cancellationToken)
         {
             if (_paymentService.ReceiverPayment(notification.CardTypeId, notification.CardNumber, notification.CardSecurityNumber, notification.CardHolderName).Data)
-            {//nurcan
+            {
                 if (notification.Basket.BasketItems.Count == 0) throw new NotFoundException($"Not Found Basket Items");
                 var orderItems = _mapper.Map<List<ModelOrderItem>>(notification.Basket.BasketItems);
                 var order = new ModelOrder(notification.Basket.UserId, notification.Address, orderItems);

@@ -1,50 +1,49 @@
-﻿using System.Net;
-using System.Text.Json;
-using AuthServer.Application.CustomResponses;
+﻿using AuthServer.Application.CustomResponses;
 using AuthServer.Application.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using System.Text.Json;
 
 namespace AuthServer.Application.Middlewares
 {
     public static class UseCustomExceptionHandler
     {
 
-            public static void UseCustomException(this IApplicationBuilder app)
+        public static void UseCustomException(this IApplicationBuilder app)
+        {
+            app.UseExceptionHandler(config =>
             {
-                app.UseExceptionHandler(config =>
+                config.Run(async context =>
                 {
-                    config.Run(async context =>
+                    context.Response.StatusCode = 500;
+                    context.Response.ContentType = "application/json";
+
+                    var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
+
+                    if (errorFeature != null)
                     {
-                        context.Response.StatusCode = 500;
-                        context.Response.ContentType = "application/json";
+                        var ex = errorFeature.Error;
 
-                        var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
+                        ErrorResponse errorResponse = null;
 
-                        if (errorFeature != null)
+                        if (ex is CustomException)
                         {
-                            var ex = errorFeature.Error;
-
-                            ErrorResponse errorResponse = null;
-
-                            if (ex is CustomException)
-                            {
-                                errorResponse = new ErrorResponse(ex.Message, true);
-                            }
-                            else
-                            {
-                                errorResponse = new ErrorResponse(ex.Message, false);
-                            }
-
-                            var response = CustomResponse<NoContentResponse>.Fail(errorResponse, 500);
-
-                            await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                            errorResponse = new ErrorResponse(ex.Message, true);
                         }
-                    });
+                        else
+                        {
+                            errorResponse = new ErrorResponse(ex.Message, false);
+                        }
+
+                        var response = CustomResponse<NoContentResponse>.Fail(errorResponse, 500);
+
+                        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                    }
                 });
-            }
+            });
         }
- 
+    }
+
 }
 
