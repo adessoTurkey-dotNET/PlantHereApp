@@ -3,6 +3,7 @@ using AuthServer.Application.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 using System.Text.Json;
 
 namespace AuthServer.Application.Middlewares
@@ -16,7 +17,7 @@ namespace AuthServer.Application.Middlewares
             {
                 config.Run(async context =>
                 {
-                    context.Response.StatusCode = 500;
+
                     context.Response.ContentType = "application/json";
 
                     var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
@@ -27,7 +28,18 @@ namespace AuthServer.Application.Middlewares
 
                         ErrorResponse errorResponse = null;
 
-                        if (ex is CustomException)
+                        var statusCode = errorFeature.Error switch
+                        {
+                            ApplicationException => (int)HttpStatusCode.InternalServerError, //-- 500
+                            ClientSideException => (int)HttpStatusCode.BadRequest, //-- 400
+                            NotFoundException => (int)HttpStatusCode.NotFound,// -- 404,
+                            KeyNotFoundException => (int)HttpStatusCode.BadRequest, // -- 400
+                            _ => 500
+                        };
+
+                        context.Response.StatusCode = statusCode;
+
+                        if (statusCode != 500)
                         {
                             errorResponse = new ErrorResponse(ex.Message, true);
                         }
@@ -36,7 +48,7 @@ namespace AuthServer.Application.Middlewares
                             errorResponse = new ErrorResponse(ex.Message, false);
                         }
 
-                        var response = CustomResponse<NoContentResponse>.Fail(errorResponse, 500);
+                        var response = CustomResponse<NoContentResponse>.Fail(errorResponse, statusCode);
 
                         await context.Response.WriteAsync(JsonSerializer.Serialize(response));
                     }

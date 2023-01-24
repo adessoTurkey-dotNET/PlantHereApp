@@ -46,14 +46,14 @@ namespace AuthServer.Persistence
                 options.UseDashboard(o => o.PathMatch = "/cap");
             });
 
-            // Services
+            //
+            // s
 
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
-            serviceCollection.AddScoped<IAuthenticationService, AuthenticationService>();
-            serviceCollection.AddScoped<IUserService, UserService>();
+            serviceCollection.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+            serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<ITokenService, TokenService>();
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            serviceCollection.AddScoped(typeof(IService<,>), typeof(Service<,>));
 
         }
     }

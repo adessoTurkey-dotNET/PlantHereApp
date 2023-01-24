@@ -1,9 +1,8 @@
-﻿using AuthServer.Application.CustomResponses;
-using MediatR;
+﻿using MediatR;
 
 namespace AuthServer.Application.CQRS.Authentication.Queries.CreateTokenByRefreshToken
 {
-    public class CreateTokenByRefreshTokenCommand : IRequest<CustomResponse<CreateTokenByRefreshTokenCommandResponse>>
+    public class CreateTokenByRefreshTokenCommand : IRequest<CreateTokenByRefreshTokenCommandResponse>
     {
         public string RefreshToken { get; set; }
 

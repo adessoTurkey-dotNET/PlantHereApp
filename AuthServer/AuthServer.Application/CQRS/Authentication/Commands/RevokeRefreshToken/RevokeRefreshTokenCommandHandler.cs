@@ -1,21 +1,21 @@
-﻿using AuthServer.Application.CustomResponses;
-using AuthServer.Application.Interfaces.Services;
+﻿using AuthServer.Application.Interfaces.Repositories;
 using MediatR;
 
 namespace AuthServer.Application.CQRS.Authentication.Commands.RevokeRefreshToken
 {
-    public class RevokeRefreshTokenCommandHandler : IRequestHandler<RevokeRefreshTokenCommand, CustomResponse<RevokeRefreshTokenCommandResponse>>
+    public class RevokeRefreshTokenCommandHandler : IRequestHandler<RevokeRefreshTokenCommand, RevokeRefreshTokenCommandResponse>
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IAuthenticationRepository _authenticationRepository;
 
-        public RevokeRefreshTokenCommandHandler(IAuthenticationService authenticationService)
+        public RevokeRefreshTokenCommandHandler(IAuthenticationRepository authenticationRepository)
         {
-            _authenticationService = authenticationService;
+            _authenticationRepository = authenticationRepository;
         }
 
-        public async Task<CustomResponse<RevokeRefreshTokenCommandResponse>> Handle(RevokeRefreshTokenCommand request, CancellationToken cancellationToken)
+        public async Task<RevokeRefreshTokenCommandResponse> Handle(RevokeRefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            return await _authenticationService.RevokeRefreshToken(request);
+            await _authenticationRepository.RevokeRefreshToken(request);
+            return new RevokeRefreshTokenCommandResponse();
 
         }
     }

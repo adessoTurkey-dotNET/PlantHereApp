@@ -3,7 +3,7 @@ using PlantHere.Application.CQRS.OrderItem.Queries.GetAllOrderItems;
 
 namespace PlantHere.Application.CQRS.Order.Commands.CreateOrder
 {
-    public class CreateOrderCommand : IRequest<CustomResult<CreateOrderCommandResult>>
+    public class CreateOrderCommand : IRequest<CreateOrderCommandResult>
     {
         public DateTime CreatedDate { get; set; }
 

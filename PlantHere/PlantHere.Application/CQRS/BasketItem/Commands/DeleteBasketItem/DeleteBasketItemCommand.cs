@@ -1,6 +1,6 @@
 ﻿namespace PlantHere.Application.CQRS.BasketItem.Commands.DeleteBasketItem
 {
-    public class DeleteBasketItemCommand : IRequest<CustomResult<DeleteBasketItemCommandResult>>
+    public class DeleteBasketItemCommand : IRequest<DeleteBasketItemCommandResult>
     {
         public string? UserId { get; set; }
 

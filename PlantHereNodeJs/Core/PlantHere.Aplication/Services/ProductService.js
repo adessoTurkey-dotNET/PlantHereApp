@@ -54,53 +54,53 @@ class ProductService extends Interface(IProductService)
 
     async getProducts() {
         const products = await this.repository.getProducts(new GetProductsQuery())
-        return CustomResult.Success(Mapper(products, GetProductsQueryResult))
+        return Mapper(products, GetProductsQueryResult)
     }
 
     async getProductsCount() {
         const count = await this.repository.getProductsCount(new GetProductsCountQuery())
-        return CustomResult.Success(new GetProductsCountQueryResult(count))
+        return new GetProductsCountQueryResult(count)
     }
 
     async getProductsByPage(req) {
         const products = await this.repository.getProductsByPage(new GetProductsByPageQuery(req.params.page, req.params.pageSize))
-        return CustomResult.Success(Mapper(products, GetProductsByPageQueryResult))
+        return Mapper(products, GetProductsByPageQueryResult)
     }
 
     async getProductsByCategoryIdAndPage(req) {
         const products = await this.repository.getProductsByCategoryIdAndPage(new GetProductsByCategoryIdAndPageQuery(req.body.page, req.body.pageSize), req.params.categoryId)
-        return CustomResult.Success(new GetProductsByCategoryIdAndPageQueryResult(products))
+        return new GetProductsByCategoryIdAndPageQueryResult(products)
     }
 
     async getProductsById(req) {
         const product = await this.repository.getProductsById(new GetProductByIdQuery(req.params.id))
-        return CustomResult.Success(Mapper(product, GetProductByIdQueryResult))
+        return Mapper(product, GetProductByIdQueryResult)
     }
     
     async deleteProduct(req) {
-        return CustomResult.Success(new DeleteProductCommandResult(await this.repository.deleteProduct(new DeleteProductCommand(req.params.id))))
+        return new DeleteProductCommandResult(await this.repository.deleteProduct(new DeleteProductCommand(req.params.id)))
     }
     
     async createProduct(req) {
-        return CustomResult.Success(new CreateProductCommandResult(await this.repository.createProduct(new CreateProductCommand(
+        return new CreateProductCommandResult(await this.repository.createProduct(new CreateProductCommand(
             req.body.name,
             req.body.description,
             req.body.price,
             req.body.sellerId,
             req.body.categoryId,
             req.body.discount,
-            req.body.stock))))
+            req.body.stock)))
     }
     
     async updateProduct(req) {
-        return CustomResult.Success(new  UpdateProductCommandResult(await this.repository.updateProduct(new UpdateProductCommand(
+        return new  UpdateProductCommandResult(await this.repository.updateProduct(new UpdateProductCommand(
             req.body.id,
             req.body.name,
             req.body.description,
             req.body.price,
             req.body.sellerId,
             req.body.categoryId,
-            req.body.discount))))
+            req.body.discount)))
     }
 }
 

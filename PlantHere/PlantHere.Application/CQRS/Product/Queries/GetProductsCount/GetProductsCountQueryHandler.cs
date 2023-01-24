@@ -1,18 +1,18 @@
 ﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductsCount
 {
-    public class GetProductsCountQueryHandler : IRequestHandler<GetProductsCountQuery, CustomResult<GetProductsCountQueryResult>>
+    public class GetProductsCountQueryHandler : IRequestHandler<GetProductsCountQuery, GetProductsCountQueryResult>
     {
-        private readonly IProductService _productService;
+        private readonly IProductRepository _productRepository;
 
-        public GetProductsCountQueryHandler(IProductService productService)
+        public GetProductsCountQueryHandler(IProductRepository productRepository)
         {
-            _productService = productService;
+            _productRepository = productRepository;
         }
 
-        public async Task<CustomResult<GetProductsCountQueryResult>> Handle(GetProductsCountQuery request, CancellationToken cancellationToken)
+        public async Task<GetProductsCountQueryResult> Handle(GetProductsCountQuery request, CancellationToken cancellationToken)
         {
-            var products = await _productService.GetAllAsync();
-            return CustomResult<GetProductsCountQueryResult>.Success(200, new GetProductsCountQueryResult(products.Count()));
+            var products = await _productRepository.GetAsync();
+            return new GetProductsCountQueryResult(products.Count());
         }
     }
 }

@@ -18,6 +18,7 @@ namespace PlantHere.Persistence.Repositories
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+
         }
 
         public async Task AddRangeAsync(IEnumerable<T> entities)
@@ -53,12 +54,22 @@ namespace PlantHere.Persistence.Repositories
             _dbSet.Remove(entity);
         }
 
+        public async Task RemoveAsync(T entity)
+        {
+            _dbSet.Remove(entity);
+        }
+
         public void RemoveRange(IEnumerable<T> entities)
         {
             _dbSet.RemoveRange(entities);
         }
 
         public void Update(T entity)
+        {
+            _dbSet.Update(entity);
+        }
+
+        public async Task UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
         }

@@ -1,9 +1,8 @@
-﻿using AuthServer.Application.CustomResponses;
-using MediatR;
+﻿using MediatR;
 
 namespace AuthServer.Application.CQRS.User.Queries.GetUserByName
 {
-    public class GetUserByNameQuery : IRequest<CustomResponse<GetUserByNameQueryResponse>>
+    public class GetUserByNameQuery : IRequest<GetUserByNameQueryResponse>
     {
         public string UserName { get; set; }
 

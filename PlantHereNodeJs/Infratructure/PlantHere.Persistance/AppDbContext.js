@@ -1,5 +1,4 @@
 const { Sequelize } = require('sequelize');
-const Categories = require('../../Core/PlantHere.Domain/Models/Category')
 const chalk = require('chalk')
 const config = require('../../Presentation/PlantHere.WebAPI/app.config')
 
@@ -26,15 +25,15 @@ const Image = require('../../Core/PlantHere.Domain/Models/Image')(sequelize)
 
 Products.belongsTo(Category, { foreignKey: 'CategoryId' })
 Baskets.hasMany(BasketItems)
-Orders.hasMany(OrderItems)
+Orders.hasMany(OrderItems, { foreignKey: 'OrderId' })
 Products.hasMany(Image, { foreignKey: 'ProductId' })
 
 module.exports = {
     Products,
-    Categories:Category,
+    Categories: Category,
     Baskets,
     BasketItems,
     Orders,
     OrderItems,
-    Images:Image
+    Images: Image
 } 

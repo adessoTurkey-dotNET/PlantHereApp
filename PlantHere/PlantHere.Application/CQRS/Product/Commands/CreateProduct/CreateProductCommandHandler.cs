@@ -1,31 +1,30 @@
-﻿using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
+﻿using PlantHere.Application.Interfaces;
+using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
 
 
 namespace PlantHere.Application.CQRS.Product.Commands.CreateProduct
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, CustomResult<CreateProductCommandResult>>, IRequestPreProcessor<CreateProductCommand>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, CreateProductCommandResult>, IRequestPreProcessor<CreateProductCommand>
     {
-        private readonly IProductService _productService;
 
-        private readonly ICategoryService _categoryService;
-
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IEnumerable<IValidator<CreateProductCommand>> _validators;
-
         private readonly IMapper _mapper;
 
-        public CreateProductCommandHandler(IProductService productService, ICategoryService categoryService, IEnumerable<IValidator<CreateProductCommand>> validators, IMapper mapper)
+        public CreateProductCommandHandler(IEnumerable<IValidator<CreateProductCommand>> validators, IMapper mapper,IUnitOfWork unitOfWork)
         {
-            _productService = productService;
+            _unitOfWork = unitOfWork; 
             _validators = validators;
             _mapper = mapper;
-            _categoryService = categoryService;
         }
 
-        public async Task<CustomResult<CreateProductCommandResult>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<CreateProductCommandResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await _productService.AddAsync(_mapper.Map<ModelProduct>(request));
-
-            return CustomResult<CreateProductCommandResult>.Success(201, _mapper.Map<CreateProductCommandResult>(product));
+            await _unitOfWork.ProductRepository.AddAsync(_mapper.Map<ModelProduct>(request));
+            
+            await _unitOfWork.CommitAsync();
+            
+            return new CreateProductCommandResult();
         }
 
         public async Task Process(CreateProductCommand request, CancellationToken cancellationToken)
@@ -34,7 +33,7 @@ namespace PlantHere.Application.CQRS.Product.Commands.CreateProduct
 
             if (result != null) throw result;
 
-            await _categoryService.GetByIdAsync(request.CategoryId);
+            await _unitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
         }
 
     }

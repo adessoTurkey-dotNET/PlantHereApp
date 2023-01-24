@@ -1,32 +1,32 @@
-﻿using ModelAddress = PlantHere.Domain.Aggregate.OrderAggregate.ValueObjects.Address;
+﻿using PlantHere.Application.Interfaces;
+using ModelAddress = PlantHere.Domain.Aggregate.OrderAggregate.ValueObjects.Address;
 using ModelOrderItem = PlantHere.Domain.Aggregate.OrderAggregate.Entities.OrderItem;
 
 namespace PlantHere.Application.CQRS.Order.Commands.UpdateOrder
 {
-    public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, Unit>, IRequestPreProcessor<UpdateOrderCommand>
+    public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, UpdateOrderCommandResult>, IRequestPreProcessor<UpdateOrderCommand>
     {
-        private readonly IOrderService _orderService;
 
         private readonly IEnumerable<IValidator<UpdateOrderCommand>> _validators;
 
         private readonly IMapper _mapper;
 
-        private readonly IOrderRepository _orderRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateOrderCommandHandler(IOrderService orderService, IEnumerable<IValidator<UpdateOrderCommand>> validators, IMapper mapper, IOrderRepository orderRepository)
+        public UpdateOrderCommandHandler(IEnumerable<IValidator<UpdateOrderCommand>> validators, IMapper mapper, IUnitOfWork unitOfWork)
         {
-            _orderService = orderService;
             _validators = validators;
             _mapper = mapper;
-            _orderRepository = orderRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<Unit> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateOrderCommandResult> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetOrderByIdWithChild(request.Id);
+            var order = await _unitOfWork.OrderRepository.GetOrderByIdWithChild(request.Id);
             order.UpdateOrder(request.BuyerId, _mapper.Map<ModelAddress>(request.Address), _mapper.Map<List<ModelOrderItem>>(request.OrderItems));
-            await _orderService.UpdateAsync(order);
-            return Unit.Value;
+            await _unitOfWork.OrderRepository.UpdateAsync(order);
+            await _unitOfWork.CommitAsync();
+            return new UpdateOrderCommandResult();
         }
 
         public async Task Process(UpdateOrderCommand request, CancellationToken cancellationToken)

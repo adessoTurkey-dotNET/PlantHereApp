@@ -1,30 +1,26 @@
-﻿
+﻿using PlantHere.Application.Interfaces;
 using ModelBasket = PlantHere.Domain.Aggregate.BasketAggregate.Entities.Basket;
 
 namespace PlantHere.Application.CQRS.Basket.Commands.CreateBasket
 {
-    public class CreateBasketCommandHandle : IRequestHandler<CreateBasketCommand, CustomResult<CreateBasketCommandResult>>, IRequestPreProcessor<CreateBasketCommand>
+    public class CreateBasketCommandHandle : IRequestHandler<CreateBasketCommand, CreateBasketCommandResult>, IRequestPreProcessor<CreateBasketCommand>
     {
-        private readonly IBasketService _basketService;
-        private readonly IBasketRepository _basketRepository;
-
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
         private readonly IEnumerable<IValidator<CreateBasketCommand>> _validators;
 
-        public CreateBasketCommandHandle(IBasketService basketService, IBasketRepository basketRepository, IMapper mapper, IEnumerable<IValidator<CreateBasketCommand>> validators)
+        public CreateBasketCommandHandle(IUnitOfWork unitOfWork, IMapper mapper, IEnumerable<IValidator<CreateBasketCommand>> validators)
         {
-            _basketService = basketService;
-            _basketRepository = basketRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _validators = validators;
         }
 
-        public async Task<CustomResult<CreateBasketCommandResult>> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
+        public async Task<CreateBasketCommandResult> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
         {
-
-            await _basketService.AddAsync(_mapper.Map<ModelBasket>(request));
-            return CustomResult<CreateBasketCommandResult>.Success(204, new CreateBasketCommandResult());
+            await _unitOfWork.BasketRepository.AddAsync(_mapper.Map<ModelBasket>(request));
+            await _unitOfWork.CommitAsync();
+            return new CreateBasketCommandResult();
         }
 
         public async Task Process(CreateBasketCommand request, CancellationToken cancellationToken)
@@ -33,7 +29,7 @@ namespace PlantHere.Application.CQRS.Basket.Commands.CreateBasket
 
             if (result != null) throw result;
 
-            var basket = await _basketRepository.GetBasketByUserId(request.UserId);
+            var basket = await _unitOfWork.BasketRepository.GetBasketByUserId(request.UserId);
 
             if (basket != null) throw new ConflictException($"{typeof(ModelBasket).Name}({request.UserId}) Conflict");
         }

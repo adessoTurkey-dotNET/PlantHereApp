@@ -1,30 +1,32 @@
-﻿namespace PlantHere.Application.CQRS.Product.Commands.UpdateProduct
+﻿using PlantHere.Application.Interfaces;
+
+namespace PlantHere.Application.CQRS.Product.Commands.UpdateProduct
 {
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Unit>, IRequestPreProcessor<UpdateProductCommand>
     {
-        private readonly IProductService _productService;
-
-        private readonly ICategoryService _categoryService;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IEnumerable<IValidator<UpdateProductCommand>> _validators;
 
-        public UpdateProductCommandHandler(IProductService productService, ICategoryService categoryService, IEnumerable<IValidator<UpdateProductCommand>> validators)
+        public UpdateProductCommandHandler(IUnitOfWork unitOfWork, IEnumerable<IValidator<UpdateProductCommand>> validators)
         {
-            _productService = productService;
-            _categoryService = categoryService;
+            _unitOfWork = unitOfWork;
             _validators = validators;
         }
 
         public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await _productService.GetByIdAsync(request.Id);
+            var product = await _unitOfWork.ProductRepository.GetByIdAsync(request.Id);
 
             product.Name = request.Name;
             product.Stock = request.Stock;
             product.Price = request.Price;
             product.UpdatedDate = DateTime.Now;
             product.Description = request.Description;
-            await _productService.UpdateAsync(product);
+
+            await _unitOfWork.ProductRepository.UpdateAsync(product);
+            await _unitOfWork.CommitAsync();
+
             return Unit.Value;
         }
 
@@ -34,7 +36,7 @@
 
             if (result != null) throw result;
 
-            await _categoryService.GetByIdAsync(request.CategoryId);
+            await _unitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
 
         }
 

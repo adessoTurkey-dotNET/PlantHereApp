@@ -1,21 +1,33 @@
-﻿using AuthServer.Application.CustomResponses;
-using AuthServer.Application.Interfaces.Services;
+﻿using AuthServer.Application.Interfaces.Repositories;
+using AuthServer.Application.Mapping;
+using DotNetCore.CAP;
 using MediatR;
+using UdemyAuthServer.Core.UnitOfWork;
 
 namespace AuthServer.Application.CQRS.User.Commands.CreateUser
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CustomResponse<CreateUserCommandResponse>>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CreateUserCommandResponse>
     {
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
-        public CreateUserCommandHandler(IUserService userService)
+        private readonly ICapPublisher _capPublisher;
+
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateUserCommandHandler(IUserRepository userRepository, ICapPublisher capPublisher,IUnitOfWork unitOfWork)
         {
-            _userService = userService;
+            _userRepository = userRepository;
+            _capPublisher = capPublisher;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<CustomResponse<CreateUserCommandResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+
+        public async Task<CreateUserCommandResponse> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            return await _userService.CreateUserAsync(request);
+            var result = ObjectMapper.Mapper.Map<CreateUserCommandResponse>(await _userRepository.CreateUserAsync(request));
+            await _unitOfWork.CommmitAsync();
+            await _capPublisher.PublishAsync<string>("createUser.transaction", result.Id);
+            return result;
         }
     }
 }

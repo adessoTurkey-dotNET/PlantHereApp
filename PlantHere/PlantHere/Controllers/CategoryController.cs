@@ -3,6 +3,7 @@ using PlantHere.Application.CQRS.Category.Cammands.CreateCategory;
 using PlantHere.Application.CQRS.Category.Cammands.DeleteCategory;
 using PlantHere.Application.CQRS.Category.Cammands.UpdateCategory;
 using PlantHere.Application.CQRS.Category.Queries.GetAllCategories;
+using System.Net;
 
 namespace PlantHere.WebAPI.Controllers
 {
@@ -18,33 +19,49 @@ namespace PlantHere.WebAPI.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Get Category
+        /// </summary>
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<CustomResult<IEnumerable<GetAllCategoriesQueryResult>>> GetAll()
         {
             var categories = await _mediator.Send(new GetAllCategoriesQuery());
-            return CreateActionResult(CustomResult<IEnumerable<GetAllCategoriesQueryResult>>.Success(200, categories));
+            return CustomResult<IEnumerable<GetAllCategoriesQueryResult>>.Success((int)HttpStatusCode.OK, categories);
         }
 
+        /// <summary>
+        /// Create Category
+        /// </summary>
+        /// <param name="createCategoryCommand"></param>
         [Authorize(Roles = "superadmin")]
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(CreateCategoryCommand createCategoryCommand)
+        public async Task<CustomResult<CreateCategoryCommandResult>> CreateCategory(CreateCategoryCommand createCategoryCommand)
         {
-            return CreateActionResult(await _mediator.Send(createCategoryCommand));
+            return CustomResult<CreateCategoryCommandResult>.Success((int)HttpStatusCode.Created, (await _mediator.Send(createCategoryCommand)));
         }
 
+        /// <summary>
+        /// Update Category
+        /// </summary>
+        /// <param name="updateCategoryCommand"></param>
         [Authorize(Roles = "superadmin")]
         [HttpPut]
-        public async Task<IActionResult> UpdateCategory(UpdateCategoryCommand updateCategoryCommand)
+        public async Task<CustomResult<UpdateCategoryCommandResult>> UpdateCategory(UpdateCategoryCommand updateCategoryCommand)
         {
-            return CreateActionResult(await _mediator.Send(updateCategoryCommand));
+            return CustomResult<UpdateCategoryCommandResult>.Success((int)HttpStatusCode.OK, await _mediator.Send(updateCategoryCommand));
         }
 
+        /// <summary>
+        /// Delete Category
+        /// </summary>
+        /// <param name="deleteCategoryCommand"></param>
+        /// <returns></returns>
         [Authorize(Roles = "superadmin")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteCategory(DeleteCategoryCommand deleteCategoryCommand)
+        public async Task<CustomResult<DeleteCategoryCommandResult>> DeleteCategory(DeleteCategoryCommand deleteCategoryCommand)
         {
-            return CreateActionResult(await _mediator.Send(deleteCategoryCommand));
+            return CustomResult<DeleteCategoryCommandResult>.Success((int)HttpStatusCode.OK, await _mediator.Send(deleteCategoryCommand));
         }
 
     }

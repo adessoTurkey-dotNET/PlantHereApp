@@ -33,24 +33,24 @@ class CategoryService extends Interface(ICategoryService)
 
     async getCategories() {
         const categories = await this.repository.getCategories(new GetCategoriesQuery())
-        return CustomResult.Success(new GetCategoriesQueryResult(categories), null)
+        return new GetCategoriesQueryResult(categories)
     }
 
     async getCategoryById(req) {
-        return CustomResult.Success(new GetCategoryByIdQueryResult(await this.repository.getCategoryById(req.Id)))
+        return new GetCategoryByIdQueryResult(await this.repository.getCategoryById(req.Id))
     }
 
     async createCategory(req){
-        return CustomResult.Success(new  CreateCategoryCommandResult(await this.repository.createCategory(req)))
-    }
+        return new  CreateCategoryCommandResult(await this.repository.createCategory(req))
+   }
 
     async updateCategory(req){
-        return CustomResult.Success(new UpdateCategoryCommandResult(await this.repository.updateCategory(req)))
-    }
+        return new UpdateCategoryCommandResult(await this.repository.updateCategory(req))
+  }
 
     async deleteCategory(req){
-        return CustomResult.Success(new DeleteCategoryCommandResult(await this.repository.deleteCategory(req)))
-    }
+        return new DeleteCategoryCommandResult(await this.repository.deleteCategory(req))
+  }
 }
 
 module.exports = { CategoryService }

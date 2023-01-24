@@ -5,8 +5,8 @@ const dev = {
 }
 
 const prod = {
-    DOTNET_AUTHSERVER_API_URL : "http://localhost:5253",
-    DOTNET_PLANTHERE_API_URL : "http://localhost:5277",
+    DOTNET_AUTHSERVER_API_URL : "http://localhost:5002",
+    DOTNET_PLANTHERE_API_URL : "http://localhost:5000",
     NODEJS_PLANTHERE_API_URL : "http://localhost:4000"
 }
 

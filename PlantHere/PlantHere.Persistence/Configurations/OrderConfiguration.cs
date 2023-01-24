@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PlantHere.Domain.Aggregate.OrderAggregate.Entities;
+using PlantHere.Domain.Common.Class;
 
 namespace PlantHere.Persistence.Configurations
 {
@@ -9,8 +10,9 @@ namespace PlantHere.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.ToTable("Orders", "ordering");
+            builder.Property(e => e.Id).UseIdentityColumn();
             builder.Navigation(e => e.OrderItems).UsePropertyAccessMode(PropertyAccessMode.Field).HasField("_orderItems");
-            builder.OwnsOne(o => o.Address).WithOwner();
+            builder.OwnsOne(e => e.Address).WithOwner();
         }
     }
 }

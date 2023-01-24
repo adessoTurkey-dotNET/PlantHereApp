@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using Nest;
-using PlantHere.Application.CQRS.Product.Commands.CreateProduct;
+﻿using PlantHere.Application.CQRS.Product.Commands.CreateProduct;
+using PlantHere.Application.CQRS.Product.Commands.CreateProductsIndexES;
 using PlantHere.Application.CQRS.Product.Commands.DeleteProduct;
 using PlantHere.Application.CQRS.Product.Commands.UpdateProduct;
 using PlantHere.Application.CQRS.Product.Queries.GetAll;
@@ -8,6 +7,8 @@ using PlantHere.Application.CQRS.Product.Queries.GetAllProducts;
 using PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsByPage;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsCount;
+using PlantHere.Application.CQRS.Product.Queries.GetProductsES;
+using System.Net;
 
 namespace PlantHere.WebAPI.Controllers
 {
@@ -17,99 +18,99 @@ namespace PlantHere.WebAPI.Controllers
     {
         private readonly IMediator _mediator;
 
-        private readonly IElasticClient _elasticClient;
-
-        private readonly IDistributedCache _distributedCache;
-
-        public ProductController(IMediator mediator, IElasticClient elasticClient, IDistributedCache distributedCache)
+        public ProductController(IMediator mediator)
         {
             _mediator = mediator;
-            _elasticClient = elasticClient;
-            _distributedCache = distributedCache;
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
-        {
-            var products = await _mediator.Send(new GetAllProductsQuery());
-            return CreateActionResult(CustomResult<IEnumerable<GetAllProductsQueryResult>>.Success(200, products));
-        }
-
+        /// <summary>
+        /// Get Product By Unique Id
+        /// </summary>
+        /// <param name="uniqueId"></param>
         [AllowAnonymous]
         [HttpGet("{uniqueId}")]
-        public async Task<IActionResult> GetProductByUniqueId(string uniqueId)
+        public async Task<CustomResult<GetProductByUniqueIdQueryResult>> GetProductByUniqueId(string uniqueId)
         {
-            return CreateActionResult(await _mediator.Send(new GetProductByUniqueIdQuery(uniqueId)));
+            return CustomResult<GetProductByUniqueIdQueryResult>.Success((int)HttpStatusCode.OK, await _mediator.Send(new GetProductByUniqueIdQuery(uniqueId)));
         }
 
-
+        /// <summary>
+        /// Get Products By Page
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
         [AllowAnonymous]
         [HttpGet("[action]/{page}/{pageSize}")]
-        public async Task<IActionResult> GetProductsByPage(int page, int pageSize)
+        public async Task<CustomResult<IEnumerable<GetProductsByPageQueryResult>>> GetProductsByPage(int page, int pageSize)
         {
-            return CreateActionResult(await _mediator.Send(new GetProductsByPageQuery(page, pageSize)));
+            return CustomResult<IEnumerable<GetProductsByPageQueryResult>>.Success((int)HttpStatusCode.OK, await _mediator.Send(new GetProductsByPageQuery(page, pageSize)));
         }
 
-        [AllowAnonymous]
-        [HttpGet("[action]/{keyword}")]
-        public async Task<IActionResult> GetProductES(string keyword)
-        {
-            var result = await _elasticClient.SearchAsync<GetAllProductsQueryResult>(
-                        s => s.Query(
-                            q => q.QueryString(
-                                d => d.Query('*' + keyword + '*')
-                            )).Size(5));
-
-            return CreateActionResult(CustomResult<List<GetAllProductsQueryResult>>.Success(200, result.Documents.ToList()));
-        }
-
+        /// <summary>
+        /// Get Products Count
+        /// </summary>
         [AllowAnonymous]
         [HttpGet("[action]")]
-        public async Task<IActionResult> CreateProductsIndex()
+        public async Task<CustomResult<GetProductsCountQueryResult>> GetProductsCount()
         {
-            await _elasticClient.Indices.DeleteAsync("products");
-
-            var products = await _mediator.Send(new GetAllProductsQuery());
-
-            _elasticClient.Bulk(b => b
-             .Index("products")
-             .IndexMany(products));
-
-            return CreateActionResult(CustomResult<GetAllProductsQueryResult>.Success(200, null));
+            return CustomResult<GetProductsCountQueryResult>.Success((int)HttpStatusCode.OK, await _mediator.Send(new GetProductsCountQuery()));
         }
 
-
-        [AllowAnonymous]
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetProductsCount()
-        {
-            return CreateActionResult(await _mediator.Send(new GetProductsCountQuery()));
-        }
-
-
+        /// <summary>
+        /// Update Product
+        /// </summary>
+        /// <param name="command"></param>
         [Authorize(Roles = "superadmin,seller")]
         [HttpPut]
-        public async Task<IActionResult> UpdateProduct(UpdateProductCommand command)
+        public async Task<CustomResult<GetProductByUniqueIdQueryResult>> UpdateProduct(UpdateProductCommand command)
         {
             await _mediator.Send(command);
-            return CreateActionResult(CustomResult<GetProductByUniqueIdQueryResult>.Success(204));
+            return CustomResult<GetProductByUniqueIdQueryResult>.Success((int)HttpStatusCode.NoContent);
         }
 
+        /// <summary>
+        /// Create Product
+        /// </summary>
+        /// <param name="command"></param>
         [Authorize(Roles = "superadmin,seller")]
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(CreateProductCommand command)
+        public async Task<CustomResult<CreateProductCommandResult>> CreateProduct(CreateProductCommand command)
         {
-            return CreateActionResult(await _mediator.Send(command));
+            return CustomResult<CreateProductCommandResult>.Success((int)HttpStatusCode.OK, await _mediator.Send(command));
         }
 
+        /// <summary>
+        /// Get Products ES
+        /// </summary>
+        /// <param name="keyword"></param>
+        [AllowAnonymous]
+        [HttpGet("[action]/{keyword}")]
+        public async Task<CustomResult<List<GetProductsESQueryResult>>> GetProductsES(string keyword)
+        {
+            var products = await _mediator.Send(new GetProductsESQuery(keyword));
+            return CustomResult<List<GetProductsESQueryResult>>.Success((int)HttpStatusCode.OK, products);
+        }
+
+        /// <summary>
+        /// Create Products Index ES
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("[action]")]
+        public async Task<CustomResult<CreateProductsIndexESCommandResult>> CreateProductsIndexES()
+        {
+            return CustomResult<CreateProductsIndexESCommandResult>.Success((int)HttpStatusCode.OK, await _mediator.Send(new CreateProductsIndexESCommand()));
+        }
+
+        /// <summary>
+        /// Delete Product
+        /// </summary>
+        /// <param name="id"></param>
         [Authorize(Roles = "superadmin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<CustomResult<DeleteProductCommand>> DeleteProduct(int id)
         {
             await _mediator.Send(new DeleteProductCommand(id));
-            return CreateActionResult(CustomResult<DeleteProductCommand>.Success(204));
+            return CustomResult<DeleteProductCommand>.Success((int)HttpStatusCode.NoContent);
         }
-
     }
 }

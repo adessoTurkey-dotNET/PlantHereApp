@@ -25,7 +25,7 @@ const Notification = React.forwardRef((props,ref) => {
     };
 
     return (
-        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
             <Alert onClose={handleClose} severity={notificationValue.status} sx={{ width: '100%' }}>
                 {notificationValue.message}
             </Alert>

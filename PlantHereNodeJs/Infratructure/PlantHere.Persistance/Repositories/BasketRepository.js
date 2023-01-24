@@ -42,7 +42,7 @@ class BasketRepository extends Interface(IBasketRepository)
     async getBasketByUserIdWithBasketItem(req) {
         return await db.Baskets.findOne({
             where: { UserId: req.UserId },
-            include: { model: db.BasketItems, attributes: ['Id','ProductId', 'ProductName', 'Price', 'DiscountedPrice', 'Count'] },
+            include: { model: db.BasketItems, attributes: ['Id', 'ProductId', 'ProductName', 'Price', 'DiscountedPrice', 'Count'] },
             attributes: ["Id", "UserId", "CreatedDate"]
         })
     }
@@ -65,33 +65,60 @@ class BasketRepository extends Interface(IBasketRepository)
         if (!basket) {
             throw new CreateError.NotFound()
         }
- 
+
         if (basket.BasketItems == "") {
             throw new CreateError.NotFound()
         }
         const order = await this.createOrderAndOrderItem(req, basket)
+
+        // this.createBasket(req)
+
         return order
     }
 
+    async getOrderItemsId() {
+
+        const ordersItem = await db.OrderItems.findOne({
+            order: [
+                ['id', 'DESC']],
+            attributes: ['Id']
+        })
+
+        if (ordersItem) {
+            return ordersItem.Id + 1
+        }
+        else {
+            return 1
+        }
+    }
+
     async createOrderAndOrderItem(req, basket) {
+
         const order = new CreateOrderCommand(req.Address, req.UserId, basket.BasketItems)
         const orderResult = await db.Orders.create(order)
 
+        let id = await this.getOrderItemsId();
+
         basket.BasketItems.forEach(basketItem => {
-            const orderItem = new CreateOrderItemCommand(basketItem.ProductId, basketItem.ProductName, basketItem.Price, basketItem.DiscountedPrice, basketItem.Count)
+
+            const orderItem = new CreateOrderItemCommand(id, basketItem.ProductId, basketItem.ProductName, basketItem.Price, basketItem.DiscountedPrice, basketItem.Count)
             orderItem.OrderId = orderResult.Id
             db.OrderItems.create(orderItem)
+
             basketItem.destroy()
+
+            id += 1;
         });
 
         return orderResult
     }
 
+
     async createBasketItem(req) {
 
         const basket = await this.getBasketByUserIdWithBasketItem(req)
-        
-        if(!basket) {
+
+        if (!basket) {
             throw new CreateError.NotFound()
         }
 
@@ -142,6 +169,7 @@ class BasketRepository extends Interface(IBasketRepository)
 
         return basketItem
     }
+
 }
 
 module.exports = { BasketRepository }

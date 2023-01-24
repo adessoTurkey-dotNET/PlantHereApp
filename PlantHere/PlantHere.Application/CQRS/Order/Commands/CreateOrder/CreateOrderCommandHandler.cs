@@ -1,24 +1,42 @@
-﻿namespace PlantHere.Application.CQRS.Order.Commands.CreateOrder
+﻿using DotNetCore.CAP;
+using PlantHere.Application.Interfaces;
+using ModelOrder = PlantHere.Domain.Aggregate.OrderAggregate.Entities.Order;
+using ModelOrderItem = PlantHere.Domain.Aggregate.OrderAggregate.Entities.OrderItem;
+
+
+namespace PlantHere.Application.CQRS.Order.Commands.CreateOrder
 {
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, CustomResult<CreateOrderCommandResult>>, IRequestPreProcessor<CreateOrderCommand>
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, CreateOrderCommandResult>, IRequestPreProcessor<CreateOrderCommand>
     {
-        private readonly IOrderService _orderService;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IEnumerable<IValidator<CreateOrderCommand>> _validators;
 
         private readonly IMapper _mapper;
 
-        public CreateOrderCommandHandler(IOrderService orderService, IEnumerable<IValidator<CreateOrderCommand>> validators, IMapper mapper)
+        private readonly ICapPublisher _capPublisher;
+
+        public CreateOrderCommandHandler(IUnitOfWork unitOfWork, IEnumerable<IValidator<CreateOrderCommand>> validators, IMapper mapper, ICapPublisher capPublisher)
         {
-            _orderService = orderService;
+            _unitOfWork = unitOfWork;
             _validators = validators;
             _mapper = mapper;
+            _capPublisher = capPublisher;
         }
 
-        public async Task<CustomResult<CreateOrderCommandResult>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+        public async Task<CreateOrderCommandResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderService.CreateOrder(request);
-            return order;
+            
+            var order = _mapper.Map<ModelOrder>(request);
+            order = order.AddOrder(_mapper.Map<List<ModelOrderItem>>(request.OrderItems));
+            
+            await _unitOfWork.OrderRepository.CreateOrder(order);
+            
+            await _unitOfWork.CommitAsync();
+            
+            await _capPublisher.PublishAsync<int>("createOrder.transaction", order.Id);
+            
+            return new CreateOrderCommandResult();
         }
 
         public async Task Process(CreateOrderCommand request, CancellationToken cancellationToken)

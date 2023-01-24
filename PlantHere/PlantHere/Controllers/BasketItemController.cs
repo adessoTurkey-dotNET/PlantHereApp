@@ -1,6 +1,7 @@
 ﻿using PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem;
 using PlantHere.Application.CQRS.BasketItem.Commands.DeleteBasketItem;
 using PlantHere.Application.CQRS.BasketItem.Commands.UpdateBasketItem;
+using System.Net;
 
 namespace PlantHere.WebAPI.Controllers
 {
@@ -16,32 +17,41 @@ namespace PlantHere.WebAPI.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Create Basket Item
+        /// </summary>
+        /// <param name="command"></param>
         [Authorize(Roles = "superadmin,customer")]
         [HttpPost]
-        public async Task<IActionResult> CreateBasketItem(CreateBasketItemCommand command)
+        public async Task<CustomResult<CreateBasketItemCommand>> CreateBasketItem(CreateBasketItemCommand command)
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            command.UserId = userId;
+            command.UserId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value; ;
             await _mediator.Send(command);
-            return CreateActionResult(CustomResult<CreateBasketItemCommand>.Success(204));
+            return CustomResult<CreateBasketItemCommand>.Success(204);
         }
 
+        /// <summary>
+        /// Delete Basket Item
+        /// </summary>
+        /// <param name="command"></param>
         [Authorize(Roles = "superadmin,customer")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteBasketItem(DeleteBasketItemCommand command)
+        public async Task<CustomResult<DeleteBasketItemCommandResult>> DeleteBasketItem(DeleteBasketItemCommand command)
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            command.UserId = userId;
-            return CreateActionResult(await _mediator.Send(command));
+            command.UserId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value; ;
+            return CustomResult<DeleteBasketItemCommandResult>.Success((int)HttpStatusCode.OK, await _mediator.Send(command));
         }
 
+        /// <summary>
+        /// Update Basket Item
+        /// </summary>
+        /// <param name="command"></param>
         [Authorize(Roles = "superadmin,customer")]
         [HttpPut]
-        public async Task<IActionResult> UpdateBasketItem(UpdateBasketItemCommand command)
+        public async Task<CustomResult<UpdateBasketItemCommandResult>> UpdateBasketItem(UpdateBasketItemCommand command)
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            command.UserId = userId;
-            return CreateActionResult(await _mediator.Send(command));
+            command.UserId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            return CustomResult<UpdateBasketItemCommandResult>.Success((int)HttpStatusCode.OK, await _mediator.Send(command));
         }
     }
 }

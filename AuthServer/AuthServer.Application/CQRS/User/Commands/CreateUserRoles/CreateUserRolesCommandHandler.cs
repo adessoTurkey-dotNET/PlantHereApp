@@ -1,21 +1,26 @@
-﻿using AuthServer.Application.CustomResponses;
-using AuthServer.Application.Interfaces.Services;
+﻿using AuthServer.Application.Interfaces.Repositories;
 using MediatR;
+using UdemyAuthServer.Core.UnitOfWork;
 
 namespace AuthServer.Application.CQRS.User.Commands.CreateUserRoles
 {
-    public class CreateUserRolesCommandHandler : IRequestHandler<CreateUserRolesCommand, CustomResponse<CreateUserRolesCommandResponse>>
+    public class CreateUserRolesCommandHandler : IRequestHandler<CreateUserRolesCommand, CreateUserRolesCommandResponse>
     {
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
-        public CreateUserRolesCommandHandler(IUserService userService)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateUserRolesCommandHandler(IUserRepository userRepository,IUnitOfWork unitOfWork)
         {
-            _userService = userService;
+            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<CustomResponse<CreateUserRolesCommandResponse>> Handle(CreateUserRolesCommand request, CancellationToken cancellationToken)
+        public async Task<CreateUserRolesCommandResponse> Handle(CreateUserRolesCommand request, CancellationToken cancellationToken)
         {
-            return await _userService.CreateUserRoles(request);
+            await _userRepository.CreateUserRoles(request);
+            await _unitOfWork.CommmitAsync();
+            return new CreateUserRolesCommandResponse();
         }
     }
 }

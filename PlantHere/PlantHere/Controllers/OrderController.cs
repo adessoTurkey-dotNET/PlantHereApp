@@ -4,6 +4,7 @@ using PlantHere.Application.CQRS.Order.Quries.GetAllOrders;
 using PlantHere.Application.CQRS.Order.Quries.GetOrderById;
 using PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId;
 using PlantHere.Application.CQRS.Product.Commands.DeleteProduct;
+using System.Net;
 
 namespace PlantHere.WebAPI.Controllers
 {
@@ -19,52 +20,74 @@ namespace PlantHere.WebAPI.Controllers
             _mediator = mediator;
         }
 
-
+        /// <summary>
+        /// Get All Orders
+        /// </summary>
         [Authorize(Roles = "superadmin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllOrders()
+        [NonAction]
+        public async Task<CustomResult<ICollection<GetAllOrdersQueryResult>>> GetAllOrders()
         {
             var orders = await _mediator.Send(new GetAllOrdersQuery());
-            return CreateActionResult(orders);
+            return CustomResult<ICollection<GetAllOrdersQueryResult>>.Success((int)HttpStatusCode.OK, orders);
         }
 
+        /// <summary>
+        /// Get Order By Id 
+        /// </summary>
+        /// <param name="id"></param>
         [Authorize(Roles = "superadmin")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrderId(int id)
+        public async Task<CustomResult<GetOrderByIdQueryResult>> GetOrderById(int id)
         {
             var order = await _mediator.Send(new GetOrderByIdQuery(id));
-            return CreateActionResult(order);
+            return CustomResult<GetOrderByIdQueryResult>.Success((int)HttpStatusCode.OK, order);
         }
 
+        /// <summary>
+        /// Get Order By User Id
+        /// </summary>
         [Authorize(Roles = "customer,superadmin")]
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetOrderByUserId()
+        public async Task<CustomResult<ICollection<GetOrderByUserIdQueryResult>>> GetOrderByUserId()
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            return CreateActionResult(await _mediator.Send(new GetOrderByUserIdQuery(userId)));
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            return CustomResult<ICollection<GetOrderByUserIdQueryResult>>.Success((int)HttpStatusCode.OK, await _mediator.Send(new GetOrderByUserIdQuery(userId)));
         }
 
+        /// <summary>
+        /// Update Order
+        /// </summary>
+        /// <param name="command"></param>
         [Authorize(Roles = "superadmin")]
         [HttpPut]
-        public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
+        public async Task<CustomResult<GetOrderByIdQueryResult>> UpdateOrder(UpdateOrderCommand command)
         {
             await _mediator.Send(command);
-            return CreateActionResult(CustomResult<GetOrderByIdQueryResult>.Success(204));
+            return CustomResult<GetOrderByIdQueryResult>.Success((int)HttpStatusCode.NoContent);
         }
 
+        /// <summary>
+        /// Create Order
+        /// </summary>
+        /// <param name="command"></param>
         [Authorize(Roles = "superadmin")]
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
+        public async Task<CustomResult<CreateOrderCommandResult>> CreateOrder(CreateOrderCommand command)
         {
-            return CreateActionResult(await _mediator.Send(command));
+            return CustomResult<CreateOrderCommandResult>.Success((int)HttpStatusCode.Created, await _mediator.Send(command));
         }
 
+        /// <summary>
+        /// Delete Order
+        /// </summary>
+        /// <param name="id"></param>
         [Authorize(Roles = "superadmin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(int id)
+        public async Task<CustomResult<DeleteProductCommand>> DeleteOrder(int id)
         {
             await _mediator.Send(new DeleteProductCommand(id));
-            return CreateActionResult(CustomResult<DeleteProductCommand>.Success(204));
+            return CustomResult<DeleteProductCommand>.Success((int)HttpStatusCode.NoContent);
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿namespace PlantHere.Application.CQRS.Product.Commands.CreateProduct
 {
-    public class CreateProductCommand : IRequest<CustomResult<CreateProductCommandResult>>
+    public class CreateProductCommand : IRequest<CreateProductCommandResult>
     {
         public string? Name { get; set; }
 

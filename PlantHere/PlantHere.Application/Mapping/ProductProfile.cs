@@ -3,6 +3,7 @@ using PlantHere.Application.CQRS.Product.Commands.CreateProduct;
 using PlantHere.Application.CQRS.Product.Queries.GetAllProducts;
 using PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsByPage;
+using PlantHere.Application.CQRS.Product.Queries.GetProductsES;
 using PlantHere.Domain.Aggregate.CategoryAggregate;
 
 namespace PlantHere.Application.Mapping
@@ -17,6 +18,7 @@ namespace PlantHere.Application.Mapping
             CreateMap<Product, CreateProductCommandResult>().ReverseMap();
             CreateMap<Product, CreateBasketItemCommand>().ReverseMap();
             CreateMap<Product, CreateProductCommand>().ReverseMap();
+            CreateMap<Product, GetProductsESQueryResult>().ReverseMap();
         }
     }
 }

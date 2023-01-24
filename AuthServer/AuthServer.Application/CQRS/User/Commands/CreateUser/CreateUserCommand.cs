@@ -1,9 +1,8 @@
-﻿using AuthServer.Application.CustomResponses;
-using MediatR;
+﻿using MediatR;
 
 namespace AuthServer.Application.CQRS.User.Commands.CreateUser
 {
-    public class CreateUserCommand : IRequest<CustomResponse<CreateUserCommandResponse>>
+    public class CreateUserCommand : IRequest<CreateUserCommandResponse>
     {
         public string UserName { get; set; }
 

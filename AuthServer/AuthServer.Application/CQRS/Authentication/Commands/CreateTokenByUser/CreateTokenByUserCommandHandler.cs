@@ -1,21 +1,26 @@
-﻿using AuthServer.Application.CustomResponses;
-using AuthServer.Application.Interfaces.Services;
+﻿using AuthServer.Application.Interfaces.Repositories;
 using MediatR;
+using UdemyAuthServer.Core.UnitOfWork;
 
 namespace AuthServer.Application.CQRS.Authentication.Queries.CreateTokenByUser
 {
-    public class CreateTokenByUserCommandHandler : IRequestHandler<CreateTokenByUserCommand, CustomResponse<CreateTokenByUserCommandResponse>>
+    public class CreateTokenByUserCommandHandler : IRequestHandler<CreateTokenByUserCommand, CreateTokenByUserCommandResponse>
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IAuthenticationRepository _authenticationRepository;
 
-        public CreateTokenByUserCommandHandler(IAuthenticationService authenticationService)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateTokenByUserCommandHandler(IAuthenticationRepository authenticationRepository,IUnitOfWork unitOfWork)
         {
-            _authenticationService = authenticationService;
+            _authenticationRepository = authenticationRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<CustomResponse<CreateTokenByUserCommandResponse>> Handle(CreateTokenByUserCommand request, CancellationToken cancellationToken)
+        public async Task<CreateTokenByUserCommandResponse> Handle(CreateTokenByUserCommand request, CancellationToken cancellationToken)
         {
-            return await _authenticationService.CreateTokenByUser(request);
+            var result = await _authenticationRepository.CreateTokenByUser(request);
+            await _unitOfWork.CommmitAsync();
+            return result;
         }
     }
 }

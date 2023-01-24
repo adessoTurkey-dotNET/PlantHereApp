@@ -1,6 +1,6 @@
 ﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId
 {
-    public class GetProductByUniqueIdQuery : IRequest<CustomResult<GetProductByUniqueIdQueryResult>>
+    public class GetProductByUniqueIdQuery : IRequest<GetProductByUniqueIdQueryResult>
     {
         public string UniqueId { get; set; }
 

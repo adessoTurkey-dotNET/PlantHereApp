@@ -1,13 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DotNetCore.CAP;
+using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.CQRS.Order.Commands.CreateOrder;
 using PlantHere.Domain.Aggregate.OrderAggregate.Entities;
 
 namespace PlantHere.Persistence.Repositories
 {
     public class OrderRepository : Repository<Order>, IOrderRepository
     {
+     
         public OrderRepository(AppDbContext context) : base(context)
         {
         }
+
+        public async Task<bool> CreateOrder(Order order)
+        {
+            await _context.Orders.AddAsync(order);
+            return true;
+        }
+
         public async Task<Order> GetOrderByIdWithChild(int id)
         {
             var order = await _context.Orders.Include(x => x.Address).Include(x => x.OrderItems).FirstOrDefaultAsync(x => x.Id == id);

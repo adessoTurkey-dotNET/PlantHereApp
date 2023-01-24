@@ -1,17 +1,20 @@
 ﻿namespace PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId
 {
-    public class GetOrderByUserIdHandlerQuery : IRequestHandler<GetOrderByUserIdQuery, CustomResult<ICollection<GetOrderByUserIdQueryResult>>>
+    public class GetOrderByUserIdHandlerQuery : IRequestHandler<GetOrderByUserIdQuery, ICollection<GetOrderByUserIdQueryResult>>
     {
-        private readonly IOrderService _orderService;
+        private readonly IOrderRepository _orderRepository;
 
-        public GetOrderByUserIdHandlerQuery(IOrderService orderService)
+        private readonly IMapper _mapper;
+
+        public GetOrderByUserIdHandlerQuery(IOrderRepository orderRepository, IMapper mapper)
         {
-            _orderService = orderService;
+            _orderRepository = orderRepository;
+            _mapper = mapper;
         }
 
-        public async Task<CustomResult<ICollection<GetOrderByUserIdQueryResult>>> Handle(GetOrderByUserIdQuery request, CancellationToken cancellationToken)
+        public async Task<ICollection<GetOrderByUserIdQueryResult>> Handle(GetOrderByUserIdQuery request, CancellationToken cancellationToken)
         {
-            return await _orderService.GetOrderByUserId(request.userId);
+            return _mapper.Map<ICollection<GetOrderByUserIdQueryResult>>(await _orderRepository.GetOrderByUserId(request.userId));
         }
     }
 }

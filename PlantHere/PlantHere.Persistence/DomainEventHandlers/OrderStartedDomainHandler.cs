@@ -6,21 +6,21 @@ namespace PlantHere.Persistence.DomainEventHandlers
     public class OrderStartedDomainHandler : INotificationHandler<OrderStartedDomainEvent>
     {
 
-        private readonly IEmailService _emailService;
+        private readonly IEmailRepository _emailService;
 
-        private readonly IBasketService _basketService;
+        private readonly IBasketRepository _basketRepository;
 
-        public OrderStartedDomainHandler(IEmailService emailService, IBasketService basketService)
+        public OrderStartedDomainHandler(IEmailRepository emailService, IBasketRepository basketRepository)
         {
             _emailService = emailService;
-            _basketService = basketService;
+            _basketRepository = basketRepository;
         }
 
         public async Task Handle(OrderStartedDomainEvent notification, CancellationToken cancellationToken)
         {
             await _emailService.Send("test.gmail.com", $"{notification.Order.GetTotalPrice}");
-
-            await _basketService.RemoveBasket(notification.UserId);
+            var basket = await _basketRepository.GetBasketByUserId(notification.UserId);
+            await _basketRepository.RemoveAsync(basket);
         }
     }
 }

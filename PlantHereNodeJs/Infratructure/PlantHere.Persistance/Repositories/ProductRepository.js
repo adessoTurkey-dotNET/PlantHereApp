@@ -12,7 +12,8 @@ class ProductRepository extends Interface(IProductRepository)
 {
     async getProducts() {
         return await db.Products.findAll({
-            attributes: ['Name', 'Description', 'Price', 'Discount', 'UniqueId']
+            attributes: ['Name', 'Description', 'Price', 'Discount', 'UniqueId'],
+            include: { model: db.Images, attributes: ['Id', 'Url', 'ProductId'] }
         })
     }
 
@@ -25,7 +26,7 @@ class ProductRepository extends Interface(IProductRepository)
         const page = parseInt(getProductsByPageQuery.page)
         const pageSize = parseInt(getProductsByPageQuery.pageSize)
         const limit = pageSize
-        const offset = (page- 1) * limit;
+        const offset = (page - 1) * limit;
 
         const products = await db.Products.findAll(
             {

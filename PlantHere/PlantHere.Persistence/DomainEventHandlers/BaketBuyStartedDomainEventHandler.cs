@@ -10,25 +10,25 @@ namespace PlantHere.Persistence.DomainEventHandlers
     {
         private readonly IMapper _mapper;
 
-        private readonly IPaymentService _paymentService;
+        private readonly IPaymentRepository _paymentService;
 
-        private readonly IOrderService _orderService;
+        private readonly IOrderRepository _orderRepository;
 
-        public BaketBuyStartedDomainEventHandler(IMapper mapper, IPaymentService paymentService, IOrderService orderService)
+        public BaketBuyStartedDomainEventHandler(IMapper mapper, IPaymentRepository paymentService, IOrderRepository orderRepository)
         {
             _mapper = mapper;
             _paymentService = paymentService;
-            _orderService = orderService;
+            _orderRepository = orderRepository;
         }
 
         public async Task Handle(BaketBuyStartedDomainEvent notification, CancellationToken cancellationToken)
         {
-            if (_paymentService.ReceiverPayment(notification.CardTypeId, notification.CardNumber, notification.CardSecurityNumber, notification.CardHolderName).Data)
+            if (_paymentService.ReceiverPayment(notification.CardTypeId, notification.CardNumber, notification.CardSecurityNumber, notification.CardHolderName))
             {
                 if (notification.Basket.BasketItems.Count == 0) throw new NotFoundException($"Not Found Basket Items");
                 var orderItems = _mapper.Map<List<ModelOrderItem>>(notification.Basket.BasketItems);
                 var order = new ModelOrder(notification.Basket.UserId, notification.Address, orderItems);
-                await _orderService.CreateOrder(_mapper.Map<CreateOrderCommand>(order));
+                await _orderRepository.CreateOrder(order);
             }
 
         }

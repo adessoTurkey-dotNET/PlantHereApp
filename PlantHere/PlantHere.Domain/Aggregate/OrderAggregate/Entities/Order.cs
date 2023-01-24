@@ -32,7 +32,6 @@ namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
             CreatedDate = DateTime.Now;
             BuyerId = buyerId;
             Address = address;
-            AddOrderStartedDomainEvent(BuyerId);
         }
         public Order(string buyerId, Address address, List<OrderItem> orderItems)
         {
@@ -41,7 +40,6 @@ namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
             BuyerId = buyerId;
             Address = address;
             AddOrderItems(orderItems);
-            AddOrderStartedDomainEvent(BuyerId);
         }
 
         public Order(int id, string buyerId, Address address)
@@ -51,7 +49,6 @@ namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
             CreatedDate = DateTime.Now;
             BuyerId = buyerId;
             Address = address;
-            AddOrderStartedDomainEvent(BuyerId);
         }
 
         public void AddOrderItem(string productId, string productName, decimal price, decimal discountedPrice, int count)
@@ -71,8 +68,6 @@ namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
             var order = new Order(BuyerId, Address);
 
             order.AddOrderItems(orderItems);
-
-            AddDomainEvent(new OrderStartedDomainEvent(order, BuyerId));
 
             return order;
         }

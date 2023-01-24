@@ -28,7 +28,6 @@ namespace AuthServer.Persistence.Repositories
         public async Task<Tentity> GetByIdAsync(int id)
         {
             var entity = await _dbSet.FindAsync(id);
-            // EntityState.Detached yapısını service class'sını anlatırken detaylandıracağım.
             if (entity != null)
             {
                 _context.Entry(entity).State = EntityState.Detached;

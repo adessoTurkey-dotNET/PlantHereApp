@@ -1,18 +1,20 @@
 ﻿namespace PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId
 {
-    public class GetBasketByUserIdQueryHandler : IRequestHandler<GetBasketByUserIdQuery, CustomResult<GetBasketByUserIdQueryResult>>
+    public class GetBasketByUserIdQueryHandler : IRequestHandler<GetBasketByUserIdQuery, GetBasketByUserIdQueryResult>
     {
 
-        private readonly IBasketService _basketService;
+        private readonly IBasketRepository _basketRepository;
 
-        public GetBasketByUserIdQueryHandler(IBasketService basketService)
+        private readonly IMapper _mapper; 
+        public GetBasketByUserIdQueryHandler(IBasketRepository basketRepositoy, IMapper mapper)
         {
-            _basketService = basketService;
+            _mapper = mapper;
+            _basketRepository = basketRepositoy;
         }
 
-        public async Task<CustomResult<GetBasketByUserIdQueryResult>> Handle(GetBasketByUserIdQuery request, CancellationToken cancellationToken)
+        public async Task<GetBasketByUserIdQueryResult> Handle(GetBasketByUserIdQuery request, CancellationToken cancellationToken)
         {
-            return await _basketService.GetBasketsByUserIdAsync(request.UserId);
+            return _mapper.Map<GetBasketByUserIdQueryResult>(await _basketRepository.GetBasketByUserId(request.UserId));
         }
     }
 }

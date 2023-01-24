@@ -1,18 +1,20 @@
 ﻿namespace PlantHere.Application.CQRS.Order.Quries.GetAllOrders
 {
-    public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, CustomResult<ICollection<GetAllOrdersQueryResult>>>
+    public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, ICollection<GetAllOrdersQueryResult>>
     {
 
-        private readonly IOrderService _orderService;
+        private readonly IOrderRepository _orderRepository;
 
-        public GetAllOrdersQueryHandler(IOrderService orderService)
+        private readonly IMapper _mapper;
+
+        public GetAllOrdersQueryHandler(IOrderRepository orderRepository)
         {
-            _orderService = orderService;
+            _orderRepository = orderRepository;
         }
 
-        public async Task<CustomResult<ICollection<GetAllOrdersQueryResult>>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
+        public async Task<ICollection<GetAllOrdersQueryResult>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
         {
-            return await _orderService.GetOrderWithChild();
+            return _mapper.Map<ICollection<GetAllOrdersQueryResult>>(await _orderRepository.GetOrderWithChild());
         }
     }
 }

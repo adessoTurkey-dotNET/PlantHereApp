@@ -1,13 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.CQRS.Basket.Commands.BuyBasket;
 using PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem;
 using PlantHere.Application.CQRS.BasketItem.Commands.DeleteBasketItem;
 using PlantHere.Application.CQRS.BasketItem.Commands.UpdateBasketItem;
 using PlantHere.Domain.Aggregate.BasketAggregate.Entities;
+using PlantHere.Domain.Aggregate.OrderAggregate.ValueObjects;
 
 namespace PlantHere.Persistence.Repositories
 {
     public class BasketRepository : Repository<Basket>, IBasketRepository
     {
+
         public BasketRepository(AppDbContext context) : base(context)
         {
         }
@@ -42,6 +45,7 @@ namespace PlantHere.Persistence.Repositories
             basket.DeleteBasketItem(basketItems);
 
             return true;
+
         }
 
         public async Task<bool> UpdateBasketItem(UpdateBasketItemCommand updateBasketItemCammand)
@@ -57,7 +61,18 @@ namespace PlantHere.Persistence.Repositories
             basket.UpdateBasketItem(basketItem, updateBasketItemCammand.Count);
 
             return true;
+
         }
 
+        public async Task<Basket> BuyBasket(BuyBasketCommand buyBasketCommand)
+        {
+            var basket = await GetBasketByUserId(buyBasketCommand.UserId);
+
+            if (basket == null) throw new NotFoundException($"{typeof(Basket).Name}({buyBasketCommand.UserId}) Not Found");
+
+            _context.Basket.Remove(basket);
+            
+            return basket;
+        }
     }
 }

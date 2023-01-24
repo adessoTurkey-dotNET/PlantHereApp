@@ -1,22 +1,22 @@
-﻿using AuthServer.Application.CustomResponses;
-using AuthServer.Application.Interfaces.Services;
+﻿using AuthServer.Application.Interfaces.Repositories;
+using AuthServer.Application.Mapping;
 using MediatR;
 
 namespace AuthServer.Application.CQRS.User.Queries.GetUserByName
 {
-    public class GetUserByNameQueryHandler : IRequestHandler<GetUserByNameQuery, CustomResponse<GetUserByNameQueryResponse>>
+    public class GetUserByNameQueryHandler : IRequestHandler<GetUserByNameQuery, GetUserByNameQueryResponse>
     {
 
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
-        public GetUserByNameQueryHandler(IUserService userService)
+        public GetUserByNameQueryHandler(IUserRepository userRepository)
         {
-            _userService = userService;
+            _userRepository = userRepository;
         }
 
-        public async Task<CustomResponse<GetUserByNameQueryResponse>> Handle(GetUserByNameQuery request, CancellationToken cancellationToken)
+        public async Task<GetUserByNameQueryResponse> Handle(GetUserByNameQuery request, CancellationToken cancellationToken)
         {
-            return await _userService.GetUserByNameAsync(request);
+            return ObjectMapper.Mapper.Map<GetUserByNameQueryResponse>(await _userRepository.GetUserByNameAsync(request));
         }
     }
 }

@@ -1,20 +1,24 @@
-﻿namespace PlantHere.Application.CQRS.BasketItem.Commands.DeleteBasketItem
+﻿using PlantHere.Application.Interfaces;
+
+namespace PlantHere.Application.CQRS.BasketItem.Commands.DeleteBasketItem
 {
-    public class DeleteBasketItemCommandHandle : IRequestHandler<DeleteBasketItemCommand, CustomResult<DeleteBasketItemCommandResult>>, IRequestPreProcessor<DeleteBasketItemCommand>
+    public class DeleteBasketItemCommandHandle : IRequestHandler<DeleteBasketItemCommand, DeleteBasketItemCommandResult>, IRequestPreProcessor<DeleteBasketItemCommand>
     {
-        private readonly IBasketService _basketService;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IEnumerable<IValidator<DeleteBasketItemCommand>> _validators;
 
-        public DeleteBasketItemCommandHandle(IBasketService basketService, IEnumerable<IValidator<DeleteBasketItemCommand>> validators)
+        public DeleteBasketItemCommandHandle(IUnitOfWork unitOfWork, IEnumerable<IValidator<DeleteBasketItemCommand>> validators)
         {
-            _basketService = basketService;
+            _unitOfWork = unitOfWork;
             _validators = validators;
         }
 
-        public async Task<CustomResult<DeleteBasketItemCommandResult>> Handle(DeleteBasketItemCommand request, CancellationToken cancellationToken)
+        public async Task<DeleteBasketItemCommandResult> Handle(DeleteBasketItemCommand request, CancellationToken cancellationToken)
         {
-            return await _basketService.DeleteBasketItem(request);
+            await  _unitOfWork.BasketRepository.DeleteBasketItem(request);
+            await _unitOfWork.CommitAsync();
+            return new DeleteBasketItemCommandResult();
         }
 
         public async Task Process(DeleteBasketItemCommand request, CancellationToken cancellationToken)

@@ -24,7 +24,7 @@ class CategoryRepository extends Interface(ICategoryRepository)
         })
 
         if (!category) {
-            throw new CreateError.NotFound()
+            throw  new CreateError.NotFound()
         }
         
         return category

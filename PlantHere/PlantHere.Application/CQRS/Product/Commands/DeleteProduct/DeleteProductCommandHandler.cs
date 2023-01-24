@@ -1,20 +1,24 @@
-﻿namespace PlantHere.Application.CQRS.Product.Commands.DeleteProduct
+﻿using PlantHere.Application.Interfaces;
+
+namespace PlantHere.Application.CQRS.Product.Commands.DeleteProduct
 {
     public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, Unit>
     {
 
-        private readonly IProductService _productService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteProductCommandHandler(IProductService productService)
+        public DeleteProductCommandHandler(IUnitOfWork unitOfWork)
         {
-            _productService = productService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await _productService.GetByIdAsync(request.Id);
+            var product = await _unitOfWork.ProductRepository.GetByIdAsync(request.Id);
 
-            await _productService.RemoveAsync(product);
+            await _unitOfWork.ProductRepository.RemoveAsync(product);
+
+            await _unitOfWork.CommitAsync();
 
             return Unit.Value;
         }

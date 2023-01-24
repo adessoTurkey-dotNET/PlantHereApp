@@ -1,6 +1,6 @@
 ﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductsByPage
 {
-    public class GetProductsByPageQuery : IRequest<CustomResult<IEnumerable<GetProductsByPageQueryResult>>>
+    public class GetProductsByPageQuery : IRequest<IEnumerable<GetProductsByPageQueryResult>>
     {
         public int Page { get; set; }
 

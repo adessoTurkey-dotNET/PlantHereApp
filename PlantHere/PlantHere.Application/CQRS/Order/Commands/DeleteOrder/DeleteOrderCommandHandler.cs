@@ -1,20 +1,23 @@
-﻿namespace PlantHere.Application.CQRS.Order.Commands.DeleteOrder
+﻿using PlantHere.Application.Interfaces;
+
+namespace PlantHere.Application.CQRS.Order.Commands.DeleteOrder
 {
     public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, Unit>
     {
+        private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IOrderService _orderService;
-
-        public DeleteOrderCommandHandler(IOrderService orderService)
+        public DeleteOrderCommandHandler(IUnitOfWork unitOfWork)
         {
-            _orderService = orderService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderService.GetByIdAsync(request.Id);
+            var order = await _unitOfWork.OrderRepository.GetByIdAsync(request.Id);
 
-            await _orderService.RemoveAsync(order);
+            await _unitOfWork.OrderRepository.RemoveAsync(order);
+
+            await _unitOfWork.CommitAsync();
 
             return Unit.Value;
         }

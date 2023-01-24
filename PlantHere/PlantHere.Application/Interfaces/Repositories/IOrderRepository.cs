@@ -1,4 +1,5 @@
-﻿using PlantHere.Domain.Aggregate.OrderAggregate.Entities;
+﻿using PlantHere.Application.CQRS.Order.Commands.CreateOrder;
+using PlantHere.Domain.Aggregate.OrderAggregate.Entities;
 
 namespace PlantHere.Application.Interfaces.Repositories
 {
@@ -9,5 +10,7 @@ namespace PlantHere.Application.Interfaces.Repositories
         Task<Order> GetOrderByIdWithChild(int id);
 
         Task<ICollection<Order>> GetOrderByUserId(string userId);
+
+        Task<bool> CreateOrder(Order order);
     }
 }

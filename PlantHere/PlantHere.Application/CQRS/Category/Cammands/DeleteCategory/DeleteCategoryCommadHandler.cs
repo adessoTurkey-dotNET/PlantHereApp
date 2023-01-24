@@ -1,29 +1,28 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using PlantHere.Application.Interfaces;
 
 namespace PlantHere.Application.CQRS.Category.Cammands.DeleteCategory
 {
-    public class DeleteCategoryCommadHandler : IRequestHandler<DeleteCategoryCommand, CustomResult<DeleteCategoryCommandResult>>, IRequestPreProcessor<DeleteCategoryCommand>
+    public class DeleteCategoryCommadHandler : IRequestHandler<DeleteCategoryCommand, DeleteCategoryCommandResult>, IRequestPreProcessor<DeleteCategoryCommand>
     {
-        private readonly ICategoryService _categoryService;
-
-        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IEnumerable<IValidator<DeleteCategoryCommand>> _validators;
 
-        public DeleteCategoryCommadHandler(ICategoryService categoryService, IMapper mapper, IEnumerable<IValidator<DeleteCategoryCommand>> validators)
+        public DeleteCategoryCommadHandler(IUnitOfWork unitOfWork,IEnumerable<IValidator<DeleteCategoryCommand>> validators)
         {
-            _categoryService = categoryService;
-            _mapper = mapper;
+            _unitOfWork = unitOfWork;
             _validators = validators;
         }
 
-        public async Task<CustomResult<DeleteCategoryCommandResult>> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<DeleteCategoryCommandResult> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = await _categoryService.GetByIdAsync(request.Id);
+            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.Id);
 
-            await _categoryService.RemoveAsync(category);
+            await _unitOfWork.CategoryRepository.RemoveAsync(category);
 
-            return CustomResult<DeleteCategoryCommandResult>.Success(StatusCodes.Status204NoContent);
+            await _unitOfWork.CommitAsync();
+
+            return new DeleteCategoryCommandResult();
         }
 
         public async Task Process(DeleteCategoryCommand request, CancellationToken cancellationToken)
@@ -32,7 +31,7 @@ namespace PlantHere.Application.CQRS.Category.Cammands.DeleteCategory
 
             if (result != null) throw result;
 
-            await _categoryService.GetByIdAsync(request.Id);
+            await _unitOfWork.CategoryRepository.GetByIdAsync(request.Id);
         }
     }
 }

@@ -1,21 +1,21 @@
 ﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId
 {
-    public class GetProductByUniqueIdQueryHandler : IRequestHandler<GetProductByUniqueIdQuery, CustomResult<GetProductByUniqueIdQueryResult>>
+    public class GetProductByUniqueIdQueryHandler : IRequestHandler<GetProductByUniqueIdQuery, GetProductByUniqueIdQueryResult>
     {
 
-        private readonly IProductService _productService;
+        private readonly IProductRepository _productRepository;
 
         private readonly IMapper _mapper;
 
-        public GetProductByUniqueIdQueryHandler(IProductService productService, IMapper mapper)
+        public GetProductByUniqueIdQueryHandler(IProductRepository productRepository, IMapper mapper)
         {
             _mapper = mapper;
-            _productService = productService;
+            _productRepository = productRepository;
         }
 
-        public async Task<CustomResult<GetProductByUniqueIdQueryResult>> Handle(GetProductByUniqueIdQuery request, CancellationToken cancellationToken)
+        public async Task<GetProductByUniqueIdQueryResult> Handle(GetProductByUniqueIdQuery request, CancellationToken cancellationToken)
         {
-            return await _productService.GetProductByUniqueId(request);
+            return _mapper.Map<GetProductByUniqueIdQueryResult>(await _productRepository.GetProductByUniqueIdWithImages(request.UniqueId));
         }
     }
 }

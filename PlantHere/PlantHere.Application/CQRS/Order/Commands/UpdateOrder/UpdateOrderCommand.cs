@@ -3,7 +3,7 @@ using PlantHere.Application.CQRS.OrderItem.Queries.GetAllOrderItems;
 
 namespace PlantHere.Application.CQRS.Order.Commands.UpdateOrder
 {
-    public class UpdateOrderCommand : IRequest<Unit>
+    public class UpdateOrderCommand : IRequest<UpdateOrderCommandResult>
     {
         public int Id { get; set; }
 

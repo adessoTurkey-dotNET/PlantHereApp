@@ -1,24 +1,22 @@
 const { CustomResult } = require('../RequestResponseModels/Results/CustomResult');
 
 const CustomExceptionHandle = (err, req, res, next) => {
-    let statusCode = 400;
 
-    if(!err)
-    {
-        statusCode = 500;
-    }
-    else if(err.name.includes('Token'))
-    {
-        statusCode = 401
+    let status = err.status || 500
+    const error = { message: err.message }
+
+    if (err.name.includes('Token')) {
+        status = 401
     }
     else if (err.name == 'SequelizeDatabaseError' || err.name.includes('Validation')) {
-        statusCode = 400
+        status = 400
     }
-    else if (!err.statusCode) {
-        statusCode = 500
-    }
-   
-    res.status(statusCode).json(CustomResult.Fail([err.message]))
+
+    res.status(status).json(CustomResult.Fail([error]))
 }
 
-module.exports = CustomExceptionHandle
+const CatchErrors = action => (req, res, next) => {
+    action(req, res).catch(next)
+}
+
+module.exports = { CustomExceptionHandle, CatchErrors }

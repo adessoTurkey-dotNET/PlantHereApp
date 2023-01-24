@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlantHere.Application.Configurations;
-using PlantHere.Application.CQRS.Decorators;
 using PlantHere.Application.Decorators;
-using PlantHere.Application.Services;
 using PlantHere.Persistence.NewFolder;
-using PlantHere.Persistence.Services;
+using PlantHere.Persistence.Repositories;
 using System.Reflection;
 
 namespace PlantHere.Persistence
@@ -55,25 +53,18 @@ namespace PlantHere.Persistence
             });
 
             // Decorators
-
             serviceCollection.AddMemoryCache();
 
             // Decorator Scrutor
-
             serviceCollection.Scan(scan =>
             scan.FromCallingAssembly()
                 .AddClasses()
                 .AsMatchingInterface());
 
-            serviceCollection.AddScoped<IProductService, ProductService>().
-                Decorate<IProductService, ProductServiceCacheDecorator>().
-                Decorate<IProductService, ProductServiceLoggingDecorator>();
+            serviceCollection.AddScoped<IProductRepository, ProductRepository>().
+                Decorate<IProductRepository, ProductRepositoryCacheDecorator>().
+                Decorate<IProductRepository, ProductRepositoryLoggingDecorator>();
 
-            serviceCollection.AddScoped<ICategoryService, CategoryService>().
-              Decorate<ICategoryService, CategoryServiceCacheDecorator>();
-
-            serviceCollection.AddScoped<IBasketService, BasketService>().
-            Decorate<IBasketService, BasketServiceCacheDecorator>();
 
             // MediatR
             serviceCollection.AddMediatR(Assembly.GetExecutingAssembly());

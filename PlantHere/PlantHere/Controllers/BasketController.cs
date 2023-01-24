@@ -2,6 +2,7 @@
 using PlantHere.Application.CQRS.Basket.Commands.BuyBasket;
 using PlantHere.Application.CQRS.Basket.Commands.CreateBasket;
 using PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId;
+using System.Net;
 
 namespace PlantHere.WebAPI.Controllers
 {
@@ -11,50 +12,45 @@ namespace PlantHere.WebAPI.Controllers
     {
         private readonly IMediator _mediator;
 
-        private readonly ICapPublisher _capPublisher;
 
-        public BasketController(IMediator mediator, ICapPublisher capPublisher)
+        public BasketController(IMediator mediator)
         {
             _mediator = mediator;
-            _capPublisher = capPublisher;
         }
 
+        /// <summary>
+        /// Get Basket By User Id
+        /// </summary>
         [Authorize(Roles = "customer,superadmin")]
         [HttpGet]
-        public async Task<IActionResult> GetBasketByUserId()
+        public async Task<CustomResult<GetBasketByUserIdQueryResult>> GetBasketByUserId()
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var baskests = await _mediator.Send(new GetBasketByUserIdQuery(userId));
-            return CreateActionResult(baskests);
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            return CustomResult<GetBasketByUserIdQueryResult>.Success((int)HttpStatusCode.OK, await _mediator.Send(new GetBasketByUserIdQuery(userId)));
         }
 
-        // =============  Cap Subscribe ===================
-
+        /// <summary>
+        /// Create Basket
+        /// </summary>
         [CapSubscribe("buyBasket.transaction")]
         [CapSubscribe("createUser.transaction")]
-        [NonAction]
         [HttpPost]
-        public async Task<IActionResult> CreateBasket(string userId)
+        public async Task<CustomResult<CreateBasketCommandResult>> CreateBasket(string userId)
         {
-            var baskests = await _mediator.Send(new CreateBasketCommand(userId));
-
-            return CreateActionResult(baskests);
+            return CustomResult<CreateBasketCommandResult>.Success((int)HttpStatusCode.OK, await _mediator.Send(new CreateBasketCommand(userId)));
         }
 
+        /// <summary>
+        /// Buy Basket
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "customer,superadmin")]
         [HttpPost("[Action]")]
-        public async Task<IActionResult> BuyBasket(BuyBasketCommand command)
+        public async Task<CustomResult<BuyBasketCommandResult>> BuyBasket(BuyBasketCommand command)
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-
-            command.UserId = userId;
+            command.UserId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             await _mediator.Send(command);
-
-            // ======================= PUBLISHER ===============================
-
-            await _capPublisher.PublishAsync<string>("buyBasket.transaction", userId);
-
-            return CreateActionResult(CustomResult<BuyBasketCommandResult>.Success(200));
+            return CustomResult<BuyBasketCommandResult>.Success(200);
         }
     }
 }

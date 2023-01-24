@@ -1,6 +1,6 @@
 ﻿namespace PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId
 {
-    public class GetBasketByUserIdQuery : IRequest<CustomResult<GetBasketByUserIdQueryResult>>
+    public class GetBasketByUserIdQuery : IRequest<GetBasketByUserIdQueryResult>
     {
         public string UserId { get; set; }
 

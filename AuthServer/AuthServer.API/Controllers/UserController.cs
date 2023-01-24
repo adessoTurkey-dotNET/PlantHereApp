@@ -1,11 +1,11 @@
 ﻿using AuthServer.Application.CQRS.User.Commands.CreateUser;
 using AuthServer.Application.CQRS.User.Commands.CreateUserRoles;
 using AuthServer.Application.CQRS.User.Queries.GetUserByName;
-using DotNetCore.CAP;
+using AuthServer.Application.CustomResponses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Net;
 
 namespace AuthServer.API.Controllers
 {
@@ -15,41 +15,42 @@ namespace AuthServer.API.Controllers
     {
         private readonly IMediator _mediator;
 
-        private readonly ICapPublisher _capPublisher;
-
-        public UserController(IMediator mediator, ICapPublisher capPublisher)
+        public UserController(IMediator mediator)
         {
             _mediator = mediator;
-            _capPublisher = capPublisher;
         }
-
+        
+        /// <summary>
+        /// Create User
+        /// </summary>
+        /// <param name="createUserCommand"></param>
         [HttpPost]
-        public async Task<IActionResult> CreateUser(CreateUserCommand createUserCommand)
+        public async Task<CustomResponse<CreateUserCommandResponse>> CreateUser(CreateUserCommand createUserCommand)
         {
             var result = await _mediator.Send(createUserCommand);
-
-            // ======================= PUBLISHER ===============================
-
-            if (result.Data != null)
-            {
-                await _capPublisher.PublishAsync<string>("createUser.transaction", result.Data.Id);
-            }
-
-            return ActionResultInstance(result);
+            return CustomResponse<CreateUserCommandResponse>.Success(result, (int)HttpStatusCode.Created);
         }
 
+        /// <summary>
+        /// Get User
+        /// </summary>
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetUser()
+        public async Task<CustomResponse<GetUserByNameQueryResponse>> GetUser()
         {
-            return ActionResultInstance(await _mediator.Send(new GetUserByNameQuery(HttpContext.User.Identity.Name)));
+            var user = await _mediator.Send(new GetUserByNameQuery(HttpContext.User.Identity.Name));
+            return CustomResponse<GetUserByNameQueryResponse>.Success(user, (int)HttpStatusCode.OK);
         }
 
+        /// <summary>
+        /// Create User Roles
+        /// </summary>
+        /// <param name="createUserRolesCommand"></param>
         [Authorize(Roles = "superadmin")]
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateUserRoles(CreateUserRolesCommand createUserRolesCommand)
+        public async Task<CustomResponse<CreateUserRolesCommandResponse>> CreateUserRoles(CreateUserRolesCommand createUserRolesCommand)
         {
-            return ActionResultInstance(await _mediator.Send(createUserRolesCommand));
+            return CustomResponse<CreateUserRolesCommandResponse>.Success(await _mediator.Send(createUserRolesCommand), (int)HttpStatusCode.Created);
         }
     }
 }

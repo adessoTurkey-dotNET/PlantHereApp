@@ -1,6 +1,6 @@
 ﻿namespace UdemyAuthServer.Core.UnitOfWork
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         Task CommmitAsync();
 

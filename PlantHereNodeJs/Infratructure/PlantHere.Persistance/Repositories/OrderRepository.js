@@ -12,7 +12,7 @@ class OrderRepository extends Interface(IOrderRepository)
 {
     async getOrdersByUserId(req) {
 
-        const order = await db.Orders.findOne({
+        const order = await db.Orders.findAll({
             where: { BuyerId: req.UserId },
             include: { model: db.OrderItems, attributes: ['ProductId', 'ProductName', 'Price', 'DiscountedPrice', 'Count'] },
             attributes: ["Id", "CreatedDate", "Address_Province","Address_District","Address_Street","Address_ZipCode","Address_Line","BuyerId"]

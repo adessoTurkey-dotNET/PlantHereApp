@@ -3,8 +3,6 @@
 const Interface = require("es6-interface");
 const {IOrderService} = require('../../../Core/PlantHere.Aplication/Interfaces/Services/IOrderService')
 
-// Results
-const {CustomResult} = require("../../../Core/PlantHere.Aplication/RequestResponseModels/Results/CustomResult");
 
 // RequestResponseModels
 
@@ -22,7 +20,7 @@ class OrderService extends Interface(IOrderService)
 
     async getOrdersByUserId(req) {
         const result = await this.repository.getOrdersByUserId(new GetOrdersByUserIdQuery(req.userId))
-        return CustomResult.Success(Mapper(result))
+        return Mapper(result)
     }
 }
 

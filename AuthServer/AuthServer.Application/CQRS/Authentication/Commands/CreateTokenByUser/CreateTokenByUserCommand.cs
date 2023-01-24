@@ -1,9 +1,8 @@
-﻿using AuthServer.Application.CustomResponses;
-using MediatR;
+﻿using MediatR;
 
 namespace AuthServer.Application.CQRS.Authentication.Queries.CreateTokenByUser
 {
-    public class CreateTokenByUserCommand : IRequest<CustomResponse<CreateTokenByUserCommandResponse>>
+    public class CreateTokenByUserCommand : IRequest<CreateTokenByUserCommandResponse>
     {
         public string Email { get; set; }
 

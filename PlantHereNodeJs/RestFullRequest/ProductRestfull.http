@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{BaseUrl}}Product/a34e63cf-38e1-4a01-b908-0d56a9d0c4ee_2022122809175673
+GET {{BaseUrl}}Product/78ac2474-62b9-4d60-9050-a660c2f74e8a_2023010510300773
 
 ###
 POST  {{BaseUrl}}Product

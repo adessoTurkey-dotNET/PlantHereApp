@@ -1,9 +1,8 @@
-﻿using AuthServer.Application.CustomResponses;
-using MediatR;
+﻿using MediatR;
 
 namespace AuthServer.Application.CQRS.Authentication.Commands.RevokeRefreshToken
 {
-    public class RevokeRefreshTokenCommand : IRequest<CustomResponse<RevokeRefreshTokenCommandResponse>>
+    public class RevokeRefreshTokenCommand : IRequest<RevokeRefreshTokenCommandResponse>
     {
         public string RefleshToken { get; set; }
 
