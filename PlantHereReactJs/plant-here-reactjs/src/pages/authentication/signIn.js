@@ -1,17 +1,5 @@
 // React
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-
-// Redux
-import { useDispatch, useSelector } from 'react-redux';
-
-// Redux Action
-import { SetAuthStore, SetUserStore } from '../../redux/actions/userActions'
-import { FetchBasket } from '../../redux/actions/basketActions';
-
-// Axios Instance
-import { useAxiosPrivateAuthServerWithNotification } from '../../hooks/useAxiosPrivateAuthServer';
-import { GetSelectedAxios } from '../../hooks/useAxiosPrivatePlantHere';
+import React from 'react';
 
 //Metarial UI
 import Avatar from '@mui/material/Avatar';
@@ -28,32 +16,18 @@ import Typography from '@mui/material/Typography';
 //Copyright
 import Copyright from './copyright';
 
-// Notification
-import Notification from '../../services/notificationService'
-
-// Local Storage Service
-import { setToken } from '../../services/localStorageService';
 
 // Hooks
 
-import useForm from './customHooks/useSignIn';
+import useSignIn from './customHooks/useSignIn';
 
 export default function SignInSide() {
 
-    const notificationRef = useRef();
-
-    const { handleInputChange, handleSubmit } = useForm({ email:"",password :""}
-
-        password: "",
-    }
-        ,
-        notificationRef
-    );
-
+    const { handleInputChange, handleSubmit,NotificationWithRef} = useSignIn({ email: "", password: "" })
 
     return (
         <Grid container component="main" sx={{ mt: 10, height: '100vh' }}>
-            <Notification ref={notificationRef}></Notification>
+            <NotificationWithRef></NotificationWithRef>
             <CssBaseline />
             <Grid
                 item

@@ -1,6 +1,9 @@
-﻿namespace PlantHere.Application.CQRS.Order.Commands.DeleteOrder
+﻿using PlantHere.Application.CQRS.Base;
+using PlantHere.Application.Interfaces.Commands;
+
+namespace PlantHere.Application.CQRS.Order.Commands.DeleteOrder
 {
-    public class DeleteOrderCommand : IRequest<Unit>
+    public class DeleteOrderCommand : CommandBase<Unit>, ICommandRemoveCache
     {
         public DeleteOrderCommand(int id)
         {

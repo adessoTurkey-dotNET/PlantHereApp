@@ -1,22 +1,25 @@
 ﻿using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Commands;
+using ModelCategory = PlantHere.Domain.Aggregate.CategoryAggregate.Category;
+using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
+
 
 namespace PlantHere.Application.CQRS.Product.Commands.UpdateProduct
 {
-    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Unit>, IRequestPreProcessor<UpdateProductCommand>
+    public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand, Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IEnumerable<IValidator<UpdateProductCommand>> _validators;
-
-        public UpdateProductCommandHandler(IUnitOfWork unitOfWork, IEnumerable<IValidator<UpdateProductCommand>> validators)
+        public UpdateProductCommandHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _validators = validators;
         }
 
         public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await _unitOfWork.ProductRepository.GetByIdAsync(request.Id);
+            await _unitOfWork.GetGenericRepository<ModelCategory>().GetByIdAsync(request.CategoryId);
+
+            var product = await _unitOfWork.GetGenericRepository<ModelProduct>().GetByIdAsync(request.Id);
 
             product.Name = request.Name;
             product.Stock = request.Stock;
@@ -24,21 +27,9 @@ namespace PlantHere.Application.CQRS.Product.Commands.UpdateProduct
             product.UpdatedDate = DateTime.Now;
             product.Description = request.Description;
 
-            await _unitOfWork.ProductRepository.UpdateAsync(product);
-            await _unitOfWork.CommitAsync();
+            await _unitOfWork.GetGenericRepository<ModelProduct>().UpdateAsync(product);
 
             return Unit.Value;
         }
-
-        public async Task Process(UpdateProductCommand request, CancellationToken cancellationToken)
-        {
-            var result = await new CustomValidationResult<UpdateProductCommand>(_validators).IsValid(request, cancellationToken);
-
-            if (result != null) throw result;
-
-            await _unitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
-
-        }
-
     }
 }

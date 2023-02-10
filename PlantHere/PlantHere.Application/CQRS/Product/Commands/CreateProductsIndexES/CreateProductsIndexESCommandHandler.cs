@@ -1,6 +1,8 @@
 ﻿using Nest;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsES;
 using PlantHere.Application.Interfaces;
+using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
+
 
 namespace PlantHere.Application.CQRS.Product.Commands.CreateProductsIndexES
 {
@@ -13,6 +15,7 @@ namespace PlantHere.Application.CQRS.Product.Commands.CreateProductsIndexES
 
         private readonly IMapper _mapper;
 
+
         public CreateProductsIndexESCommandHandler(IUnitOfWork unitOfWork, IElasticClient elasticClient, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -24,7 +27,7 @@ namespace PlantHere.Application.CQRS.Product.Commands.CreateProductsIndexES
         {
             await _elasticClient.Indices.DeleteAsync("products");
 
-            var products = _mapper.Map<ICollection<GetProductsESQueryResult>>(_unitOfWork.ProductRepository.GetAll());
+            var products = _mapper.Map<ICollection<GetProductsESQueryResult>>(_unitOfWork.GetGenericRepository<ModelProduct>().GetQueryable());
 
             _elasticClient.Bulk(b => b
              .Index("products")

@@ -1,37 +1,27 @@
 ﻿using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Commands;
+using ModelCategory = PlantHere.Domain.Aggregate.CategoryAggregate.Category;
 
 namespace PlantHere.Application.CQRS.Category.Cammands.DeleteCategory
 {
-    public class DeleteCategoryCommadHandler : IRequestHandler<DeleteCategoryCommand, DeleteCategoryCommandResult>, IRequestPreProcessor<DeleteCategoryCommand>
+    public class DeleteCategoryCommadHandler : ICommandHandler<DeleteCategoryCommand, DeleteCategoryCommandResult>, ICommandRemoveCache
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IEnumerable<IValidator<DeleteCategoryCommand>> _validators;
-
-        public DeleteCategoryCommadHandler(IUnitOfWork unitOfWork,IEnumerable<IValidator<DeleteCategoryCommand>> validators)
+        public DeleteCategoryCommadHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _validators = validators;
         }
 
         public async Task<DeleteCategoryCommandResult> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.Id);
+            await _unitOfWork.GetGenericRepository<ModelCategory>().GetByIdAsync(request.Id);
 
-            await _unitOfWork.CategoryRepository.RemoveAsync(category);
+            var category = await _unitOfWork.GetGenericRepository<ModelCategory>().GetByIdAsync(request.Id);
 
-            await _unitOfWork.CommitAsync();
+            await _unitOfWork.GetGenericRepository<ModelCategory>().RemoveAsync(category);
 
             return new DeleteCategoryCommandResult();
-        }
-
-        public async Task Process(DeleteCategoryCommand request, CancellationToken cancellationToken)
-        {
-            var result = await new CustomValidationResult<DeleteCategoryCommand>(_validators).IsValid(request, cancellationToken);
-
-            if (result != null) throw result;
-
-            await _unitOfWork.CategoryRepository.GetByIdAsync(request.Id);
         }
     }
 }

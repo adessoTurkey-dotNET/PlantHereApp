@@ -1,6 +1,9 @@
-﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductsCount
+﻿
+using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.Product.Queries.GetProductsCount
 {
-    public class GetProductsCountQuery : IRequest<GetProductsCountQueryResult>
+    public class GetProductsCountQuery : QueryBase<GetProductsCountQueryResult>
     {
 
     }

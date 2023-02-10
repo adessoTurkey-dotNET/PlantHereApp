@@ -1,4 +1,4 @@
-﻿using PlantHere.Application.CQRS.BasketItem.Queries.GetAllBasketItems;
+﻿using PlantHere.Application.CQRS.BasketItem.Queries.GetBasketItems;
 
 
 namespace PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId
@@ -9,7 +9,7 @@ namespace PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId
 
         public DateTime CreatedDate { get; set; }
 
-        public List<GetAllBasketItemsQueryResult> BasketItems { get; set; }
+        public List<GetBasketItemsQueryResult> BasketItems { get; set; }
 
         public decimal TotalPrice { get; set; }
 

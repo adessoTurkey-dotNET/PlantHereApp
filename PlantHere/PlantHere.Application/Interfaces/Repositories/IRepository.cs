@@ -6,7 +6,7 @@ namespace PlantHere.Application.Interfaces.Repositories
     {
         Task<T> GetByIdAsync(int id);
 
-        IQueryable<T> GetAll();
+        IQueryable<T> GetQueryable();
 
         Task<List<T>> GetAsync();
 

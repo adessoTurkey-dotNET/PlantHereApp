@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using PlantHere.Domain.Aggregate.OrderAggregate.DomainEvents;
+using ModelBasket = PlantHere.Domain.Aggregate.BasketAggregate.Entities.Basket;
 
 namespace PlantHere.Persistence.DomainEventHandlers
 {
@@ -8,19 +10,19 @@ namespace PlantHere.Persistence.DomainEventHandlers
 
         private readonly IEmailRepository _emailService;
 
-        private readonly IBasketRepository _basketRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public OrderStartedDomainHandler(IEmailRepository emailService, IBasketRepository basketRepository)
+        public OrderStartedDomainHandler(IEmailRepository emailService, IUnitOfWork unitOfWork)
         {
             _emailService = emailService;
-            _basketRepository = basketRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(OrderStartedDomainEvent notification, CancellationToken cancellationToken)
         {
             await _emailService.Send("test.gmail.com", $"{notification.Order.GetTotalPrice}");
-            var basket = await _basketRepository.GetBasketByUserId(notification.UserId);
-            await _basketRepository.RemoveAsync(basket);
+            var basket = await _unitOfWork.GetGenericRepository<ModelBasket>().Where(x => x.UserId == notification.UserId).FirstOrDefaultAsync();
+            await _unitOfWork.GetGenericRepository<ModelBasket>().RemoveAsync(basket);
         }
     }
 }

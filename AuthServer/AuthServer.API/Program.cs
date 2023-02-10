@@ -5,8 +5,14 @@ using AuthServer.Domain.Entities;
 using AuthServer.Persistence;
 using AuthServer.Persistence.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.Identity;
 using System.Reflection;
+using Microsoft.AspNetCore.DataProtection;
+using Azure.Identity;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,20 +72,29 @@ builder.Services.AddAuthentication(options =>
 
 // CORS POLICY
 
-var CorsPolicy = "CorsPolicy";
+var settingsOptions = builder.Configuration.GetSection("Settings").Get<SettingsOption>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: CorsPolicy,
+    options.AddPolicy(name: settingsOptions.CorsPolicyName,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+                          policy.WithOrigins(settingsOptions.AllowedOrigins).AllowAnyHeader().AllowAnyMethod();
                       });
 });
+
 
 // App 
 
 var app = builder.Build();
+
+// Migration
+
+using (var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope())
+{
+    var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 
@@ -91,12 +106,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseCustomException();
 
-
 //app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseCors(CorsPolicy);
+app.UseCors(settingsOptions.CorsPolicyName);
 
 app.UseAuthentication();
 

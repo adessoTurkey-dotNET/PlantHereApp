@@ -1,31 +1,32 @@
-﻿using PlantHere.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Commands;
+using ModelBasket = PlantHere.Domain.Aggregate.BasketAggregate.Entities.Basket;
+using ModelBasketItem = PlantHere.Domain.Aggregate.BasketAggregate.Entities.BasketItem;
 
 namespace PlantHere.Application.CQRS.BasketItem.Commands.DeleteBasketItem
 {
-    public class DeleteBasketItemCommandHandle : IRequestHandler<DeleteBasketItemCommand, DeleteBasketItemCommandResult>, IRequestPreProcessor<DeleteBasketItemCommand>
+    public class DeleteBasketItemCommandHandle : ICommandHandler<DeleteBasketItemCommand, DeleteBasketItemCommandResult>, ICommandRemoveCache
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IEnumerable<IValidator<DeleteBasketItemCommand>> _validators;
-
-        public DeleteBasketItemCommandHandle(IUnitOfWork unitOfWork, IEnumerable<IValidator<DeleteBasketItemCommand>> validators)
+        public DeleteBasketItemCommandHandle(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _validators = validators;
         }
 
         public async Task<DeleteBasketItemCommandResult> Handle(DeleteBasketItemCommand request, CancellationToken cancellationToken)
         {
-            await  _unitOfWork.BasketRepository.DeleteBasketItem(request);
-            await _unitOfWork.CommitAsync();
+            var basket = await _unitOfWork.GetGenericRepository<ModelBasket>().Where(x => x.UserId == request.UserId).Include(x => x.BasketItems).FirstOrDefaultAsync();
+            if (basket == null) throw new NotFoundException($"{typeof(ModelBasket).Name}({request.UserId}) Not Found");
+
+            var basketItems = basket.BasketItems.Where(x => x.ProductId == request.ProductId).ToList();
+            if (basketItems == null) throw new NotFoundException($"{typeof(ModelBasketItem).Name}({request.ProductId}) Not Found");
+
+            basket.DeleteBasketItem(basketItems);
+
             return new DeleteBasketItemCommandResult();
         }
 
-        public async Task Process(DeleteBasketItemCommand request, CancellationToken cancellationToken)
-        {
-            var result = await new CustomValidationResult<DeleteBasketItemCommand>(_validators).IsValid(request, cancellationToken);
-
-            if (result != null) throw result;
-        }
     }
 }

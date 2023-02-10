@@ -12,7 +12,7 @@ const PaymentForm = (props) => {
 
   useEffect(() => {
     props.setvaluePaymentChild(payment);
-  }, [payment]);
+  }, [payment,props]);
 
   return (
     <React.Fragment>

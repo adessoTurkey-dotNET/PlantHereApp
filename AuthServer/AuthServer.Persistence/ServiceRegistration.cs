@@ -1,4 +1,5 @@
-﻿using AuthServer.Application.Interfaces.Repositories;
+﻿using AuthServer.Application.Configurations;
+using AuthServer.Application.Interfaces.Repositories;
 using AuthServer.Application.Interfaces.Services;
 using AuthServer.Persistence.Repositories;
 using AuthServer.Persistence.Services;
@@ -26,7 +27,9 @@ namespace AuthServer.Persistence
                 });
             });
 
-            // CAP
+            //CAP
+
+            var rabbitMQConfiguration = configuration.GetSection("RabbitMQConfiguration").Get<RabbitMQConfiguration>();
 
             serviceCollection.AddCap(options =>
             {
@@ -36,22 +39,21 @@ namespace AuthServer.Persistence
                 {
                     options.ConnectionFactoryOptions = options =>
                     {
+                        
                         options.Ssl.Enabled = false;
-                        options.HostName = "localhost";
-                        options.UserName = "guest";
-                        options.Password = "guest";
-                        options.Port = 5672;
+                        options.HostName = rabbitMQConfiguration.HostName;
+                        options.UserName = rabbitMQConfiguration.UserName;
+                        options.Password = rabbitMQConfiguration.Password;
+                        options.Port = rabbitMQConfiguration.Port;
                     };
+
                 });
                 options.UseDashboard(o => o.PathMatch = "/cap");
             });
 
-            //
-            // s
+            // Service
 
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
-            serviceCollection.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
-            serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<ITokenService, TokenService>();
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 

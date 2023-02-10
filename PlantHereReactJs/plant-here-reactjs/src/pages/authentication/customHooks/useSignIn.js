@@ -1,6 +1,6 @@
 //React
-import { useState} from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 // Redux
 import { useDispatch } from 'react-redux';
@@ -16,11 +16,17 @@ import { useAxiosPrivateDotNet } from '../../../hooks/useAxiosPrivatePlantHere';
 // Local Storage Service
 import { setToken } from '../../../services/localStorageService';
 
-const useForm = (initialState = {}, notificationRef) => {
-    
+// Notification
+import Notification from '../../../services/notificationService'
+
+const useForm = (initialState = {}) => {
+
+    //Notification
+    const notificationRef = useNavigation()
+
     // State
     const [user, setUser] = useState(initialState);
-    
+
     //Axios Instance
     const axiosPrivateDotNet = useAxiosPrivateDotNet()
     const axiosPrivateAuthServer = useAxiosPrivateAuthServerWithNotification(notificationRef)
@@ -37,7 +43,7 @@ const useForm = (initialState = {}, notificationRef) => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
-        
+
         // Request 
         const data = await axiosPrivateAuthServer.post('/Auth/CreateTokenByUser', user)
 
@@ -56,10 +62,13 @@ const useForm = (initialState = {}, notificationRef) => {
             dispatch(FetchBasket(axiosPrivateDotNet))
             navigate("/");
         }, 1000);
-
     }
-    
-    return { handleInputChange, handleSubmit };
+
+    const NotificationWithRef = () => {
+        return <Notification ref={notificationRef}></Notification>
+    }
+
+    return { handleInputChange, handleSubmit, NotificationWithRef };
 }
 
 

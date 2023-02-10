@@ -6,13 +6,13 @@ WORKDIR /app
 
 # Copy Projects
 
-COPY ./PlantHere.Test/*.csproj ./PlantHere.Test/
-COPY ./PlantHere.Application/*.csproj ./PlantHere.Application/
-COPY ./PlantHere.Domain/*.csproj ./PlantHere.Domain/
-COPY ./PlantHere/*.csproj ./PlantHere/
-COPY ./PlantHere.Infrastructure/*.csproj ./PlantHere.Infrastructure/
-COPY ./PlantHere.Persistence/*.csproj ./PlantHere.Persistence/
-COPY *.sln .
+COPY PlantHere/PlantHere.Test/*.csproj PlantHere.Test/
+COPY PlantHere/PlantHere.Application/*.csproj PlantHere.Application/
+COPY PlantHere/PlantHere.Domain/*.csproj PlantHere.Domain/
+COPY PlantHere/PlantHere/*.csproj PlantHere/
+COPY PlantHere/PlantHere.Infrastructure/*.csproj PlantHere.Infrastructure/
+COPY PlantHere/PlantHere.Persistence/*.csproj PlantHere.Persistence/
+COPY PlantHere/*.sln .
 
 # .NET Core Restore
 RUN dotnet restore
@@ -21,15 +21,22 @@ RUN dotnet restore
 COPY . .
 
 # .NET Core Test
-RUN dotnet test ./PlantHere.Test/*.csproj
+RUN dotnet test PlantHere/PlantHere.Test/*.csproj
 
 # .NET Core Build and Publish
-RUN dotnet publish ./PlantHere/PlantHere.WebAPI.csproj -o /publish/
+RUN dotnet publish ./PlantHere/PlantHere/PlantHere.WebAPI.csproj -o /publish
 
 # ASP.NET Core Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+
+# Sets the working directory
 WORKDIR /app
+
+# Expose post
+EXPOSE 80
+
+# Copy publish
 COPY --from=build /publish .
 
-ENV ASPNETCORE_URLS=http://*:5001
+# Run Dll
 ENTRYPOINT ["dotnet", "PlantHere.WebAPI.dll"]

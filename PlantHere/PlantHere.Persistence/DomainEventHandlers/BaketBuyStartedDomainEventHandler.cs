@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using PlantHere.Application.CQRS.Order.Commands.CreateOrder;
 using PlantHere.Domain.Aggregate.BasketAggregate.DomainEvents;
 using ModelOrder = PlantHere.Domain.Aggregate.OrderAggregate.Entities.Order;
 using ModelOrderItem = PlantHere.Domain.Aggregate.OrderAggregate.Entities.OrderItem;
@@ -12,13 +11,13 @@ namespace PlantHere.Persistence.DomainEventHandlers
 
         private readonly IPaymentRepository _paymentService;
 
-        private readonly IOrderRepository _orderRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BaketBuyStartedDomainEventHandler(IMapper mapper, IPaymentRepository paymentService, IOrderRepository orderRepository)
+        public BaketBuyStartedDomainEventHandler(IMapper mapper, IUnitOfWork unitOfWork, IPaymentRepository paymentService)
         {
             _mapper = mapper;
             _paymentService = paymentService;
-            _orderRepository = orderRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(BaketBuyStartedDomainEvent notification, CancellationToken cancellationToken)
@@ -28,7 +27,7 @@ namespace PlantHere.Persistence.DomainEventHandlers
                 if (notification.Basket.BasketItems.Count == 0) throw new NotFoundException($"Not Found Basket Items");
                 var orderItems = _mapper.Map<List<ModelOrderItem>>(notification.Basket.BasketItems);
                 var order = new ModelOrder(notification.Basket.UserId, notification.Address, orderItems);
-                await _orderRepository.CreateOrder(order);
+                await _unitOfWork.GetGenericRepository<ModelOrder>().AddAsync(order);
             }
 
         }

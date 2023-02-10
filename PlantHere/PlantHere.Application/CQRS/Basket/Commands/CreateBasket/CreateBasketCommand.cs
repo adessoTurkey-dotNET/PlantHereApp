@@ -1,6 +1,8 @@
-﻿namespace PlantHere.Application.CQRS.Basket.Commands.CreateBasket
+﻿using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.Basket.Commands.CreateBasket
 {
-    public class CreateBasketCommand : IRequest<CreateBasketCommandResult>
+    public class CreateBasketCommand : CommandBase<CreateBasketCommandResult>
     {
         public string UserId { get; set; }
 

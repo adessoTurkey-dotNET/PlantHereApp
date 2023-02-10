@@ -1,39 +1,31 @@
 ﻿using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Commands;
+using ModelCategory = PlantHere.Domain.Aggregate.CategoryAggregate.Category;
 
 namespace PlantHere.Application.CQRS.Category.Cammands.UpdateCategory
 {
-    public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, UpdateCategoryCommandResult>, IRequestPreProcessor<UpdateCategoryCommand>
+    public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryCommand, UpdateCategoryCommandResult>, ICommandRemoveCache
     {
 
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IEnumerable<IValidator<UpdateCategoryCommand>> _validators;
-
-        public UpdateCategoryCommandHandler(IUnitOfWork unitOfWork, IEnumerable<IValidator<UpdateCategoryCommand>> validators)
+        public UpdateCategoryCommandHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _validators = validators;
         }
 
         public async Task<UpdateCategoryCommandResult> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.Id);
+            await _unitOfWork.GetGenericRepository<ModelCategory>().GetByIdAsync(request.Id);
+
+            var category = await _unitOfWork.GetGenericRepository<ModelCategory>().GetByIdAsync(request.Id);
 
             category.NameEn = request.NameEn;
             category.NameTr = request.NameTr;
 
-            await _unitOfWork.CategoryRepository.UpdateAsync(category);
-            await _unitOfWork.CommitAsync();
+            await _unitOfWork.GetGenericRepository<ModelCategory>().UpdateAsync(category);
+
             return new UpdateCategoryCommandResult();
-        }
-
-        public async Task Process(UpdateCategoryCommand request, CancellationToken cancellationToken)
-        {
-            var result = await new CustomValidationResult<UpdateCategoryCommand>(_validators).IsValid(request, cancellationToken);
-
-            if (result != null) throw result;
-
-            await _unitOfWork.CategoryRepository.GetByIdAsync(request.Id);
         }
     }
 }

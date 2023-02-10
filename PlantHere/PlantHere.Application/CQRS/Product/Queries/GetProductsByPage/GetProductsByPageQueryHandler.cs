@@ -1,47 +1,33 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using System.Text.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Queries;
+using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
 
 namespace PlantHere.Application.CQRS.Product.Queries.GetProductsByPage
 {
-    public class GetProductsByPageQueryHandler : IRequestHandler<GetProductsByPageQuery, IEnumerable<GetProductsByPageQueryResult>>, IRequestPreProcessor<GetProductsByPageQuery>
+    public class GetProductsByPageQueryHandler : IQueryHandler<GetProductsByPageQuery, IEnumerable<GetProductsByPageQueryResult>>
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IDistributedCache _distributedCache;
 
         private readonly IMapper _mapper;
 
-        public GetProductsByPageQueryHandler(IProductRepository productService, IDistributedCache distributedCache, IMapper mapper)
+        public GetProductsByPageQueryHandler(IUnitOfWork unitOfWork, IDistributedCache distributedCache, IMapper mapper)
         {
-            _productRepository = productService;
+            _unitOfWork = unitOfWork;
             _distributedCache = distributedCache;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<GetProductsByPageQueryResult>> Handle(GetProductsByPageQuery request, CancellationToken cancellationToken)
         {
-            var value = await _distributedCache.GetAsync($"{request.Page}{request.PageSize}");
-            var jsonToDeserialize = System.Text.Encoding.UTF8.GetString(value);
-            var cachedResult = JsonSerializer.Deserialize<IEnumerable<GetProductsByPageQueryResult>>(jsonToDeserialize);
-            return cachedResult;
+            var products = _mapper.Map<ICollection<GetProductsByPageQueryResult>>(await _unitOfWork.GetGenericRepository<ModelProduct>().GetQueryable().Include(x => x.Images).OrderBy(x => x.Id).Skip((request.Page - 1) * request.PageSize).Take(request.PageSize).ToListAsync());
+
+            return products;
         }
 
-        public async Task Process(GetProductsByPageQuery request, CancellationToken cancellationToken)
-        {
-            //_distributedCache.Remove($"{request.Page}{request.PageSize}");
-            var value = await _distributedCache.GetAsync($"{request.Page}{request.PageSize}");
-
-            if (value == null)
-            {
-                // Serialize the response
-
-                var products = _mapper.Map<ICollection<GetProductsByPageQueryResult>>(await _productRepository.GetProductsByPage(request.Page, request.PageSize));
-                byte[] objectToCache = JsonSerializer.SerializeToUtf8Bytes(products);
-
-                // Cache it
-                await _distributedCache.SetAsync($"{request.Page}{request.PageSize}", objectToCache);
-            }
-        }
     }
 }
 

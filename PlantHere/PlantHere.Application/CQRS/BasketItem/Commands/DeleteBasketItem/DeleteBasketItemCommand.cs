@@ -1,6 +1,8 @@
-﻿namespace PlantHere.Application.CQRS.BasketItem.Commands.DeleteBasketItem
+﻿using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.BasketItem.Commands.DeleteBasketItem
 {
-    public class DeleteBasketItemCommand : IRequest<DeleteBasketItemCommandResult>
+    public class DeleteBasketItemCommand : CommandBase<DeleteBasketItemCommandResult>
     {
         public string? UserId { get; set; }
 

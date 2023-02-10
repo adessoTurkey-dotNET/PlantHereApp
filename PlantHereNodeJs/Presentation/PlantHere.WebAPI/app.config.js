@@ -4,10 +4,10 @@ const config = {
     },
     connection: {
         client:"mssql",
-        server:"localhost",
+        server:"planthere_db",
         user:"sa",
-        password:"123",
-        database:"PlantHereDb"
+        password:"password123.",
+        database:"planthere"
     },
     apiUrl:{
       baseUrl:"http://localhost:4000/",

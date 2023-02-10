@@ -2,7 +2,7 @@
 using PlantHere.Application.CQRS.Category.Cammands.CreateCategory;
 using PlantHere.Application.CQRS.Category.Cammands.DeleteCategory;
 using PlantHere.Application.CQRS.Category.Cammands.UpdateCategory;
-using PlantHere.Application.CQRS.Category.Queries.GetAllCategories;
+using PlantHere.Application.CQRS.Category.Queries.GetCategories;
 using System.Net;
 
 namespace PlantHere.WebAPI.Controllers
@@ -24,10 +24,10 @@ namespace PlantHere.WebAPI.Controllers
         /// </summary>
         [Authorize]
         [HttpGet]
-        public async Task<CustomResult<IEnumerable<GetAllCategoriesQueryResult>>> GetAll()
+        public async Task<CustomResult<IEnumerable<GetCategoriesQueryResult>>> GetAll()
         {
-            var categories = await _mediator.Send(new GetAllCategoriesQuery());
-            return CustomResult<IEnumerable<GetAllCategoriesQueryResult>>.Success((int)HttpStatusCode.OK, categories);
+            var categories = await _mediator.Send(new GetCategoriesQuery());
+            return CustomResult<IEnumerable<GetCategoriesQueryResult>>.Success((int)HttpStatusCode.OK, categories);
         }
 
         /// <summary>

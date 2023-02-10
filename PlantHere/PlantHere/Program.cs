@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using PlantHere.Application;
 using PlantHere.Application.Configurations;
 using PlantHere.Application.Middlewares;
@@ -10,7 +11,6 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,19 +26,18 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // MediatR
-
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 //Service Registration 
 
-builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices(builder.Configuration);
 
 builder.Services.AddPersistenceServices(builder.Configuration);
 
 builder.Services.AddInfrastructureServices();
 
-// Token
 
+// Token
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -47,6 +46,7 @@ builder.Services.AddAuthentication(options =>
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opts =>
 {
     var tokenOptions = builder.Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
+
     opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
     {
         ValidIssuer = tokenOptions.Issuer,
@@ -63,24 +63,30 @@ builder.Services.AddAuthentication(options =>
 
 // CORS POLICY
 
-var CorsPolicy = "CorsPolicy";
+var settingsOptions = builder.Configuration.GetSection("Settings").Get<SettingsOption>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: CorsPolicy,
+    options.AddPolicy(name: settingsOptions.CorsPolicyName,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+                          policy.WithOrigins(settingsOptions.AllowedOrigins).AllowAnyHeader().AllowAnyMethod();
                       });
 });
 
 
 // App 
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Migration
 
+using (var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope())
+{
+    var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+    context.Database.Migrate();
+}
+
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -92,7 +98,7 @@ app.UseCustomException();
 
 app.UseRouting();
 
-app.UseCors(CorsPolicy);
+app.UseCors(settingsOptions.CorsPolicyName);
 
 app.UseAuthentication();
 

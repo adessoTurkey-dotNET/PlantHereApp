@@ -4,7 +4,7 @@ using Nest;
 using PlantHere.Application.Configurations;
 using PlantHere.Application.CQRS.Product.Queries.GetAllProducts;
 
-namespace PlantHere.Persistence.NewFolder
+namespace PlantHere.Persistence.Extensions
 {
 
     public static class ElasticSearchExtensions
@@ -14,7 +14,6 @@ namespace PlantHere.Persistence.NewFolder
         {
 
             var eSConfiguration = configuration.GetSection("ESConfiguration").Get<ESConfiguration>();
-
             var url = eSConfiguration.Url;
             var defaultIndex = "products";
 
@@ -34,13 +33,13 @@ namespace PlantHere.Persistence.NewFolder
         private static void AddDefaultMappings(ConnectionSettings settings)
         {
             settings
-                .DefaultMappingFor<GetAllProductsQueryResult>(m => m);
+                .DefaultMappingFor<GetProductsQueryResult>(m => m);
         }
 
         private static void CreateIndex(IElasticClient client, string indexName)
         {
             var createIndexResponse = client.Indices.Create(indexName,
-                index => index.Map<GetAllProductsQueryResult>(x => x.AutoMap())
+                index => index.Map<GetProductsQueryResult>(x => x.AutoMap())
             );
         }
     }

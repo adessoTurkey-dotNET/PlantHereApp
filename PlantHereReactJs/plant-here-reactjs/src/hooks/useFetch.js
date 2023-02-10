@@ -35,7 +35,7 @@ export const useFetchForEs = (url) => {
         fetchData().then(response => {
             setData(response?.data?.data)
         })
-    }, [url]);
+    }, [url,axiosPrivate]);
     return [data];
 };
 

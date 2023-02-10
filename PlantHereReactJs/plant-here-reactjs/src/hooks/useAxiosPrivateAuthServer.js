@@ -1,6 +1,5 @@
 // React 
 import { useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
 
 // Base Instance
 import { axiosPrivateAuthServer } from '../api/axios'
@@ -11,10 +10,6 @@ import { getAccessToken } from '../services/localStorageService'
 //Notification
 import { NOTIFICATION_STATUS } from '../models/enum/notificationStatus';
 
-//Redux
-import { useDispatch } from 'react-redux';
-import { SetAuthStore } from '../redux/actions/userActions'
-import useNavigateUser from './useNavigateUser';
 
 export const useAxiosPrivateAuthServerWithNotification = (notificationRef) => {
     useEffect(() => {

@@ -14,9 +14,9 @@ namespace PlantHere.Application.Exceptions
 
         private static string BuildErrorMessage(IEnumerable<ValidationFailure> errors)
         {
-            var arr = errors.Select(x => $"Validation Failed: -- PropertyName : {x.PropertyName} -- ErrorMessage : {x.ErrorMessage}");
+            var message = $"Validation Failed : PropertyName : {errors.FirstOrDefault().PropertyName} , ErrorMessage : {errors.FirstOrDefault().ErrorMessage}";
 
-            return String.Join(" ,", arr);
+            return message;
         }
 
     }

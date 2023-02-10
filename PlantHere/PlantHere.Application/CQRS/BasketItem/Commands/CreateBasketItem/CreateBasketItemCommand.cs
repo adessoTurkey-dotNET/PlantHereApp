@@ -1,6 +1,8 @@
-﻿namespace PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem
+﻿using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem
 {
-    public class CreateBasketItemCommand : IRequest<CreateBasketItemCommandResult>
+    public class CreateBasketItemCommand : CommandBase<CreateBasketItemCommandResult>
     {
         public string ProductId { get; set; }
 

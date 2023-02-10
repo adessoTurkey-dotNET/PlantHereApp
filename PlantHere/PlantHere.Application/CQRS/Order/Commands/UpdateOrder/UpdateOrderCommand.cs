@@ -1,9 +1,10 @@
 ﻿using PlantHere.Application.CQRS.Address.Queries;
-using PlantHere.Application.CQRS.OrderItem.Queries.GetAllOrderItems;
+using PlantHere.Application.CQRS.Base;
+using PlantHere.Application.CQRS.OrderItem.Queries.GetOrderItems;
 
 namespace PlantHere.Application.CQRS.Order.Commands.UpdateOrder
 {
-    public class UpdateOrderCommand : IRequest<UpdateOrderCommandResult>
+    public class UpdateOrderCommand : CommandBase<UpdateOrderCommandResult>
     {
         public int Id { get; set; }
 
@@ -13,7 +14,7 @@ namespace PlantHere.Application.CQRS.Order.Commands.UpdateOrder
 
         public string BuyerId { get; set; }
 
-        public List<GetAllOrderItemsQueryResult> OrderItems { get; set; }
+        public List<GetOrderItemsQueryResult> OrderItems { get; set; }
 
     }
 }

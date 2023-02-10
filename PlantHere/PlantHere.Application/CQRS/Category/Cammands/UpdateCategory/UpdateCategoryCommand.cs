@@ -1,6 +1,8 @@
-﻿namespace PlantHere.Application.CQRS.Category.Cammands.UpdateCategory
+﻿using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.Category.Cammands.UpdateCategory
 {
-    public class UpdateCategoryCommand : IRequest<UpdateCategoryCommandResult>
+    public class UpdateCategoryCommand : CommandBase<UpdateCategoryCommandResult>
     {
         public int Id { get; set; }
 

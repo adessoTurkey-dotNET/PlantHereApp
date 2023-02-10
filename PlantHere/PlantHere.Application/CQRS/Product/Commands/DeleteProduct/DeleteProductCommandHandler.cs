@@ -1,8 +1,10 @@
 ﻿using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Commands;
+using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
 
 namespace PlantHere.Application.CQRS.Product.Commands.DeleteProduct
 {
-    public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, Unit>
+    public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, Unit>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -14,11 +16,9 @@ namespace PlantHere.Application.CQRS.Product.Commands.DeleteProduct
 
         public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await _unitOfWork.ProductRepository.GetByIdAsync(request.Id);
+            var product = await _unitOfWork.GetGenericRepository<ModelProduct>().GetByIdAsync(request.Id);
 
-            await _unitOfWork.ProductRepository.RemoveAsync(product);
-
-            await _unitOfWork.CommitAsync();
+            await _unitOfWork.GetGenericRepository<ModelProduct>().RemoveAsync(product);
 
             return Unit.Value;
         }

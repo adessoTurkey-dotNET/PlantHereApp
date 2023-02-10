@@ -62,7 +62,7 @@ const Products = () => {
                 {products?.map((product, index) => (
                     <ProductCard name={product.name}
                         description={product.description}
-                        image={product.images[0].url}
+                        image={product.images[0]?.url}
                         price={product.price}
                         discountedPrice={product.discountedPrice}
                         uniqueId={product.uniqueId}

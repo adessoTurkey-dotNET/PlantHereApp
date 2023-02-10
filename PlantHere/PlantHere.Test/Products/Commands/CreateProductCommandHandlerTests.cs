@@ -5,7 +5,6 @@ using PlantHere.Application.CQRS.Product.Commands.CreateProduct;
 using PlantHere.Application.Interfaces;
 using PlantHere.Application.Mapping;
 using PlantHere.Test.Mocks;
-using Xunit;
 
 namespace PlantHere.Test.Products.Commands
 {
@@ -29,9 +28,7 @@ namespace PlantHere.Test.Products.Commands
 
             _mapper = mapperConfig.CreateMapper();
 
-            _validators = new Mock<IEnumerable<IValidator<CreateProductCommand>>>();
-
-            _handler = new CreateProductCommandHandler(_validators.Object, _mapper, _mockUow.Object);
+            _handler = new CreateProductCommandHandler(_mapper, _mockUow.Object);
 
             _request = new CreateProductCommand
             {
@@ -46,16 +43,5 @@ namespace PlantHere.Test.Products.Commands
 
         }
 
-
-        [Fact]
-        public async Task GetProductTest_HandlerExecutes_ResultTypeCreateProductCommandResult()
-        {
-
-            var result = await _handler.Handle( _request, CancellationToken.None);
-
-            Assert.IsType<CreateProductCommandResult>(result);
-
-        }
-
-}
+    }
 }

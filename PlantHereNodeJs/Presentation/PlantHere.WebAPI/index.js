@@ -2,29 +2,32 @@
 // Express 
 const express = require('express')
 
+//Cors
+const cors = require('cors')
+
 // Middlewares
 const { CustomExceptionHandle } = require('../../Core/PlantHere.Aplication/Middlewares/CustomExceptionHandler')
 const Authentication = require('../../Core/PlantHere.Aplication/Middlewares/AuthenticationMiddleware')
 const Authorization = require('../../Core/PlantHere.Aplication/Middlewares/AuthorizationMiddleware')
-const { CatchErrors } = require('../../Core/PlantHere.Aplication/Middlewares/CustomExceptionHandler')
 
 // Chalk
 const chalk = require('chalk')
 
 // Router
-const productRouter = require('./routers/productRouter')
+const productRouter = require('./Routers/ProductRouter')
 const categoryRouter = require('./Routers/CategoryRouter')
 const basketRouter = require('./Routers/BasketRouter')
 const basketItemRouter = require('./Routers/BasketItemRouter')
 const orderRouter = require('./Routers/OrderRouter')
 
 // Connect DB
-require('../../Infratructure/PlantHere.Persistance/AppDbContext')
+// require('../../Infrastructure/PlantHere.Persistance/AppDbContext')
 
 // App
 const app = express();
 
 app.use(express.json())
+app.use(cors())
 
 
 // Router
@@ -39,17 +42,7 @@ var swaggerUi = require('swagger-ui-express');
 swaggerDocument = require('./swagger/swagger.json');
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-function catchAsyncErrors(middleware) {
-    return async function(req, res, next) {
-      try {
-        await middleware(req, res, next);
-      } catch(err) {
-        next(err);
-      }
-    };
-  }
 // Middlewares
-app.use(catchAsyncErrors)
 app.use(CustomExceptionHandle)
 app.use(Authentication)
 app.use(Authorization)

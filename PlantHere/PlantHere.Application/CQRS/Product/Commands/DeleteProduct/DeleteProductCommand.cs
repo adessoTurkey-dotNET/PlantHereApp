@@ -1,6 +1,8 @@
-﻿namespace PlantHere.Application.CQRS.Product.Commands.DeleteProduct
+﻿using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.Product.Commands.DeleteProduct
 {
-    public class DeleteProductCommand : IRequest<Unit>
+    public class DeleteProductCommand : CommandBase<Unit>
     {
         public DeleteProductCommand(int id)
         {

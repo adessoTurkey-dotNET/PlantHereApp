@@ -1,6 +1,8 @@
-﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId
+﻿using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId
 {
-    public class GetProductByUniqueIdQuery : IRequest<GetProductByUniqueIdQueryResult>
+    public class GetProductByUniqueIdQuery : QueryBase<GetProductByUniqueIdQueryResult>
     {
         public string UniqueId { get; set; }
 

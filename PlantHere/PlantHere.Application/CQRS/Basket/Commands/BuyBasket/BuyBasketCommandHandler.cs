@@ -1,11 +1,14 @@
 ﻿using DotNetCore.CAP;
+using Microsoft.EntityFrameworkCore;
 using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Commands;
+using ModelBasket = PlantHere.Domain.Aggregate.BasketAggregate.Entities.Basket;
 using ModelOrder = PlantHere.Domain.Aggregate.OrderAggregate.Entities.Order;
 using ModelOrderItem = PlantHere.Domain.Aggregate.OrderAggregate.Entities.OrderItem;
 
 namespace PlantHere.Application.CQRS.Basket.Commands.BuyBasket
 {
-    public class BuyBasketCommandHandler : IRequestHandler<BuyBasketCommand, BuyBasketCommandResult>
+    public class BuyBasketCommandHandler : ICommandHandler<BuyBasketCommand, BuyBasketCommandResult>, ICommandRemoveCache
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -28,21 +31,26 @@ namespace PlantHere.Application.CQRS.Basket.Commands.BuyBasket
 
             if (_paymentRepository.ReceiverPayment(request.Payment.CardTypeId, request.Payment.CardNumber, request.Payment.CardSecurityNumber, request.Payment.CardHolderName))
             {
+                var basket = await _unitOfWork.GetGenericRepository<ModelBasket>().Where(x => x.UserId == request.UserId).Include(x => x.BasketItems).FirstOrDefaultAsync();
+
+                if (basket == null) throw new NotFoundException($"{typeof(ModelBasket).Name}({request.UserId}) Not Found");
+
                 // Remove Basket
-                var basket = await _unitOfWork.BasketRepository.BuyBasket(request);
+
+                _unitOfWork.GetGenericRepository<ModelBasket>().Remove(basket);
+
+                // Basket Item Cheak
+
                 if (basket.BasketItems.Count == 0) throw new NotFoundException($"Not Found Basket Items");
 
                 // Create Order
                 var orderItems = _mapper.Map<List<ModelOrderItem>>(basket.BasketItems);
                 var order = new ModelOrder(request.UserId, request.Address, orderItems);
-                
-                order = order.AddOrder(orderItems);
-                
-                await _unitOfWork.OrderRepository.CreateOrder(order);
 
-                // Commit
-                await _unitOfWork.CommitAsync();
-                
+                await _unitOfWork.GetGenericRepository<ModelOrder>().AddAsync(order);
+
+                order.AddOrder(orderItems);
+
                 // Rabbit MQ Publish
                 await _capPublisher.PublishAsync<string>("buyBasket.transaction", request.UserId);
             }

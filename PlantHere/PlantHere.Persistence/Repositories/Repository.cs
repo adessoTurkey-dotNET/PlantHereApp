@@ -31,7 +31,7 @@ namespace PlantHere.Persistence.Repositories
             return await _dbSet.AnyAsync(expression);
         }
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetQueryable()
         {
             return _dbSet.AsNoTracking().AsQueryable();
         }

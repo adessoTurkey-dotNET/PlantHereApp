@@ -19,4 +19,10 @@ const CatchErrors = action => (req, res, next) => {
     action(req, res).catch(next)
 }
 
-module.exports = { CustomExceptionHandle, CatchErrors }
+const AsyncHandler = fn => (req, res, next) => {
+    return Promise
+        .resolve(fn(req, res, next))
+        .catch(next);
+};
+
+module.exports = { CustomExceptionHandle, CatchErrors,AsyncHandler }

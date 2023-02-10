@@ -1,6 +1,8 @@
-﻿namespace PlantHere.Application.CQRS.BasketItem.Commands.UpdateBasketItem
+﻿using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.BasketItem.Commands.UpdateBasketItem
 {
-    public class UpdateBasketItemCommand : IRequest<UpdateBasketItemCommandResult>
+    public class UpdateBasketItemCommand : CommandBase<UpdateBasketItemCommandResult>
     {
         public string ProductId { get; set; }
 

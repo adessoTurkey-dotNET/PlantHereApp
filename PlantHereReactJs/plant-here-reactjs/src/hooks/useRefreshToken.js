@@ -1,6 +1,3 @@
-// Axios Instance
-import { useAxiosPrivateAuthServer } from "./useAxiosPrivateAuthServer";
-
 // local Storage
 import { setToken, getRefreshToken } from '../services/localStorageService';
 

@@ -63,7 +63,7 @@ const ProductDetail = () => {
                 navigate('/NotFound')
             }
         }).catch(console.error)
-    }, [params.id, navigate])
+    }, [params.id, navigate,axiosPrivate])
 
     const addBasket = async () => {
 

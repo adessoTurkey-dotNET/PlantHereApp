@@ -1,10 +1,8 @@
 const IBasketService = {
-    async createBasket(req){},
-    async getBasketByUserId(req) {},
-    async buyBasket(req){},
-    async createBasketItem(req){},
-    async updateBasketItem(req){},
-    async deleteBasketItem(req){}
+    async getBasketByUserId(getBasketByUserIdQuery) {},
+    async buyBasket(buyBasketCommand){},
+    async createBasketItem(createBasketItemCommand){},
+    async deleteBasketItem(deleteBasketItemCommand){}
 }
 
 module.exports = { IBasketService }

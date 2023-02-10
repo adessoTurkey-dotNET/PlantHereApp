@@ -2,8 +2,6 @@
 using PlantHere.Application.CQRS.Product.Commands.CreateProductsIndexES;
 using PlantHere.Application.CQRS.Product.Commands.DeleteProduct;
 using PlantHere.Application.CQRS.Product.Commands.UpdateProduct;
-using PlantHere.Application.CQRS.Product.Queries.GetAll;
-using PlantHere.Application.CQRS.Product.Queries.GetAllProducts;
 using PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsByPage;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsCount;

@@ -1,6 +1,9 @@
-﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductsByPage
+﻿
+using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.Product.Queries.GetProductsByPage
 {
-    public class GetProductsByPageQuery : IRequest<IEnumerable<GetProductsByPageQueryResult>>
+    public class GetProductsByPageQuery : QueryBase<IEnumerable<GetProductsByPageQueryResult>>
     {
         public int Page { get; set; }
 
@@ -12,7 +15,5 @@
             PageSize = pageSize;
         }
     }
-
-
 
 }

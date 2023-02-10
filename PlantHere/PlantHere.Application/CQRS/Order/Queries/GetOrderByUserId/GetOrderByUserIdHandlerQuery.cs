@@ -1,20 +1,26 @@
-﻿namespace PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId
+﻿using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Queries;
+using ModelOrder = PlantHere.Domain.Aggregate.OrderAggregate.Entities.Order;
+
+namespace PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId
 {
-    public class GetOrderByUserIdHandlerQuery : IRequestHandler<GetOrderByUserIdQuery, ICollection<GetOrderByUserIdQueryResult>>
+    public class GetOrderByUserIdHandlerQuery : IRequestHandler<GetOrderByUserIdQuery, ICollection<GetOrderByUserIdQueryResult>>, IQueryCacheable
     {
-        private readonly IOrderRepository _orderRepository;
 
         private readonly IMapper _mapper;
 
-        public GetOrderByUserIdHandlerQuery(IOrderRepository orderRepository, IMapper mapper)
+        private readonly IUnitOfWork _unitOfWork;
+        public GetOrderByUserIdHandlerQuery(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _orderRepository = orderRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<ICollection<GetOrderByUserIdQueryResult>> Handle(GetOrderByUserIdQuery request, CancellationToken cancellationToken)
         {
-            return _mapper.Map<ICollection<GetOrderByUserIdQueryResult>>(await _orderRepository.GetOrderByUserId(request.userId));
+            var orders = await _unitOfWork.GetGenericRepository<ModelOrder>().GetQueryable().Include(x => x.OrderItems).Include(x => x.Address).Where(x => x.BuyerId == request.userId).ToListAsync();
+            return _mapper.Map<ICollection<GetOrderByUserIdQueryResult>>(orders);
         }
     }
 }

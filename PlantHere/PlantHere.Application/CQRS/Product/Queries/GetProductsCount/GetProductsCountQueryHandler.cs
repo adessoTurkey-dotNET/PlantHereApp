@@ -1,18 +1,22 @@
-﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductsCount
-{
-    public class GetProductsCountQueryHandler : IRequestHandler<GetProductsCountQuery, GetProductsCountQueryResult>
-    {
-        private readonly IProductRepository _productRepository;
+﻿using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Queries;
+using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
 
-        public GetProductsCountQueryHandler(IProductRepository productRepository)
+namespace PlantHere.Application.CQRS.Product.Queries.GetProductsCount
+{
+    public class GetProductsCountQueryHandler : IQueryHandler<GetProductsCountQuery, GetProductsCountQueryResult>
+    {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public GetProductsCountQueryHandler(IUnitOfWork unitOfWork)
         {
-            _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<GetProductsCountQueryResult> Handle(GetProductsCountQuery request, CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetAsync();
-            return new GetProductsCountQueryResult(products.Count());
+            var count = _unitOfWork.GetGenericRepository<ModelProduct>().GetQueryable().Count();
+            return new GetProductsCountQueryResult(count);
         }
     }
 }

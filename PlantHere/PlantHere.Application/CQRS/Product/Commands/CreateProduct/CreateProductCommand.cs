@@ -1,6 +1,8 @@
-﻿namespace PlantHere.Application.CQRS.Product.Commands.CreateProduct
+﻿using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.Product.Commands.CreateProduct
 {
-    public class CreateProductCommand : IRequest<CreateProductCommandResult>
+    public class CreateProductCommand : CommandBase<CreateProductCommandResult>
     {
         public string? Name { get; set; }
 

@@ -1,5 +1,5 @@
 ﻿using PlantHere.Application.CQRS.Address.Queries;
-using PlantHere.Application.CQRS.OrderItem.Queries.GetAllOrderItems;
+using PlantHere.Application.CQRS.OrderItem.Queries.GetOrderItems;
 
 namespace PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId
 {
@@ -13,7 +13,7 @@ namespace PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId
 
         public string BuyerId { get; set; }
 
-        public List<GetAllOrderItemsQueryResult> OrderItems { get; set; }
+        public List<GetOrderItemsQueryResult> OrderItems { get; set; }
 
         public decimal TotalPrice { get; set; }
 

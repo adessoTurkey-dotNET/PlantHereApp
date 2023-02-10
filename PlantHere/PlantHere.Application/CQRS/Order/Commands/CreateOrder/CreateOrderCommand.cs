@@ -1,9 +1,11 @@
 ﻿using PlantHere.Application.CQRS.Address.Queries;
-using PlantHere.Application.CQRS.OrderItem.Queries.GetAllOrderItems;
+using PlantHere.Application.CQRS.Base;
+using PlantHere.Application.CQRS.OrderItem.Queries.GetOrderItems;
+using PlantHere.Application.Interfaces.Commands;
 
 namespace PlantHere.Application.CQRS.Order.Commands.CreateOrder
 {
-    public class CreateOrderCommand : IRequest<CreateOrderCommandResult>
+    public class CreateOrderCommand : CommandBase<CreateOrderCommandResult>, ICommandRemoveCache
     {
         public DateTime CreatedDate { get; set; }
 
@@ -11,7 +13,7 @@ namespace PlantHere.Application.CQRS.Order.Commands.CreateOrder
 
         public string BuyerId { get; set; }
 
-        public List<GetAllOrderItemsQueryResult> OrderItems { get; set; }
+        public List<GetOrderItemsQueryResult> OrderItems { get; set; }
 
     }
 }

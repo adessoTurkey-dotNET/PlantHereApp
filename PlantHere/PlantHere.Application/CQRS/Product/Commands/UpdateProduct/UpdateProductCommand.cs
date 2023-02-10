@@ -1,6 +1,8 @@
-﻿namespace PlantHere.Application.CQRS.Product.Commands.UpdateProduct
+﻿using PlantHere.Application.CQRS.Base;
+
+namespace PlantHere.Application.CQRS.Product.Commands.UpdateProduct
 {
-    public class UpdateProductCommand : IRequest<Unit>
+    public class UpdateProductCommand : CommandBase<Unit>
     {
         public int Id { get; set; }
 

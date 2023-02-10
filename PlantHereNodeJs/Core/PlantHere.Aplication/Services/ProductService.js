@@ -5,102 +5,81 @@ const IProductService = require('../../../Core/PlantHere.Aplication/Interfaces/S
 // Mapper
 const { Mapper } = require('../../../Core/PlantHere.Aplication/Mapping/ProductProfile');
 
-// Results
-const CustomResult = require("../../../Core/PlantHere.Aplication/RequestResponseModels/Results/CustomResult").CustomResult;
-
 // RequestResponseModels
 
-// GetProducts
-const GetProductsQuery = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProducts/GetProductsQuery').GetProductsQuery
-const GetProductsQueryResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProducts/GetProductsQueryResult').GetProductsQueryResult
-
 // GetProductsCount
-const GetProductsCountQuery = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductsCount/GetProductsCountQuery').GetProductsCountQuery
 const GetProductsCountQueryResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductsCount/GetProductsCountQueryResult').GetProductsCountQueryResult
 
 // GetProductsByPage
-const GetProductsByPageQuery = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductsByPage/GetProductsByPageQuery').GetProductsByPageQuery
 const GetProductsByPageQueryResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductsByPage/GetProductsByPageQueryResult').GetProductsByPageQueryResult
 
 // GetProductsByCategoryIdAndPage
-const GetProductsByCategoryIdAndPageQuery = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductByCategoryIdAndPage/GetProductByCategoryIdAndPageQuery').GetProductsByCategoryIdAndPageQuery
 const GetProductsByCategoryIdAndPageQueryResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductByCategoryIdAndPage/GetProductByCategoryIdAndPageQueryResult').GetProductsByPageAndCategoryIdQueryResult
 
 // GetProductById
-const GetProductByIdQuery = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductById/GetProductByIdQuery').GetProductByIdQuery
 const GetProductByIdQueryResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Queries/GetProductById/GetProductByIdQueryResult').GetProductByIdQueryResult
 
-
 // DeleteProductById
-const  DeleteProductCommand  = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Commands/DeleteProduct/DeleteProductCommand').DeleteProductCommand
-const  DeleteProductCommandResult  = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Commands/DeleteProduct/DeleteProductCommandResult').DeleteProductCommandResult
+const DeleteProductCommandResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Commands/DeleteProduct/DeleteProductCommandResult').DeleteProductCommandResult
 
 // UpdateProduct
-const  UpdateProductCommand  = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Commands/UpdateProduct/UpdateProductCommand').UpdateProductCommand
-const  UpdateProductCommandResult  = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Commands/UpdateProduct/UpdateProductCommandResult').UpdateProductCommandResult
+const UpdateProductCommandResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Commands/UpdateProduct/UpdateProductCommandResult').UpdateProductCommandResult
 
 // CreateProduct 
-const  CreateProductCommand  = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Commands/CreateProduct/CreateProductCommand').CreateProductCommand
-const  CreateProductCommandResult  = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Commands/CreateProduct/CreateProductCommandResult').CreateProductCommandResult;
+const CreateProductCommandResult = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Product/Commands/CreateProduct/CreateProductCommandResult').CreateProductCommandResult;
 
-
+const db = require('../../../Infrastructure/PlantHere.Persistance/AppDbContext');
+const { Repository } = require("../../../Infrastructure/PlantHere.Persistance/Repositories/Repository");
 
 class ProductService extends Interface(IProductService)
 {
-    constructor(repository) {
+    constructor() {
         super()
-        this.repository = repository;
-    }
-
-    async getProducts() {
-        const products = await this.repository.getProducts(new GetProductsQuery())
-        return Mapper(products, GetProductsQueryResult)
+        this.repository = new Repository(db.Products)
     }
 
     async getProductsCount() {
-        const count = await this.repository.getProductsCount(new GetProductsCountQuery())
+        const count = await this.repository.getCount()
         return new GetProductsCountQueryResult(count)
     }
 
-    async getProductsByPage(req) {
-        const products = await this.repository.getProductsByPage(new GetProductsByPageQuery(req.params.page, req.params.pageSize))
+    async getProductsByPage(getProductsByPageQuery) {
+
+        const page = parseInt(getProductsByPageQuery.page)
+        const limit = parseInt(getProductsByPageQuery.pageSize)
+        const offset = (page - 1) * limit;
+
+        const products = await this.repository.get(['Name', 'Description', 'Price', 'Discount', 'UniqueId'], undefined, limit, offset, db.Images, ['Id', 'Url', 'ProductId'])
+
         return Mapper(products, GetProductsByPageQueryResult)
     }
 
-    async getProductsByCategoryIdAndPage(req) {
-        const products = await this.repository.getProductsByCategoryIdAndPage(new GetProductsByCategoryIdAndPageQuery(req.body.page, req.body.pageSize), req.params.categoryId)
+    async getProductsByCategoryIdAndPage(getProductsByCategoryIdAndPageQuery, CategoryId) {
+        // Params
+        const page = parseInt(getProductsByCategoryIdAndPageQuery.page)
+        const limit = parseInt(getProductsByCategoryIdAndPageQuery.pageSize)
+        const offset = (page - 1) * limit;
+
+        const products = await this.repository.get(['Name', 'UniqueId', 'Description', 'Price', 'CategoryId', 'Discount'], { CategoryId }, limit, offset)
+
         return new GetProductsByCategoryIdAndPageQueryResult(products)
     }
 
-    async getProductsById(req) {
-        const product = await this.repository.getProductsById(new GetProductByIdQuery(req.params.id))
-        return Mapper(product, GetProductByIdQueryResult)
+    async getProductsById(getProductByIdQuery) {
+        const products = await this.repository.get(['Name', 'UniqueId', 'SellerId', 'Description', 'Price', 'Discount', 'Id'], { UniqueId: getProductByIdQuery.Id }, undefined, undefined, db.Images, ['Id', 'Url', 'ProductId'])
+        return Mapper(products[0], GetProductByIdQueryResult)
     }
-    
-    async deleteProduct(req) {
-        return new DeleteProductCommandResult(await this.repository.deleteProduct(new DeleteProductCommand(req.params.id)))
+
+    async deleteProduct(deleteProductCommand) {
+        return new DeleteProductCommandResult(await this.repository.delete(undefined, { UniqueId: deleteProductCommand.Id }))
     }
-    
-    async createProduct(req) {
-        return new CreateProductCommandResult(await this.repository.createProduct(new CreateProductCommand(
-            req.body.name,
-            req.body.description,
-            req.body.price,
-            req.body.sellerId,
-            req.body.categoryId,
-            req.body.discount,
-            req.body.stock)))
+
+    async createProduct(createProductCommand) {
+        return new CreateProductCommandResult(await this.repository.create(createProductCommand))
     }
-    
-    async updateProduct(req) {
-        return new  UpdateProductCommandResult(await this.repository.updateProduct(new UpdateProductCommand(
-            req.body.id,
-            req.body.name,
-            req.body.description,
-            req.body.price,
-            req.body.sellerId,
-            req.body.categoryId,
-            req.body.discount)))
+
+    async updateProduct(updateProductCommand) {
+        return new UpdateProductCommandResult(await this.repository.update(updateProductCommand, ["Id"], { Id: updateProductCommand.Id }))
     }
 }
 

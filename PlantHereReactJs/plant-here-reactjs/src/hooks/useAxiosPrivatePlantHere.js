@@ -5,9 +5,6 @@ import { useNavigate } from 'react-router-dom';
 // Base Instance
 import { axiosPrivateDotNet, axiosPrivateNodeJs } from '../api/axios'
 
-// Redux
-import { useDispatch } from 'react-redux';
-
 // Token
 import { getAccessToken } from '../services/localStorageService'
 import useRefreshToken from './useRefreshToken';
@@ -21,8 +18,8 @@ import { NOTIFICATION_STATUS } from '../models/enum/notificationStatus';
 // Axios Instace NodeJS
 export const useAxiosPrivateNodejs = (notificationRef = null) => {
     const refresh = useRefreshToken();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+
     useEffect(() => {
         const requestIntercept = axiosPrivateNodeJs.interceptors.request.use(
             config => {
@@ -38,7 +35,7 @@ export const useAxiosPrivateNodejs = (notificationRef = null) => {
         const responseIntercept = axiosPrivateNodeJs.interceptors.response.use(
             response => {
                 if (response) {
-                    successHandler(notificationRef, 'NodeJs')
+                    successHandler(notificationRef, '.NodeJs')
                 }
                 return response
             },
@@ -50,20 +47,21 @@ export const useAxiosPrivateNodejs = (notificationRef = null) => {
                     prevRequest.sent = true;
                     const newAccessToken = await refresh();
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-                    return axiosPrivateDotNet(prevRequest);
+                    return axiosPrivateNodeJs(prevRequest);
                 }
                 else {
                     errorHandler(notificationRef, error, navigate)
                 }
-                return Promise.reject(error)
+
+                return Promise.reject()
             }
         )
 
         return () => {
-            axiosPrivateNodeJs.interceptors.request.eject(requestIntercept)
-            axiosPrivateNodeJs.interceptors.response.eject(responseIntercept)
+            axiosPrivateDotNet.interceptors.request.eject(requestIntercept)
+            axiosPrivateDotNet.interceptors.response.eject(responseIntercept)
         }
-    }, [refresh, dispatch, navigate, notificationRef])
+    }, [refresh, notificationRef,navigate])
 
     return axiosPrivateNodeJs
 }
@@ -114,7 +112,7 @@ export const useAxiosPrivateDotNet = (notificationRef = null) => {
             axiosPrivateDotNet.interceptors.request.eject(requestIntercept)
             axiosPrivateDotNet.interceptors.response.eject(responseIntercept)
         }
-    }, [refresh, notificationRef])
+    }, [refresh, notificationRef,navigate])
 
     return axiosPrivateDotNet
 }

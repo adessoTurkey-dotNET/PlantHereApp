@@ -1,31 +1,33 @@
-﻿using PlantHere.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Commands;
+using ModelBasket = PlantHere.Domain.Aggregate.BasketAggregate.Entities.Basket;
 
 namespace PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem
 {
-    public class CreateBasketItemCommandHandle : IRequestHandler<CreateBasketItemCommand, CreateBasketItemCommandResult>, IRequestPreProcessor<CreateBasketItemCommand>
+    public class CreateBasketItemCommandHandle : ICommandHandler<CreateBasketItemCommand, CreateBasketItemCommandResult>, ICommandRemoveCache
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IEnumerable<IValidator<CreateBasketItemCommand>> _validators;
-
-        public CreateBasketItemCommandHandle(IUnitOfWork unitOfWork, IEnumerable<IValidator<CreateBasketItemCommand>> validators)
+        public CreateBasketItemCommandHandle(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _validators = validators;
         }
 
         public async Task<CreateBasketItemCommandResult> Handle(CreateBasketItemCommand request, CancellationToken cancellationToken)
         {
-            await _unitOfWork.BasketRepository.CreateBasketItem(request);
-            await _unitOfWork.CommitAsync();
+            var basket = await _unitOfWork.GetGenericRepository<ModelBasket>().Where(x => x.UserId == request.UserId).Include(x => x.BasketItems).FirstOrDefaultAsync();
+
+            if (basket == null)
+            {
+                await _unitOfWork.GetGenericRepository<ModelBasket>().AddAsync(new ModelBasket(request.UserId));
+
+                basket = await _unitOfWork.GetGenericRepository<ModelBasket>().Where(x => x.UserId == request.UserId).Include(x => x.BasketItems).FirstOrDefaultAsync();
+            }
+
+            basket.AddBasketItem(request.ProductId, request.ProductName, request.Price, request.DiscountedPrice);
+
             return new CreateBasketItemCommandResult();
-        }
-
-        public async Task Process(CreateBasketItemCommand request, CancellationToken cancellationToken)
-        {
-            var result = await new CustomValidationResult<CreateBasketItemCommand>(_validators).IsValid(request, cancellationToken);
-
-            if (result != null) throw result;
         }
     }
 }

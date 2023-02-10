@@ -7,8 +7,7 @@ namespace PlantHere.Infrastructure
     {
         public static void AddInfrastructureServices(this IServiceCollection serviceCollection)
         {
-            // Decorator Scrutor
-
+            //  Scrutor
             serviceCollection.Scan(scan =>
             scan.FromCallingAssembly()
                 .AddClasses()

@@ -1,6 +1,5 @@
 class BuyBasketCommandResult{
-    constructor(message) {
-        this.message = message
+    constructor() {
     }
 }
 

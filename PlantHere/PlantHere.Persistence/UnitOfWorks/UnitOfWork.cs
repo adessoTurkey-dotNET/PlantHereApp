@@ -1,16 +1,10 @@
 ﻿using PlantHere.Persistence.Repositories;
-using System.Data.Entity;
 
 namespace PlantHere.Persistence.UnitOfWorks
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
-
-        private IProductRepository _productRepository;
-        private ICategoryRepository _categoryRepository;
-        private IBasketRepository _basketRepository;
-        private IOrderRepository _orderRepository;
 
 
         public UnitOfWork(AppDbContext context)
@@ -29,23 +23,16 @@ namespace PlantHere.Persistence.UnitOfWorks
             return true;
         }
 
-        public IProductRepository ProductRepository =>
-            _productRepository ??= new ProductRepository(_context);
-
-        public ICategoryRepository CategoryRepository =>
-            _categoryRepository ??= new CategoryRepository(_context);
-
-
-        public IOrderRepository OrderRepository =>
-            _orderRepository ??= new OrderRepository(_context);
-
-        public IBasketRepository BasketRepository =>
-            _basketRepository ??= new BasketRepository(_context);
+        public void Commit()
+        {
+            _context.SaveChanges();
+        }
 
         public void Dispose()
         {
             _context.Dispose();
             GC.SuppressFinalize(this);
         }
+
     }
 }

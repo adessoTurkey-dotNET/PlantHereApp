@@ -1,6 +1,5 @@
 ﻿using PlantHere.Application.CQRS.Order.Commands.CreateOrder;
 using PlantHere.Application.CQRS.Order.Commands.UpdateOrder;
-using PlantHere.Application.CQRS.Order.Quries.GetAllOrders;
 using PlantHere.Application.CQRS.Order.Quries.GetOrderById;
 using PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId;
 using PlantHere.Application.CQRS.Product.Commands.DeleteProduct;
@@ -20,17 +19,6 @@ namespace PlantHere.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        /// <summary>
-        /// Get All Orders
-        /// </summary>
-        [Authorize(Roles = "superadmin")]
-        [HttpGet]
-        [NonAction]
-        public async Task<CustomResult<ICollection<GetAllOrdersQueryResult>>> GetAllOrders()
-        {
-            var orders = await _mediator.Send(new GetAllOrdersQuery());
-            return CustomResult<ICollection<GetAllOrdersQueryResult>>.Success((int)HttpStatusCode.OK, orders);
-        }
 
         /// <summary>
         /// Get Order By Id 

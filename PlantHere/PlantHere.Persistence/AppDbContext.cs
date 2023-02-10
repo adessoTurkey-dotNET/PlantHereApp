@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using PlantHere.Domain.Aggregate.BasketAggregate.Entities;
 using PlantHere.Domain.Aggregate.CategoryAggregate;
 using PlantHere.Domain.Aggregate.OrderAggregate.Entities;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations.Infrastructure;
+using System.Data.Entity.Migrations;
 using System.Reflection;
 
 namespace PlantHere.Persistence
@@ -33,12 +36,6 @@ namespace PlantHere.Persistence
             base.OnModelCreating(modelBuilder);
         }
 
-        /// <summary>
-        /// Dispatch Domain Events
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        /// 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
         {
             await _mediator.DispatchDomainEventsAsync(this);
@@ -51,5 +48,6 @@ namespace PlantHere.Persistence
             _mediator.DispatchDomainEvents(this);
             return response;
         }
+
     }
 }

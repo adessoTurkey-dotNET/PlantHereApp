@@ -11,7 +11,7 @@ const AddressForm = (props) => {
 
   useEffect(() => {
     props.setvalueAddressChild(address);
-  }, [address]);
+  }, [address,props]);
 
   return (
     <React.Fragment>

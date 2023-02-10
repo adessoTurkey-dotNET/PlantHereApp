@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PlantHere.Domain.Aggregate.OrderAggregate.Entities;
-using PlantHere.Domain.Common.Class;
 
 namespace PlantHere.Persistence.Configurations
 {

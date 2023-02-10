@@ -1,5 +1,5 @@
 const IOrderService = {
-    async getOrdersByUserId(req) { }
+    async getOrdersByUserId(getOrdersByUserId) { }
 }
 
 module.exports = { IOrderService }

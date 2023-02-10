@@ -1,7 +1,7 @@
 ﻿using PlantHere.Application.CQRS.Category.Cammands.CreateCategory;
 using PlantHere.Application.CQRS.Category.Cammands.DeleteCategory;
 using PlantHere.Application.CQRS.Category.Cammands.UpdateCategory;
-using PlantHere.Application.CQRS.Category.Queries.GetAllCategories;
+using PlantHere.Application.CQRS.Category.Queries.GetCategories;
 using PlantHere.Domain.Aggregate.CategoryAggregate;
 
 
@@ -12,11 +12,10 @@ namespace PlantHere.Application.Mapping
     {
         public CategoryProfile()
         {
-            CreateMap<Category, GetAllCategoriesQueryResult>().ReverseMap();
+            CreateMap<Category, GetCategoriesQueryResult>().ReverseMap();
             CreateMap<Category, UpdateCategoryCommand>().ReverseMap();
             CreateMap<Category, DeleteCategoryCommand>().ReverseMap();
             CreateMap<Category, CreateCategoryCommand>().ReverseMap();
-
         }
     }
 }

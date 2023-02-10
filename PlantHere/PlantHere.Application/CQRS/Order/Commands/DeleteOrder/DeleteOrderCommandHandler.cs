@@ -1,8 +1,11 @@
-﻿using PlantHere.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Commands;
+using ModelOrder = PlantHere.Domain.Aggregate.OrderAggregate.Entities.Order;
 
 namespace PlantHere.Application.CQRS.Order.Commands.DeleteOrder
 {
-    public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, Unit>
+    public class DeleteOrderCommandHandler : ICommandHandler<DeleteOrderCommand, Unit>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -13,11 +16,11 @@ namespace PlantHere.Application.CQRS.Order.Commands.DeleteOrder
 
         public async Task<Unit> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _unitOfWork.OrderRepository.GetByIdAsync(request.Id);
+            var order = await _unitOfWork.GetGenericRepository<ModelOrder>().Where(x => x.Id == request.Id).FirstOrDefaultAsync();
 
-            await _unitOfWork.OrderRepository.RemoveAsync(order);
+            if (order == null) throw new NotFoundException($"{typeof(ModelBuilder).Name}({request.Id}) Not Found");
 
-            await _unitOfWork.CommitAsync();
+            await _unitOfWork.GetGenericRepository<ModelOrder>().RemoveAsync(order);
 
             return Unit.Value;
         }

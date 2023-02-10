@@ -1,21 +1,29 @@
-﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId
+﻿using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Queries;
+using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
+
+namespace PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId
 {
-    public class GetProductByUniqueIdQueryHandler : IRequestHandler<GetProductByUniqueIdQuery, GetProductByUniqueIdQueryResult>
+    public class GetProductByUniqueIdQueryHandler : IQueryHandler<GetProductByUniqueIdQuery, GetProductByUniqueIdQueryResult>
     {
 
-        private readonly IProductRepository _productRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
 
-        public GetProductByUniqueIdQueryHandler(IProductRepository productRepository, IMapper mapper)
+        public GetProductByUniqueIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _mapper = mapper;
-            _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<GetProductByUniqueIdQueryResult> Handle(GetProductByUniqueIdQuery request, CancellationToken cancellationToken)
         {
-            return _mapper.Map<GetProductByUniqueIdQueryResult>(await _productRepository.GetProductByUniqueIdWithImages(request.UniqueId));
+            var products = _unitOfWork.GetGenericRepository<ModelProduct>().GetQueryable();
+            var product = await products.Include(x => x.Images).FirstOrDefaultAsync(x => x.UniqueId == request.UniqueId);
+            if (product == null) throw new NotFoundException($"Not Found Product({request.UniqueId})");
+            return _mapper.Map<GetProductByUniqueIdQueryResult>(product);
         }
     }
 }

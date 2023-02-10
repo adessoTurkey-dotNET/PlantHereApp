@@ -1,20 +1,25 @@
-﻿namespace PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId
+﻿using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Queries;
+using ModelBasket = PlantHere.Domain.Aggregate.BasketAggregate.Entities.Basket;
+
+namespace PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId
 {
-    public class GetBasketByUserIdQueryHandler : IRequestHandler<GetBasketByUserIdQuery, GetBasketByUserIdQueryResult>
+    public class GetBasketByUserIdQueryHandler : IRequestHandler<GetBasketByUserIdQuery, GetBasketByUserIdQueryResult>, IQueryCacheable
     {
 
-        private readonly IBasketRepository _basketRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        private readonly IMapper _mapper; 
-        public GetBasketByUserIdQueryHandler(IBasketRepository basketRepositoy, IMapper mapper)
+        public GetBasketByUserIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _mapper = mapper;
-            _basketRepository = basketRepositoy;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<GetBasketByUserIdQueryResult> Handle(GetBasketByUserIdQuery request, CancellationToken cancellationToken)
         {
-            return _mapper.Map<GetBasketByUserIdQueryResult>(await _basketRepository.GetBasketByUserId(request.UserId));
+            return _mapper.Map<GetBasketByUserIdQueryResult>(await _unitOfWork.GetGenericRepository<ModelBasket>().Where(x => x.UserId == request.UserId).Include(x => x.BasketItems).FirstOrDefaultAsync());
         }
     }
 }
