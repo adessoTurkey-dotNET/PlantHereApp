@@ -8,16 +8,15 @@ namespace PlantHere.Application.CQRS.Order.Quries.GetOrderById
 {
     public class GerOrderByIdQueryHandle : IQueryHandler<GetOrderByIdQuery, GetOrderByIdQueryResult>, IQueryCacheable
     {
-        public int Expiration { set; get; }
-
         private readonly IMapper _mapper;
 
         private readonly IUnitOfWork _unitOfWork;
+        public TimeSpan Expiration => TimeSpan.FromSeconds(20);
+
         public GerOrderByIdQueryHandle(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            Expiration = 2;
         }
 
         public async Task<GetOrderByIdQueryResult> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)

@@ -11,13 +11,13 @@ namespace PlantHere.Application.CQRS.Product.Queries.GetProductsByPage
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
-        public int Expiration { set; get;}
+
+        public TimeSpan Expiration => TimeSpan.FromSeconds(20);
 
         public GetProductsByPageQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            Expiration = 20;
         }
 
         public async Task<IEnumerable<GetProductsByPageQueryResult>> Handle(GetProductsByPageQuery request, CancellationToken cancellationToken)

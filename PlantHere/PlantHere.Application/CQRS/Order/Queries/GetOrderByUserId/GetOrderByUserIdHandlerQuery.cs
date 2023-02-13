@@ -10,7 +10,7 @@ namespace PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId
 {
     public class GetOrderByUserIdHandlerQuery : IRequestHandler<GetOrderByUserIdQuery, ICollection<GetOrderByUserIdQueryResult>>, IQueryCacheable
     {
-        public int Expiration { set; get; }
+        public TimeSpan Expiration => TimeSpan.FromSeconds(20);
 
         private readonly IMapper _mapper;
 
@@ -19,7 +19,6 @@ namespace PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            Expiration = 20;
         }
 
         public async Task<ICollection<GetOrderByUserIdQueryResult>> Handle(GetOrderByUserIdQuery request, CancellationToken cancellationToken)

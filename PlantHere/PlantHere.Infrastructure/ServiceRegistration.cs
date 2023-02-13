@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlantHere.Infrastructure.Extensions.ElasticSearchExtensions;
+using PlantHere.Infrastructure.Extensions.RabbitMQExtensions;
 
 namespace PlantHere.Infrastructure
 {
@@ -17,6 +18,10 @@ namespace PlantHere.Infrastructure
 
             // ES 
             serviceCollection.AddElasticsearch(configuration);
+
+            // CAP
+            serviceCollection.AddRabbitMQ(configuration);
+
         }
     }
 }

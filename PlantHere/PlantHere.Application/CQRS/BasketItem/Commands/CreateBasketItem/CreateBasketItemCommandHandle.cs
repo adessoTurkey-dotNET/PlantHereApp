@@ -21,7 +21,7 @@ namespace PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem
             if (basket == null)
             {
                 await _unitOfWork.GetGenericRepository<ModelBasket>().AddAsync(new ModelBasket(request.UserId));
-
+                await _unitOfWork.CommitAsync();
                 basket = await _unitOfWork.GetGenericRepository<ModelBasket>().Where(x => x.UserId == request.UserId).Include(x => x.BasketItems).FirstOrDefaultAsync();
             }
 

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using PlantHere.Domain.Aggregate.BasketAggregate.Entities;
 using PlantHere.Domain.Aggregate.CategoryAggregate;
 using PlantHere.Domain.Aggregate.OrderAggregate.Entities;
-using PlantHere.Persistence.Extensions.MediatorExtensions;
 using System.Reflection;
 
 namespace PlantHere.Persistence
@@ -32,19 +31,6 @@ namespace PlantHere.Persistence
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
-        }
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
-        {
-            await _mediator.DispatchDomainEventsAsync(this);
-            return await base.SaveChangesAsync(cancellationToken); ;
-        }
-
-        public override int SaveChanges()
-        {
-            var response = base.SaveChanges();
-            _mediator.DispatchDomainEvents(this);
-            return response;
         }
 
     }

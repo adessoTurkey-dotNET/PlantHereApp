@@ -42,7 +42,7 @@
 
 ## Diagram
 
-<img src=".\Documents\Diagram\plantherediagram.png" width="720" >
+<img src=".\Documents\Diagram\plantherediagram.png" width="500" >
 
 # Running with Docker-Compose
 

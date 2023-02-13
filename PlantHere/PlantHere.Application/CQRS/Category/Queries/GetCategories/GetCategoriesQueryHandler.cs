@@ -10,13 +10,12 @@ namespace PlantHere.Application.CQRS.Category.Queries.GetCategories
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
-        public int Expiration { set; get; }
+        public TimeSpan Expiration => TimeSpan.FromSeconds(20);
 
         public GetCategoriesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            Expiration = 20;
         }
 
         public async Task<IEnumerable<GetCategoriesQueryResult>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)

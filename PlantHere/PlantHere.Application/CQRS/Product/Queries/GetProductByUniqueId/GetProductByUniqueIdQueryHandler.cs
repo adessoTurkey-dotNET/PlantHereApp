@@ -9,17 +9,16 @@ namespace PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId
 {
     public class GetProductByUniqueIdQueryHandler : IQueryHandler<GetProductByUniqueIdQuery, GetProductByUniqueIdQueryResult>, IQueryCacheable
     {
-        public int Expiration { set; get; }
 
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
+        public TimeSpan Expiration => TimeSpan.FromSeconds(20);
 
         public GetProductByUniqueIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            Expiration = 20;
         }
 
         public async Task<GetProductByUniqueIdQueryResult> Handle(GetProductByUniqueIdQuery request, CancellationToken cancellationToken)

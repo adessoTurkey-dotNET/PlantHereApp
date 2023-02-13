@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlantHere.Application.Settings;
+using PlantHere.Persistence;
 
-namespace PlantHere.Persistence.Extensions.RabbitMQExtensions
+namespace PlantHere.Infrastructure.Extensions.RabbitMQExtensions
 {
     public static class AddRabbitMQExtensions
     {

@@ -10,7 +10,7 @@ namespace PlantHere.Application.CQRS.Product.Queries.GetAll
 {
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IEnumerable<GetProductsQueryResult>>, IQueryCacheable
     {
-        public int Expiration { set ; get; }
+        public TimeSpan Expiration => TimeSpan.FromSeconds(20);
 
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,6 @@ namespace PlantHere.Application.CQRS.Product.Queries.GetAll
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            Expiration = 20;
         }
 
         public async Task<IEnumerable<GetProductsQueryResult>> Handle(GetProductsQuery request, CancellationToken cancellationToken)

@@ -12,8 +12,6 @@ using System.Security.Claims;
 
 namespace PlantHere.WebAPI.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
     public class BasketController : CustomBaseController
     {
         private readonly IMediator _mediator;

@@ -10,7 +10,7 @@ namespace PlantHere.Persistence.UnitOfWorks
     {
         private readonly AppDbContext _context;
 
-        ConcurrentDictionary<Type, object> _repositories = new ConcurrentDictionary<Type, object>();
+        ConcurrentDictionary<string, object> _repositories = new ConcurrentDictionary<string, object>();
 
         public UnitOfWork(AppDbContext context)
         {
@@ -19,7 +19,8 @@ namespace PlantHere.Persistence.UnitOfWorks
 
         public IRepository<T> GetGenericRepository<T>() where T : class, new()
         {
-            return (IRepository<T>)_repositories.GetOrAdd(typeof(T), t => new Repository<T>(_context));
+         
+            return (Repository<T>)_repositories.GetOrAdd(typeof(T).Name, t => new Repository<T>(_context)); ;
         }
 
         public async Task<bool> CommitAsync(CancellationToken cancellationToken = default)

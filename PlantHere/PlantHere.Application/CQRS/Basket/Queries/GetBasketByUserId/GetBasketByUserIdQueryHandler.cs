@@ -9,8 +9,6 @@ namespace PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId
 {
     public class GetBasketByUserIdQueryHandler : IRequestHandler<GetBasketByUserIdQuery, GetBasketByUserIdQueryResult>, IQueryCacheable
     {
-        public int Expiration { set ; get ; }
-
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
@@ -18,9 +16,9 @@ namespace PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            Expiration = 20;
         }
 
+        public TimeSpan Expiration => TimeSpan.FromSeconds(20);
 
         public async Task<GetBasketByUserIdQueryResult> Handle(GetBasketByUserIdQuery request, CancellationToken cancellationToken)
         {

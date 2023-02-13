@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PlantHere.Persistence.Extensions.RabbitMQExtensions;
 using System.Reflection;
 
 namespace PlantHere.Persistence
@@ -22,11 +21,7 @@ namespace PlantHere.Persistence
                 });
             });
 
-            // CAP
-            serviceCollection.AddRabbitMQ(configuration);
-
-
-
+          
             // MemoryCache
             serviceCollection.AddMemoryCache();
 
@@ -35,10 +30,6 @@ namespace PlantHere.Persistence
             scan.FromCallingAssembly()
                 .AddClasses()
                 .AsMatchingInterface());
-
-            // MediatR
-            serviceCollection.AddMediatR(Assembly.GetExecutingAssembly());
-
 
         }
     }

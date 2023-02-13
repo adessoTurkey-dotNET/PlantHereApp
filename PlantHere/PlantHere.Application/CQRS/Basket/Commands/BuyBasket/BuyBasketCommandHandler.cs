@@ -37,9 +37,6 @@ namespace PlantHere.Application.CQRS.Basket.Commands.BuyBasket
                 var basket = await _unitOfWork.GetGenericRepository<ModelBasket>().Where(x => x.UserId == request.UserId).Include(x => x.BasketItems).FirstOrDefaultAsync();
 
                 if (basket == null) throw new NotFoundException($"{typeof(ModelBasket).Name}({request.UserId}) Not Found");
-                // Remove Basket
-
-                _unitOfWork.GetGenericRepository<ModelBasket>().Remove(basket);
 
                 // Basket Item Cheak
 
@@ -52,6 +49,9 @@ namespace PlantHere.Application.CQRS.Basket.Commands.BuyBasket
                 await _unitOfWork.GetGenericRepository<ModelOrder>().AddAsync(order);
 
                 order.AddOrder(orderItems);
+
+                // Remove Basket
+                _unitOfWork.GetGenericRepository<ModelBasket>().Remove(basket);
 
                 // Rabbit MQ Publish
                 await _capPublisher.PublishAsync<string>("buyBasket.transaction", request.UserId);
