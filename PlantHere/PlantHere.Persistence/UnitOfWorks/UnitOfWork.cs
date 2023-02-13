@@ -1,4 +1,8 @@
-﻿using PlantHere.Persistence.Repositories;
+﻿using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Repositories;
+using PlantHere.Domain.Common.Class;
+using PlantHere.Persistence.Repositories;
+using System.Collections.Concurrent;
 
 namespace PlantHere.Persistence.UnitOfWorks
 {
@@ -6,6 +10,7 @@ namespace PlantHere.Persistence.UnitOfWorks
     {
         private readonly AppDbContext _context;
 
+        ConcurrentDictionary<Type, object> _repositories = new ConcurrentDictionary<Type, object>();
 
         public UnitOfWork(AppDbContext context)
         {
@@ -14,7 +19,7 @@ namespace PlantHere.Persistence.UnitOfWorks
 
         public IRepository<T> GetGenericRepository<T>() where T : class, new()
         {
-            return new Repository<T>(_context);
+            return (IRepository<T>)_repositories.GetOrAdd(typeof(T), t => new Repository<T>(_context));
         }
 
         public async Task<bool> CommitAsync(CancellationToken cancellationToken = default)

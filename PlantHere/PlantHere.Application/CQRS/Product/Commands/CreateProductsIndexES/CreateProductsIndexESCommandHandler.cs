@@ -1,4 +1,6 @@
-﻿using Nest;
+﻿using AutoMapper;
+using MediatR;
+using Nest;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsES;
 using PlantHere.Application.Interfaces;
 using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;

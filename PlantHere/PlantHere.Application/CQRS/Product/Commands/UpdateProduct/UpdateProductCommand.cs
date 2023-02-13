@@ -1,4 +1,5 @@
-﻿using PlantHere.Application.CQRS.Base;
+﻿using MediatR;
+using PlantHere.Application.CQRS.Base;
 
 namespace PlantHere.Application.CQRS.Product.Commands.UpdateProduct
 {

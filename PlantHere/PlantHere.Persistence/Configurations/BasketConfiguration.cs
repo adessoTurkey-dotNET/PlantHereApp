@@ -9,7 +9,7 @@ namespace PlantHere.Persistence.Configuration
         public void Configure(EntityTypeBuilder<Basket> builder)
         {
             builder.ToTable("Baskets", "basketing");
-            builder.Navigation(e => e.BasketItems).UsePropertyAccessMode(PropertyAccessMode.Field).HasField("_basketItems");
+            builder.HasMany(x => x.BasketItems).WithOne();
         }
     }
 }

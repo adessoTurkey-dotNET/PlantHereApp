@@ -6,7 +6,7 @@ const express = require('express')
 const cors = require('cors')
 
 // Middlewares
-const { CustomExceptionHandle } = require('../../Core/PlantHere.Aplication/Middlewares/CustomExceptionHandler')
+const { CustomExceptionHandle } = require('./Middlewares/CustomExceptionHandler')
 const Authentication = require('../../Core/PlantHere.Aplication/Middlewares/AuthenticationMiddleware')
 const Authorization = require('../../Core/PlantHere.Aplication/Middlewares/AuthorizationMiddleware')
 

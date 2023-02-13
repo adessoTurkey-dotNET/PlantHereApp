@@ -1,4 +1,5 @@
-﻿using PlantHere.Application.Interfaces;
+﻿using AutoMapper;
+using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Commands;
 using ModelCategory = PlantHere.Domain.Aggregate.CategoryAggregate.Category;
 

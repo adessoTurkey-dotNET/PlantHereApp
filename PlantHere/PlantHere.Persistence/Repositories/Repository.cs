@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Exceptions;
+using PlantHere.Application.Interfaces.Repositories;
 using System.Linq.Expressions;
 
 namespace PlantHere.Persistence.Repositories

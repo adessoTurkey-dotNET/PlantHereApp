@@ -1,13 +1,15 @@
-﻿using PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem;
 using PlantHere.Application.CQRS.BasketItem.Commands.DeleteBasketItem;
 using PlantHere.Application.CQRS.BasketItem.Commands.UpdateBasketItem;
+using PlantHere.WebAPI.CustomResults;
 using System.Net;
+using System.Security.Claims;
 
 namespace PlantHere.WebAPI.Controllers
 {
-    [Authorize]
-    [Route("[controller]")]
-    [ApiController]
     public class BasketItemController : CustomBaseController
     {
         private readonly IMediator _mediator;

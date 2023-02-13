@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const productController = require('../Controllers/ProductController')
 
-const { AsyncHandler } = require('../../../Core/PlantHere.Aplication/Middlewares/CustomExceptionHandler')
+const { AsyncHandler } = require('../Middlewares/CustomExceptionHandler')
 const AuthenticationMiddleware = require('../../../Core/PlantHere.Aplication/Middlewares/AuthenticationMiddleware')
 const AuthorizationMiddleware = require('../../../Core/PlantHere.Aplication/Middlewares/AuthorizationMiddleware')
 const setRole = require('./SetRole')

@@ -1,4 +1,4 @@
-﻿using AuthServer.Application.CustomResponses;
+﻿using AuthServer.API.CustomResponses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServer.API.Controllers

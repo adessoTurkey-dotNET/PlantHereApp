@@ -1,15 +1,18 @@
-﻿using PlantHere.Application.CQRS.Order.Commands.CreateOrder;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PlantHere.Application.CQRS.Order.Commands.CreateOrder;
 using PlantHere.Application.CQRS.Order.Commands.UpdateOrder;
 using PlantHere.Application.CQRS.Order.Quries.GetOrderById;
 using PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId;
 using PlantHere.Application.CQRS.Product.Commands.DeleteProduct;
+using PlantHere.WebAPI.CustomResults;
 using System.Net;
+using System.Security.Claims;
 
 namespace PlantHere.WebAPI.Controllers
 {
-    [Authorize]
-    [Route("[controller]")]
-    [ApiController]
+
     public class OrderController : CustomBaseController
     {
         private readonly IMediator _mediator;

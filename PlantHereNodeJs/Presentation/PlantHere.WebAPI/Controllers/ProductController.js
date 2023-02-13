@@ -13,7 +13,7 @@ const GetProductsCountQuery = require('../../../Core/PlantHere.Aplication/Reques
 const service = new ProductService();
 
 //Results
-const {CustomResult} = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Results/CustomResult')
+const { CustomResult } = require('../Results/CustomResult')
 
 
 const getProductsCount = async (req, res) => {
@@ -21,11 +21,11 @@ const getProductsCount = async (req, res) => {
 }
 
 const getProductsByPage = async (req, res) => {
-    res.json(CustomResult.Success(await service.getProductsByPage(new GetProductsByPageQuery(req.params.page,req.params.pageSize))))
+    res.json(CustomResult.Success(await service.getProductsByPage(new GetProductsByPageQuery(req.params.page, req.params.pageSize))))
 }
 
 const getProductsByCategoryIdAndPage = async (req, res) => {
-    res.json(CustomResult.Success(await service.getProductsByCategoryIdAndPage(new GetProductsByCategoryIdAndPageQuery(req.body.page,req.body.pageSize),req.params.categoryId)))
+    res.json(CustomResult.Success(await service.getProductsByCategoryIdAndPage(new GetProductsByCategoryIdAndPageQuery(req.body.page, req.body.pageSize), req.params.categoryId)))
 }
 
 const getProductById = async (req, res) => {
@@ -37,11 +37,11 @@ const deleteProduct = async (req, res) => {
 }
 
 const createProduct = async (req, res) => {
-    res.json(CustomResult.Success(await service.createProduct(new CreateProductCommand(req.body.name,req.body.description,req.body.price,req.body.sellerId,req.body.categoryId,req.body.discount,req.body.stock))))
+    res.json(CustomResult.Success(await service.createProduct(new CreateProductCommand(req.body.name, req.body.description, req.body.price, req.body.sellerId, req.body.categoryId, req.body.discount, req.body.stock))))
 }
 
 const updateProduct = async (req, res) => {
-    res.json(CustomResult.Success(await service.updateProduct(new UpdateProductCommand(req.body.id,req.body.name,req.body.description,req.body.price,req.body.sellerId,req.body.categoryId,req.body.discount))))
+    res.json(CustomResult.Success(await service.updateProduct(new UpdateProductCommand(req.body.id, req.body.name, req.body.description, req.body.price, req.body.sellerId, req.body.categoryId, req.body.discount))))
 }
 
 module.exports = {

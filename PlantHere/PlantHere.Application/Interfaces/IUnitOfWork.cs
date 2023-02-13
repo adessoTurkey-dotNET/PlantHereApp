@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.Interfaces
+﻿using PlantHere.Application.Interfaces.Repositories;
+
+namespace PlantHere.Application.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

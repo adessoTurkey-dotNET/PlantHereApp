@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Basket.Commands.BuyBasket
+﻿using FluentValidation;
+
+namespace PlantHere.Application.CQRS.Basket.Commands.BuyBasket
 {
     public class BuyBasketCommandValidation : AbstractValidator<BuyBasketCommand>
     {

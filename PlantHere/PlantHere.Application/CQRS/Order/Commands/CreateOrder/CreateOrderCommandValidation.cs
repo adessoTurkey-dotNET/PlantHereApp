@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Order.Commands.CreateOrder
+﻿using FluentValidation;
+
+namespace PlantHere.Application.CQRS.Order.Commands.CreateOrder
 {
     public class CreateOrderCommandValidation : AbstractValidator<CreateOrderCommand>
     {

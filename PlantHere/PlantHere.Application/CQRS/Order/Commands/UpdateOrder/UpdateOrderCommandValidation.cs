@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Order.Commands.UpdateOrder
+﻿using FluentValidation;
+
+namespace PlantHere.Application.CQRS.Order.Commands.UpdateOrder
 {
     public class UpdateOrderCommandValidation : AbstractValidator<UpdateOrderCommand>
     {

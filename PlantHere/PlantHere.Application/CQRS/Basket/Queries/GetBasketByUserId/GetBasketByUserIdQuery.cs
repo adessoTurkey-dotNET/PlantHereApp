@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId
+﻿using MediatR;
+
+namespace PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId
 {
     public class GetBasketByUserIdQuery : IRequest<GetBasketByUserIdQueryResult>
     {

@@ -1,12 +1,14 @@
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using PlantHere.Application;
-using PlantHere.Application.Configurations;
-using PlantHere.Application.Middlewares;
+using PlantHere.Application.Settings;
+using PlantHere.Application.Utilities;
 using PlantHere.Infrastructure;
 using PlantHere.Persistence;
-using PlantHere.Persistence.Services;
+using PlantHere.WebAPI.Middlewares;
 using System.Reflection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,8 +36,7 @@ builder.Services.AddApplicationServices(builder.Configuration);
 
 builder.Services.AddPersistenceServices(builder.Configuration);
 
-builder.Services.AddInfrastructureServices();
-
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 // Token
 builder.Services.AddAuthentication(options =>
@@ -51,7 +52,7 @@ builder.Services.AddAuthentication(options =>
     {
         ValidIssuer = tokenOptions.Issuer,
         ValidAudience = tokenOptions.Audiences[0],
-        IssuerSigningKey = SignService.GetSymmetricSecurityKey(tokenOptions.SecurityKey),
+        IssuerSigningKey = SignUtility.GetSymmetricSecurityKey(tokenOptions.SecurityKey),
 
         ValidateIssuerSigningKey = true,
         ValidateAudience = true,
@@ -62,9 +63,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 // CORS POLICY
-
 var settingsOptions = builder.Configuration.GetSection("Settings").Get<SettingsOption>();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: settingsOptions.CorsPolicyName,
@@ -79,7 +78,6 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Migration
-
 using (var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope())
 {
     var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();

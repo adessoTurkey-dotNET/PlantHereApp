@@ -1,4 +1,5 @@
-﻿using PlantHere.Application.Interfaces;
+﻿using MediatR;
+using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Commands;
 using ModelCategory = PlantHere.Domain.Aggregate.CategoryAggregate.Category;
 using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
@@ -6,7 +7,7 @@ using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
 
 namespace PlantHere.Application.CQRS.Product.Commands.UpdateProduct
 {
-    public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand, Unit>
+    public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand, Unit>, ICommandRemoveCache
     {
         private readonly IUnitOfWork _unitOfWork;
 

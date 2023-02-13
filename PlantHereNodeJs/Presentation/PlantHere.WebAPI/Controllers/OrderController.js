@@ -6,7 +6,8 @@ const {GetOrdersByUserIdQuery} = require("../../../Core/PlantHere.Aplication/Req
 const service = new OrderService();
 
 //Results
-const {CustomResult} = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Results/CustomResult')
+const { CustomResult } = require('../Results/CustomResult')
+
 
 
 const getOrdersByUserId = async (req, res) => {

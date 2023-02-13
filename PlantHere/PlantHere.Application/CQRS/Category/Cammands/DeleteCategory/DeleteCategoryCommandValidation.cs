@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Category.Cammands.DeleteCategory
+﻿using FluentValidation;
+
+namespace PlantHere.Application.CQRS.Category.Cammands.DeleteCategory
 {
     public class DeleteCategoryCommandValidation : AbstractValidator<DeleteCategoryCommand>
     {

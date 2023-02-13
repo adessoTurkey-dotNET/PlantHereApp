@@ -1,7 +1,12 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
+using PlantHere.Application.Exceptions;
+using PlantHere.Application.Interfaces;
+using PlantHere.Application.Interfaces.Services;
 using PlantHere.Domain.Aggregate.BasketAggregate.DomainEvents;
 using ModelOrder = PlantHere.Domain.Aggregate.OrderAggregate.Entities.Order;
 using ModelOrderItem = PlantHere.Domain.Aggregate.OrderAggregate.Entities.OrderItem;
+
 
 namespace PlantHere.Persistence.DomainEventHandlers
 {
@@ -9,11 +14,11 @@ namespace PlantHere.Persistence.DomainEventHandlers
     {
         private readonly IMapper _mapper;
 
-        private readonly IPaymentRepository _paymentService;
+        private readonly IPaymentService _paymentService;
 
         private readonly IUnitOfWork _unitOfWork;
 
-        public BaketBuyStartedDomainEventHandler(IMapper mapper, IUnitOfWork unitOfWork, IPaymentRepository paymentService)
+        public BaketBuyStartedDomainEventHandler(IMapper mapper, IUnitOfWork unitOfWork, IPaymentService paymentService)
         {
             _mapper = mapper;
             _paymentService = paymentService;

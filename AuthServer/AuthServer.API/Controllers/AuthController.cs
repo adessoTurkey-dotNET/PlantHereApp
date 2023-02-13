@@ -1,7 +1,7 @@
 ﻿using AuthServer.Application.CQRS.Authentication.Commands.RevokeRefreshToken;
 using AuthServer.Application.CQRS.Authentication.Queries.CreateTokenByRefreshToken;
 using AuthServer.Application.CQRS.Authentication.Queries.CreateTokenByUser;
-using AuthServer.Application.CustomResponses;
+using AuthServer.API.CustomResponses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

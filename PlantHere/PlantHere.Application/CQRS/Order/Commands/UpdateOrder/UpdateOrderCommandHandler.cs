@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Commands;
 using ModelAddress = PlantHere.Domain.Aggregate.OrderAggregate.ValueObjects.Address;
@@ -7,7 +8,7 @@ using ModelOrderItem = PlantHere.Domain.Aggregate.OrderAggregate.Entities.OrderI
 
 namespace PlantHere.Application.CQRS.Order.Commands.UpdateOrder
 {
-    public class UpdateOrderCommandHandler : ICommandHandler<UpdateOrderCommand, UpdateOrderCommandResult>
+    public class UpdateOrderCommandHandler : ICommandHandler<UpdateOrderCommand, UpdateOrderCommandResult>, ICommandRemoveCache
     {
         private readonly IMapper _mapper;
 

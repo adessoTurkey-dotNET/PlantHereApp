@@ -1,7 +1,7 @@
 ﻿using AuthServer.Application.CQRS.User.Commands.CreateUser;
 using AuthServer.Application.CQRS.User.Commands.CreateUserRoles;
 using AuthServer.Application.CQRS.User.Queries.GetUserByName;
-using AuthServer.Application.CustomResponses;
+using AuthServer.API.CustomResponses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

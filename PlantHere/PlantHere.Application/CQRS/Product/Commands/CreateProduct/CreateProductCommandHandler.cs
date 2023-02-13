@@ -1,11 +1,12 @@
-﻿using PlantHere.Application.Interfaces;
+﻿using AutoMapper;
+using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Commands;
 using ModelCategory = PlantHere.Domain.Aggregate.CategoryAggregate.Category;
 using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
 
 namespace PlantHere.Application.CQRS.Product.Commands.CreateProduct
 {
-    public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductCommandResult>
+    public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductCommandResult>, ICommandRemoveCache
     {
 
         private readonly IUnitOfWork _unitOfWork;

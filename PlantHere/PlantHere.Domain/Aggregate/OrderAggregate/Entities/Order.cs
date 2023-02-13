@@ -5,10 +5,6 @@ using PlantHere.Domain.Common.Interfaces;
 
 namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
 {
-    //EF Core features
-    // -- Owned Types
-    // -- Shadow Property
-    // -- Backing Field
     public class Order : Entity, IAggregateRoot
     {
         public DateTime CreatedDate { get; private set; }
@@ -17,10 +13,7 @@ namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
 
         public string BuyerId { get; private set; }
 
-
-        private readonly List<OrderItem> _orderItems;
-
-        public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
+        public ICollection<OrderItem> OrderItems { get; private set;}
 
         public Order()
         {
@@ -28,14 +21,14 @@ namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
 
         public Order(string buyerId, Address address)
         {
-            _orderItems = new List<OrderItem>();
+            OrderItems = new List<OrderItem>();
             CreatedDate = DateTime.Now;
             BuyerId = buyerId;
             Address = address;
         }
         public Order(string buyerId, Address address, List<OrderItem> orderItems)
         {
-            _orderItems = new List<OrderItem>();
+            OrderItems = new List<OrderItem>();
             CreatedDate = DateTime.Now;
             BuyerId = buyerId;
             Address = address;
@@ -45,7 +38,7 @@ namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
         public Order(int id, string buyerId, Address address)
         {
             Id = id;
-            _orderItems = new List<OrderItem>();
+            OrderItems = new List<OrderItem>();
             CreatedDate = DateTime.Now;
             BuyerId = buyerId;
             Address = address;
@@ -53,13 +46,13 @@ namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
 
         public void AddOrderItem(string productId, string productName, decimal price, decimal discountedPrice, int count)
         {
-            var existProduct = _orderItems.Any(x => x.ProductId == productId);
+            var existProduct = OrderItems.Any(x => x.ProductId == productId);
 
             if (!existProduct)
             {
                 var newOrderItem = new OrderItem(productId, productName, price, discountedPrice, count);
 
-                _orderItems.Add(newOrderItem);
+                OrderItems.Add(newOrderItem);
             }
         }
 
@@ -76,7 +69,7 @@ namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
         {
             foreach (var orderItem in orderItems)
             {
-                _orderItems.Add(orderItem);
+                OrderItems.Add(orderItem);
             }
         }
 
@@ -93,12 +86,12 @@ namespace PlantHere.Domain.Aggregate.OrderAggregate.Entities
 
         public decimal GetTotalPrice()
         {
-            return _orderItems.Sum(x => x.Price * x.Count);
+            return OrderItems.Sum(x => x.Price * x.Count);
         }
 
         public decimal GetDiscountedTotalPrice()
         {
-            return _orderItems.Sum(x => x.DiscountedPrice * x.Count);
+            return OrderItems.Sum(x => x.DiscountedPrice * x.Count);
         }
 
         private void AddOrderStartedDomainEvent(string buyerId)

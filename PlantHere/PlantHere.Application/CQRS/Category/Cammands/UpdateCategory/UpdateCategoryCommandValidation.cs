@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Category.Cammands.UpdateCategory
+﻿using FluentValidation;
+
+namespace PlantHere.Application.CQRS.Category.Cammands.UpdateCategory
 {
     public class UpdateCategoryCommandValidation : AbstractValidator<UpdateCategoryCommand>
     {

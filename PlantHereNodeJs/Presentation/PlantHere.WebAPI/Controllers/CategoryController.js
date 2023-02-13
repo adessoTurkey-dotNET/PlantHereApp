@@ -10,7 +10,8 @@ const CategoryService = require('../../../Core/PlantHere.Aplication/Services/Cat
 const Guid = require('../../../Core/PlantHere.Aplication/Services/GuidService')
 
 //Results
-const { CustomResult } = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Results/CustomResult')
+const { CustomResult } = require('../Results/CustomResult')
+
 
 const service = new CategoryService();
 

@@ -1,6 +1,6 @@
 using AuthServer.Application;
 using AuthServer.Application.Configurations;
-using AuthServer.Application.Middlewares;
+using AuthServer.API.Middlewares;
 using AuthServer.Domain.Entities;
 using AuthServer.Persistence;
 using AuthServer.Persistence.Services;

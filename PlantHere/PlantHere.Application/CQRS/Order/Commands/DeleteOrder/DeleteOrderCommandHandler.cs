@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Exceptions;
 using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Commands;
 using ModelOrder = PlantHere.Domain.Aggregate.OrderAggregate.Entities.Order;
 
 namespace PlantHere.Application.CQRS.Order.Commands.DeleteOrder
 {
-    public class DeleteOrderCommandHandler : ICommandHandler<DeleteOrderCommand, Unit>
+    public class DeleteOrderCommandHandler : ICommandHandler<DeleteOrderCommand, Unit>, ICommandRemoveCache
     {
         private readonly IUnitOfWork _unitOfWork;
 

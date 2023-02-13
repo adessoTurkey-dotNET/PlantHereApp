@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Product.Queries.GetProductsES
+﻿using MediatR;
+
+namespace PlantHere.Application.CQRS.Product.Queries.GetProductsES
 {
     public class GetProductsESQuery : IRequest<List<GetProductsESQueryResult>>
     {

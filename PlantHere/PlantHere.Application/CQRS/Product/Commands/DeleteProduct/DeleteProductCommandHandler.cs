@@ -1,10 +1,11 @@
-﻿using PlantHere.Application.Interfaces;
+﻿using MediatR;
+using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Commands;
 using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
 
 namespace PlantHere.Application.CQRS.Product.Commands.DeleteProduct
 {
-    public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, Unit>
+    public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, Unit>, ICommandRemoveCache
     {
 
         private readonly IUnitOfWork _unitOfWork;

@@ -12,13 +12,18 @@ services:
     
     rabbitmq:
         image: rabbitmq:3-management
-
+        networks:
+            - planthere_network
     redis:
         image: redis:latest
+        networks:
+            - planthere_network
 
     elasticsearch:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
-
+        networks:
+            - planthere_network
+    
     authserver_api:
         image: authserver
         build:
@@ -48,6 +53,8 @@ services:
         build: 
             context: .
             dockerfile: PlantHereReactJs/Dockerfile
+        networks:
+            - planthere_network
 
 networks:
   planthere_network:

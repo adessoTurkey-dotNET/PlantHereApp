@@ -1,4 +1,5 @@
-﻿using PlantHere.Application.CQRS.Category.Cammands.CreateCategory;
+﻿using AutoMapper;
+using PlantHere.Application.CQRS.Category.Cammands.CreateCategory;
 using PlantHere.Application.CQRS.Category.Cammands.DeleteCategory;
 using PlantHere.Application.CQRS.Category.Cammands.UpdateCategory;
 using PlantHere.Application.CQRS.Category.Queries.GetCategories;

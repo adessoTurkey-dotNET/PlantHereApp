@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PlantHere.Persistence.Extensions;
+using PlantHere.Persistence.Extensions.RabbitMQExtensions;
 using System.Reflection;
 
 namespace PlantHere.Persistence
@@ -18,15 +18,14 @@ namespace PlantHere.Persistence
                 options.UseSqlServer(configuration?.GetConnectionString("SQLConnection").Trim(), option =>
                 {
                     option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext))?.GetName().Name);
-                    
+
                 });
             });
 
             // CAP
             serviceCollection.AddRabbitMQ(configuration);
 
-            // ES 
-            serviceCollection.AddElasticsearch(configuration);
+
 
             // MemoryCache
             serviceCollection.AddMemoryCache();

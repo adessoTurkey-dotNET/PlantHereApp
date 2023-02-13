@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId
+﻿using MediatR;
+
+namespace PlantHere.Application.CQRS.Order.Quries.GetOrderByUserId
 {
     public class GetOrderByUserIdQuery : IRequest<ICollection<GetOrderByUserIdQueryResult>>
     {

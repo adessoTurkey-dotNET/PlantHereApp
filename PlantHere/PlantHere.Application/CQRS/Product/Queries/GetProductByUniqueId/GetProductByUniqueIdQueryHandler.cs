@@ -1,12 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Exceptions;
 using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Queries;
 using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
 
 namespace PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId
 {
-    public class GetProductByUniqueIdQueryHandler : IQueryHandler<GetProductByUniqueIdQuery, GetProductByUniqueIdQueryResult>
+    public class GetProductByUniqueIdQueryHandler : IQueryHandler<GetProductByUniqueIdQuery, GetProductByUniqueIdQueryResult>, IQueryCacheable
     {
+        public int Expiration { set; get; }
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -16,6 +19,7 @@ namespace PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            Expiration = 20;
         }
 
         public async Task<GetProductByUniqueIdQueryResult> Handle(GetProductByUniqueIdQuery request, CancellationToken cancellationToken)

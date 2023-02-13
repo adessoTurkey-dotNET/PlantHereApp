@@ -14,7 +14,6 @@ namespace PlantHere.Persistence.Configurations
             builder.Property(x => x.NameTr).IsRequired().HasMaxLength(50);
 
             builder.Property(x => x.NameEn).IsRequired().HasMaxLength(50);
-
         }
     }
 }

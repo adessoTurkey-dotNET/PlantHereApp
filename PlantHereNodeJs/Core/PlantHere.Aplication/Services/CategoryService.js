@@ -3,8 +3,6 @@
 const Interface = require("es6-interface");
 const { ICategoryService } = require('../../../Core/PlantHere.Aplication/Interfaces/Services/ICategoryService')
 const { Repository } = require('../../../Infrastructure/PlantHere.Persistance/Repositories/Repository')
-// Results 
-const { CustomResult } = require("../../../Core/PlantHere.Aplication/RequestResponseModels/Results/CustomResult");
 
 // RequestResponseModels
 // GetCategories

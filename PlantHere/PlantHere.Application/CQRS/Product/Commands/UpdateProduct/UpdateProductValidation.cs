@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Product.Commands.UpdateProduct
+﻿using FluentValidation;
+
+namespace PlantHere.Application.CQRS.Product.Commands.UpdateProduct
 {
     public class UpdateProductValidation : AbstractValidator<UpdateProductCommand>
     {

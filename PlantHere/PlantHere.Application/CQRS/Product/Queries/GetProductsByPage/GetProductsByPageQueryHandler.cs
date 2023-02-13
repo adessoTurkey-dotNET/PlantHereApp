@@ -1,24 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Queries;
 using ModelProduct = PlantHere.Domain.Aggregate.CategoryAggregate.Product;
 
 namespace PlantHere.Application.CQRS.Product.Queries.GetProductsByPage
 {
-    public class GetProductsByPageQueryHandler : IQueryHandler<GetProductsByPageQuery, IEnumerable<GetProductsByPageQueryResult>>
+    public class GetProductsByPageQueryHandler : IQueryHandler<GetProductsByPageQuery, IEnumerable<GetProductsByPageQueryResult>>, IQueryCacheable
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IDistributedCache _distributedCache;
-
         private readonly IMapper _mapper;
+        public int Expiration { set; get;}
 
-        public GetProductsByPageQueryHandler(IUnitOfWork unitOfWork, IDistributedCache distributedCache, IMapper mapper)
+        public GetProductsByPageQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _distributedCache = distributedCache;
             _mapper = mapper;
+            Expiration = 20;
         }
 
         public async Task<IEnumerable<GetProductsByPageQueryResult>> Handle(GetProductsByPageQuery request, CancellationToken cancellationToken)

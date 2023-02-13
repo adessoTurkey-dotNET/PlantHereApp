@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PlantHere.Domain.Aggregate.BasketAggregate.Entities;
 using PlantHere.Domain.Aggregate.CategoryAggregate;
 using PlantHere.Domain.Aggregate.OrderAggregate.Entities;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations.Infrastructure;
-using System.Data.Entity.Migrations;
+using PlantHere.Persistence.Extensions.MediatorExtensions;
 using System.Reflection;
 
 namespace PlantHere.Persistence

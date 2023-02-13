@@ -1,6 +1,13 @@
-﻿namespace PlantHere.WebAPI.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PlantHere.WebAPI.CustomResults;
+
+namespace PlantHere.WebAPI.Controllers
 {
-    public class CustomBaseController : ControllerBase
+    [Authorize]
+    [Route("[controller]")]
+    [ApiController]
+    public class CustomBaseController : Controller
     {
         [NonAction]
         public IActionResult CreateActionResult<T>(CustomResult<T> response)

@@ -1,11 +1,10 @@
 ﻿using PlantHere.Application.CQRS.Address.Queries;
 using PlantHere.Application.CQRS.Base;
 using PlantHere.Application.CQRS.OrderItem.Queries.GetOrderItems;
-using PlantHere.Application.Interfaces.Commands;
 
 namespace PlantHere.Application.CQRS.Order.Commands.CreateOrder
 {
-    public class CreateOrderCommand : CommandBase<CreateOrderCommandResult>, ICommandRemoveCache
+    public class CreateOrderCommand : CommandBase<CreateOrderCommandResult>
     {
         public DateTime CreatedDate { get; set; }
 

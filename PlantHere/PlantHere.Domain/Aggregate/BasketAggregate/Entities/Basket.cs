@@ -5,16 +5,19 @@ using PlantHere.Domain.Common.Interfaces;
 
 namespace PlantHere.Domain.Aggregate.BasketAggregate.Entities
 {
+
+    // EF Core features
+    // -- Owned Types ( Address )
+    // -- Shadow Property ( Order Item )
+    // -- Backing Field ( _basketItems )
+
     public class Basket : Entity, IAggregateRoot
     {
         public DateTime CreatedDate { get; private set; }
 
         public string UserId { get; private set; }
 
-
-        private readonly List<BasketItem> _basketItems;
-
-        public IReadOnlyCollection<BasketItem> BasketItems => _basketItems;
+        public ICollection<BasketItem> BasketItems { get; private set; }
 
         public Basket()
         {
@@ -24,14 +27,14 @@ namespace PlantHere.Domain.Aggregate.BasketAggregate.Entities
         public Basket(int id, string userId)
         {
             Id = id;
-            _basketItems = new List<BasketItem>();
+            BasketItems = new List<BasketItem>();
             CreatedDate = DateTime.Now;
             UserId = userId;
         }
 
         public Basket(string userId)
         {
-            _basketItems = new List<BasketItem>();
+            BasketItems = new List<BasketItem>();
             CreatedDate = DateTime.Now;
             UserId = userId;
         }
@@ -39,13 +42,13 @@ namespace PlantHere.Domain.Aggregate.BasketAggregate.Entities
 
         public void AddBasketItem(string productId, string productName, decimal price, decimal discountedPrice)
         {
-            var existProduct = _basketItems.FirstOrDefault(x => x.ProductId == productId);
+            var existProduct = BasketItems.FirstOrDefault(x => x.ProductId == productId);
 
             if (existProduct == null)
             {
                 var newOrderItem = new BasketItem(productId, productName, price, discountedPrice);
 
-                _basketItems.Add(newOrderItem);
+                BasketItems.Add(newOrderItem);
             }
             else
             {
@@ -79,13 +82,13 @@ namespace PlantHere.Domain.Aggregate.BasketAggregate.Entities
 
             foreach (var basketItem in basketItems)
             {
-                _basketItems.Remove(basketItem);
+                BasketItems.Remove(basketItem);
             }
         }
 
-        public decimal GetTotalPrice => _basketItems.Sum(x => x.Price * x.Count);
+        public decimal GetTotalPrice => BasketItems.Sum(x => x.Price * x.Count);
 
-        public decimal GetDiscountedTotalPrice => _basketItems.Sum(x => x.DiscountedPrice * x.Count);
+        public decimal GetDiscountedTotalPrice => BasketItems.Sum(x => x.DiscountedPrice * x.Count);
 
         private void AddOrderStartedDomainEvent(Basket basket, Address address, int cardTypeId, string cardNumber, string cardSecurityNumber, string cardHolderName)
         {

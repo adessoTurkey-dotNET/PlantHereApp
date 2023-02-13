@@ -1,4 +1,5 @@
-﻿using PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem;
+﻿using AutoMapper;
+using PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem;
 using PlantHere.Application.CQRS.Product.Commands.CreateProduct;
 using PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsByPage;

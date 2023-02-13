@@ -1,4 +1,5 @@
-﻿using PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem;
+﻿using FluentValidation;
+using PlantHere.Application.CQRS.BasketItem.Commands.CreateBasketItem;
 
 namespace PlantHere.Application.CQRS.BasketItem.Commands.DeleteBasketItem
 {

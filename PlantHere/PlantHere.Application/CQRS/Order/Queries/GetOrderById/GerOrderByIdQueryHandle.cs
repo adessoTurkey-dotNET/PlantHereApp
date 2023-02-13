@@ -1,11 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Queries;
 using ModelOrder = PlantHere.Domain.Aggregate.OrderAggregate.Entities.Order;
+
 namespace PlantHere.Application.CQRS.Order.Quries.GetOrderById
 {
     public class GerOrderByIdQueryHandle : IQueryHandler<GetOrderByIdQuery, GetOrderByIdQueryResult>, IQueryCacheable
     {
+        public int Expiration { set; get; }
+
         private readonly IMapper _mapper;
 
         private readonly IUnitOfWork _unitOfWork;
@@ -13,6 +17,7 @@ namespace PlantHere.Application.CQRS.Order.Quries.GetOrderById
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            Expiration = 2;
         }
 
         public async Task<GetOrderByIdQueryResult> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)

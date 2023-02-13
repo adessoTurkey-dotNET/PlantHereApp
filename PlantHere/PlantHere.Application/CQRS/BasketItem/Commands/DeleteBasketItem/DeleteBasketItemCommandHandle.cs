@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Exceptions;
 using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Commands;
 using ModelBasket = PlantHere.Domain.Aggregate.BasketAggregate.Entities.Basket;

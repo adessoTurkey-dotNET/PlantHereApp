@@ -1,4 +1,5 @@
-﻿using Nest;
+﻿using MediatR;
+using Nest;
 
 namespace PlantHere.Application.CQRS.Product.Queries.GetProductsES
 {

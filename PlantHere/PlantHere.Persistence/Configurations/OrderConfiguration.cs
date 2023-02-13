@@ -10,7 +10,7 @@ namespace PlantHere.Persistence.Configurations
         {
             builder.ToTable("Orders", "ordering");
             builder.Property(e => e.Id).UseIdentityColumn();
-            builder.Navigation(e => e.OrderItems).UsePropertyAccessMode(PropertyAccessMode.Field).HasField("_orderItems");
+            builder.HasMany(e => e.OrderItems).WithOne();
             builder.OwnsOne(e => e.Address).WithOwner();
         }
     }

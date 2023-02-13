@@ -1,4 +1,7 @@
-﻿using PlantHere.Application.CQRS.Product.Commands.CreateProduct;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PlantHere.Application.CQRS.Product.Commands.CreateProduct;
 using PlantHere.Application.CQRS.Product.Commands.CreateProductsIndexES;
 using PlantHere.Application.CQRS.Product.Commands.DeleteProduct;
 using PlantHere.Application.CQRS.Product.Commands.UpdateProduct;
@@ -6,12 +9,11 @@ using PlantHere.Application.CQRS.Product.Queries.GetProductByUniqueId;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsByPage;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsCount;
 using PlantHere.Application.CQRS.Product.Queries.GetProductsES;
+using PlantHere.WebAPI.CustomResults;
 using System.Net;
 
 namespace PlantHere.WebAPI.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
     public class ProductController : CustomBaseController
     {
         private readonly IMediator _mediator;

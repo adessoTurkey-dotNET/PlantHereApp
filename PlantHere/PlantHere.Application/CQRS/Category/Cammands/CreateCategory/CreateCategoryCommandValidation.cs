@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Category.Cammands.CreateCategory
+﻿using FluentValidation;
+
+namespace PlantHere.Application.CQRS.Category.Cammands.CreateCategory
 {
     public class CreateCategoryCommandValidation : AbstractValidator<CreateCategoryCommand>
     {

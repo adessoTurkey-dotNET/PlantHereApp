@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.Basket.Commands.CreateBasket
+﻿using FluentValidation;
+
+namespace PlantHere.Application.CQRS.Basket.Commands.CreateBasket
 {
     public class CreateBasketCommandValidation : AbstractValidator<CreateBasketCommand>
     {

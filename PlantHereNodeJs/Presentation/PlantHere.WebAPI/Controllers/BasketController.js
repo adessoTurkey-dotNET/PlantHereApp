@@ -10,7 +10,8 @@ const { CreateBasketItemCommand } = require("../../../Core/PlantHere.Aplication/
 const service = new BasketService();
 
 //Results
-const {CustomResult} = require('../../../Core/PlantHere.Aplication/RequestResponseModels/Results/CustomResult')
+const { CustomResult } = require('../Results/CustomResult')
+
 
 const getBasketByUserId = async (req, res) => {
     res.json(CustomResult.Success(await service.getBasketByUserId(new GetBasketByUserIdQuery(req.userId))))

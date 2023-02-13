@@ -1,4 +1,6 @@
-﻿namespace PlantHere.Application.CQRS.BasketItem.Commands.UpdateBasketItem
+﻿using FluentValidation;
+
+namespace PlantHere.Application.CQRS.BasketItem.Commands.UpdateBasketItem
 {
     public class UpdateBasketItemCommandValidation : AbstractValidator<UpdateBasketItemCommand>
     {

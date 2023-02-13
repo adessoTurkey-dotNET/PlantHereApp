@@ -22,4 +22,4 @@ WORKDIR /app/Presentation/PlantHere.WebAPI/
 RUN npm install
 
 WORKDIR /app/Presentation/PlantHere.WebAPI
-CMD ["npm", "start"]
+CMD ["node", "index.js"]

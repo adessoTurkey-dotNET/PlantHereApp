@@ -1,4 +1,5 @@
-﻿using PlantHere.Application.CQRS.Basket.Commands.CreateBasket;
+﻿using AutoMapper;
+using PlantHere.Application.CQRS.Basket.Commands.CreateBasket;
 using PlantHere.Application.CQRS.Basket.Queries.GetBasketByUserId;
 using PlantHere.Application.CQRS.BasketItem.Queries.GetBasketItems;
 using PlantHere.Domain.Aggregate.BasketAggregate.Entities;

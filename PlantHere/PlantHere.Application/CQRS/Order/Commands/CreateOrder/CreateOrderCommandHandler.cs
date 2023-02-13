@@ -1,4 +1,5 @@
-﻿using DotNetCore.CAP;
+﻿using AutoMapper;
+using DotNetCore.CAP;
 using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Commands;
 using ModelOrder = PlantHere.Domain.Aggregate.OrderAggregate.Entities.Order;
@@ -7,7 +8,7 @@ using ModelOrderItem = PlantHere.Domain.Aggregate.OrderAggregate.Entities.OrderI
 
 namespace PlantHere.Application.CQRS.Order.Commands.CreateOrder
 {
-    public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand, CreateOrderCommandResult>
+    public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand, CreateOrderCommandResult>, ICommandRemoveCache
     {
         private readonly IUnitOfWork _unitOfWork;
 

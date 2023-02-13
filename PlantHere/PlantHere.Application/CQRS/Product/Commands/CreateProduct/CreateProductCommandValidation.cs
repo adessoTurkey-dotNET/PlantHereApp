@@ -1,4 +1,5 @@
-﻿using PlantHere.Application.CQRS.Order.Commands.CreateOrder;
+﻿using FluentValidation;
+using PlantHere.Application.CQRS.Order.Commands.CreateOrder;
 
 namespace PlantHere.Application.CQRS.Product.Commands.CreateProduct
 {

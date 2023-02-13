@@ -1,9 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlantHere.Application.Decorators;
 using PlantHere.Application.Pipelines;
-using PlantHere.Persistence.Extensions;
+using PlantHere.Persistence.Extensions.RedisExtensions;
 using System.Reflection;
+
 
 namespace PlantHere.Application
 {

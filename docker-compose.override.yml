@@ -10,8 +10,6 @@
         - "5434:1433"
       volumes:
         - authserver_db_volume:/var/opt/mssql 
-      networks:
-        - planthere_network
       restart: always
     
     planthere_db:
@@ -23,8 +21,6 @@
         - "5435:1433"
       volumes:
         - planthere_db_volume:/var/opt/mssql
-      networks:
-        - planthere_network
       restart: always 
     
     rabbitmq:
@@ -35,16 +31,12 @@
       environment:
         - RABBITMQ_DEFAULT_USER=guest
         - RABBITMQ_DEFAULT_PASS=guest
-      networks:
-        - planthere_network
       restart: always 
     
     redis:
       container_name: redis
       ports:
         - "6379:6379"
-      networks:
-        - planthere_network
       restart: always 
     
     elasticsearch:
@@ -56,8 +48,6 @@
         - discovery.type=single-node 
       volumes:
         - esdata:/usr/share/elasticsearch/data
-      networks:
-        - planthere_network
       restart: always 
    
     planthere_dotnet_api:

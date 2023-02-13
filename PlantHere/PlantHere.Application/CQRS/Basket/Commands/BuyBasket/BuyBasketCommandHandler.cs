@@ -1,7 +1,10 @@
-﻿using DotNetCore.CAP;
+﻿using AutoMapper;
+using DotNetCore.CAP;
 using Microsoft.EntityFrameworkCore;
+using PlantHere.Application.Exceptions;
 using PlantHere.Application.Interfaces;
 using PlantHere.Application.Interfaces.Commands;
+using PlantHere.Application.Interfaces.Services;
 using ModelBasket = PlantHere.Domain.Aggregate.BasketAggregate.Entities.Basket;
 using ModelOrder = PlantHere.Domain.Aggregate.OrderAggregate.Entities.Order;
 using ModelOrderItem = PlantHere.Domain.Aggregate.OrderAggregate.Entities.OrderItem;
@@ -14,27 +17,26 @@ namespace PlantHere.Application.CQRS.Basket.Commands.BuyBasket
 
         private readonly ICapPublisher _capPublisher;
 
-        private readonly IPaymentRepository _paymentRepository;
+        private readonly IPaymentService _paymentService;
 
         private readonly IMapper _mapper;
 
-        public BuyBasketCommandHandler(IUnitOfWork unitOfWork, ICapPublisher capPublisher, IPaymentRepository paymentRepository, IMapper mapper)
+        public BuyBasketCommandHandler(IUnitOfWork unitOfWork, ICapPublisher capPublisher, IPaymentService paymentService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _capPublisher = capPublisher;
-            _paymentRepository = paymentRepository;
+            _paymentService = paymentService;
             _mapper = mapper;
         }
 
         public async Task<BuyBasketCommandResult> Handle(BuyBasketCommand request, CancellationToken cancellationToken)
         {
 
-            if (_paymentRepository.ReceiverPayment(request.Payment.CardTypeId, request.Payment.CardNumber, request.Payment.CardSecurityNumber, request.Payment.CardHolderName))
+            if (_paymentService.ReceiverPayment(request.Payment.CardTypeId, request.Payment.CardNumber, request.Payment.CardSecurityNumber, request.Payment.CardHolderName))
             {
                 var basket = await _unitOfWork.GetGenericRepository<ModelBasket>().Where(x => x.UserId == request.UserId).Include(x => x.BasketItems).FirstOrDefaultAsync();
 
                 if (basket == null) throw new NotFoundException($"{typeof(ModelBasket).Name}({request.UserId}) Not Found");
-
                 // Remove Basket
 
                 _unitOfWork.GetGenericRepository<ModelBasket>().Remove(basket);
